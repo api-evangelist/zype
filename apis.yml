@@ -9,12 +9,10 @@ type: Index
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-tags:
-  - API
+tags: []
 created: '2025-02-12'
 modified: '2026-03-16'
-url: 
-  https://raw.githubusercontent.com/api-evangelist/zype/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/zype/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
   - aid: zype:zype
@@ -25,8 +23,7 @@ apis:
       Zype provides the tools and knowledge resources for building better video products
       that will delight and engage streaming audiences.
     humanURL: ' https://www.zype.com/developers/zype-api'
-    tags:
-      - API
+    tags: []
     properties:
       - type: Documentation
         url: ' https://www.zype.com/developers/zype-api'
