@@ -1,0 +1,1452 @@
+generated: '2026-08-28'
+method: derived
+source: github.com/zype/zype-mcp-client README tool list x the 15 OpenAPI files in openapi/ (317 operations)
+note: 'Bound by name and semantics, not by live introspection: the Zype MCP server is a local stdio package and
+  was never executed, so no tools/list response with real inputSchema exists. Every "high" row is a tool whose name
+  maps unambiguously onto exactly one published operationId. Confidence is honest — see the medium/low rows.'
+surfaces:
+  openapi:
+    files: 15
+    operations: 317
+    gated: false
+    source: ReadMe API registry, dash.readme.com/api/v1/api-registry/<uuid>
+  graphql: null
+  mcp:
+    transport: stdio
+    package: '@zype-com/mcp'
+    endpoint: null
+    gated: true
+    note: gated in the sense that the tool schemas require installing and running the package with a Zype Admin
+      API Key; there is no URL to introspect.
+coverage:
+  mcp_tools: 76
+  tools_bound: 75
+  tools_unbound: 1
+  rest_operations: 314
+  rest_operations_bound: 79
+  rest_operations_unbound: 235
+  rest_coverage_pct: 25.2
+  note: rest_operations counts 314 UNIQUE operationIds; the 15 specs publish 317 operations in total — three operationIds
+    are reused across specs (Analytics V2/V3 and the duplicated Uploads surface), which is itself a spec-quality
+    finding.
+headline: The MCP server exposes 76 tools covering 79 of Zype's 314 published REST operations (25.2%). The whole
+  Playout Scheduler (82 ops), Live V3 (16), Consumers/entitlements (24), TVE (6), Uploads (1), content rules/regions
+  (21) and Platform admin surfaces are REST-only — an agent driving Zype through MCP cannot schedule a FAST channel,
+  start a live encoder, or manage a viewer entitlement.
+crosswalk:
+- tool: list_videos
+  category: Videos
+  rest:
+  - listVideos
+  binding: '1:1'
+  confidence: high
+- tool: get_video
+  category: Videos
+  rest:
+  - getVideo
+  binding: '1:1'
+  confidence: high
+- tool: create_video
+  category: Videos
+  rest:
+  - createVideo
+  binding: '1:1'
+  confidence: high
+- tool: update_video
+  category: Videos
+  rest:
+  - updateVideo
+  binding: '1:1'
+  confidence: high
+- tool: delete_video
+  category: Videos
+  rest:
+  - deleteVideo
+  binding: '1:1'
+  confidence: high
+- tool: download_video
+  category: Videos
+  rest:
+  - downloadVideo
+  binding: '1:1'
+  confidence: high
+- tool: list_transcriptions
+  category: Transcriptions
+  rest:
+  - listTranscriptions
+  binding: '1:1'
+  confidence: high
+- tool: get_transcription
+  category: Transcriptions
+  rest:
+  - getTranslation
+  binding: '1:1'
+  confidence: medium
+  note: Zype names the REST operation getTranslation although the docs title it "View Transcription"; matched on
+    path /videos/{id}/transcriptions/{transcription_id}.
+- tool: transcribe_video
+  category: Transcriptions
+  rest:
+  - transcribeVideo
+  binding: '1:1'
+  confidence: high
+- tool: translate_video
+  category: Transcriptions
+  rest:
+  - translateVideo
+  binding: '1:1'
+  confidence: high
+- tool: list_translation_languages
+  category: Transcriptions
+  rest:
+  - listLanguages
+  binding: '1:1'
+  confidence: high
+- tool: list_playlists
+  category: Playlists
+  rest:
+  - listPlaylists
+  binding: '1:1'
+  confidence: high
+- tool: get_playlist
+  category: Playlists
+  rest:
+  - getPlaylist
+  binding: '1:1'
+  confidence: high
+- tool: create_playlist
+  category: Playlists
+  rest:
+  - createPlaylist
+  binding: '1:1'
+  confidence: high
+- tool: update_playlist
+  category: Playlists
+  rest:
+  - updatePlaylist
+  binding: '1:1'
+  confidence: high
+- tool: delete_playlist
+  category: Playlists
+  rest:
+  - deletePlaylist
+  binding: '1:1'
+  confidence: high
+- tool: list_playlist_videos
+  category: Playlists
+  rest:
+  - listPlaylistVideos
+  binding: '1:1'
+  confidence: high
+- tool: add_videos_to_playlist
+  category: Playlists
+  rest:
+  - addVideosToPlaylist
+  binding: '1:1'
+  confidence: high
+- tool: remove_videos_from_playlist
+  category: Playlists
+  rest:
+  - removeVideosFromPlaylist
+  binding: '1:1'
+  confidence: high
+- tool: list_categories
+  category: Categories
+  rest:
+  - listCategories
+  binding: '1:1'
+  confidence: high
+- tool: get_category
+  category: Categories
+  rest:
+  - getCategory
+  binding: '1:1'
+  confidence: high
+- tool: create_category
+  category: Categories
+  rest:
+  - createCategory
+  binding: '1:1'
+  confidence: high
+- tool: update_category
+  category: Categories
+  rest:
+  - updateCategory
+  binding: '1:1'
+  confidence: high
+- tool: delete_category
+  category: Categories
+  rest:
+  - deleteCategory
+  binding: '1:1'
+  confidence: high
+- tool: list_subtitles
+  category: Subtitles
+  rest:
+  - listSubtitles
+  binding: '1:1'
+  confidence: high
+- tool: get_subtitle
+  category: Subtitles
+  rest:
+  - getSubtitle
+  binding: '1:1'
+  confidence: high
+- tool: create_subtitle
+  category: Subtitles
+  rest:
+  - createSubtitle
+  binding: '1:1'
+  confidence: high
+- tool: update_subtitle
+  category: Subtitles
+  rest:
+  - updateSubtitle
+  binding: '1:1'
+  confidence: high
+- tool: create_subtitle_playlist
+  category: Subtitles
+  rest:
+  - createSubtitlePlaylist
+  binding: '1:1'
+  confidence: high
+- tool: delete_subtitle_playlist
+  category: Subtitles
+  rest:
+  - deleteSubtitlePlaylist
+  binding: '1:1'
+  confidence: high
+- tool: delete_subtitle
+  category: Subtitles
+  rest: []
+  binding: unmapped
+  confidence: low
+  note: No DELETE operation for an individual subtitle exists in openapi/zype-platform.json — the Subtitles tag
+    publishes list/create/get/update only. Either the tool wraps an undocumented endpoint or it fails; cannot be
+    confirmed without running the server.
+- tool: get_plays
+  category: Analytics
+  rest:
+  - plays-v3
+  binding: '1:1'
+  confidence: high
+- tool: get_viewers
+  category: Analytics
+  rest:
+  - viewers-v3
+  binding: '1:1'
+  confidence: high
+- tool: get_hours_watched
+  category: Analytics
+  rest:
+  - hours-watched-v3
+  binding: '1:1'
+  confidence: high
+- tool: get_view_time
+  category: Analytics
+  rest:
+  - view-time-v3
+  binding: '1:1'
+  confidence: high
+- tool: list_stream_hours
+  category: Analytics
+  rest:
+  - streamHoursV3
+  - streamHours
+  binding: 1:N
+  confidence: medium
+  note: 'Two candidate backings: Analytics V3 (streamHoursV3, /v3/platform_dynamics/stream_hours) and the legacy
+    V2 (streamHours, /v2/stream_hours). The README does not say which version the tool calls.'
+- tool: list_player_requests
+  category: Analytics
+  rest:
+  - player-requests-v3
+  - player-requests
+  binding: 1:N
+  confidence: medium
+  note: V3 and legacy V2 both publish this; version not stated in the README.
+- tool: list_new_subscriptions
+  category: Analytics
+  rest:
+  - new-subscriptions-v3
+  - new-subscriptions
+  binding: 1:N
+  confidence: medium
+  note: V3 and legacy V2 both publish this; version not stated in the README.
+- tool: list_subscription_revenue
+  category: Analytics
+  rest:
+  - subscriptionrevenue-v3
+  - subscriptionrevenue
+  binding: 1:N
+  confidence: medium
+  note: V3 and legacy V2 both publish this; version not stated in the README.
+- tool: list_subscriptions
+  category: Monetization
+  rest:
+  - listSubscriptions
+  binding: '1:1'
+  confidence: high
+- tool: get_subscription
+  category: Monetization
+  rest:
+  - getSubscription
+  binding: '1:1'
+  confidence: high
+- tool: create_subscription
+  category: Monetization
+  rest:
+  - createSubscription
+  binding: '1:1'
+  confidence: high
+- tool: cancel_subscription
+  category: Monetization
+  rest:
+  - cancelSubscription
+  binding: '1:1'
+  confidence: high
+  note: Maps to PUT /subscriptions/{id}/cancel, not DELETE — the reversible path. See conventions/zype-conventions.yml
+    reversibility.
+- tool: list_plans
+  category: Monetization
+  rest:
+  - listPlans
+  binding: '1:1'
+  confidence: high
+- tool: get_plan
+  category: Monetization
+  rest:
+  - getPlan
+  binding: '1:1'
+  confidence: high
+- tool: create_plan
+  category: Monetization
+  rest:
+  - createPlan
+  binding: '1:1'
+  confidence: high
+- tool: update_plan
+  category: Monetization
+  rest:
+  - updatePlan
+  binding: '1:1'
+  confidence: high
+- tool: delete_plan
+  category: Monetization
+  rest:
+  - deletePlan
+  binding: '1:1'
+  confidence: high
+- tool: list_transactions
+  category: Monetization
+  rest:
+  - listTransactions
+  binding: '1:1'
+  confidence: high
+- tool: get_transaction
+  category: Monetization
+  rest:
+  - getTransaction
+  binding: '1:1'
+  confidence: high
+- tool: list_redemption_codes
+  category: Monetization
+  rest:
+  - listRedemptionCodes
+  binding: '1:1'
+  confidence: high
+- tool: get_redemption_code
+  category: Monetization
+  rest:
+  - getRedemptionCode
+  binding: '1:1'
+  confidence: high
+- tool: list_ad_tags
+  category: Monetization
+  rest:
+  - listAdTags
+  binding: '1:1'
+  confidence: high
+- tool: get_ad_tag
+  category: Monetization
+  rest:
+  - getAdTag
+  binding: '1:1'
+  confidence: high
+- tool: create_ad_tag
+  category: Monetization
+  rest:
+  - createAdTag
+  binding: '1:1'
+  confidence: high
+- tool: update_ad_tag
+  category: Monetization
+  rest:
+  - updateAdTag
+  binding: '1:1'
+  confidence: high
+- tool: delete_ad_tag
+  category: Monetization
+  rest:
+  - deleteAdTag
+  binding: '1:1'
+  confidence: high
+- tool: list_revenue_models
+  category: Monetization
+  rest:
+  - listRevenueModels
+  binding: '1:1'
+  confidence: high
+- tool: get_revenue_model
+  category: Monetization
+  rest:
+  - getRevenueModel
+  binding: '1:1'
+  confidence: high
+- tool: list_zobject_types
+  category: Zobjects
+  rest:
+  - listZobjectTypes
+  binding: '1:1'
+  confidence: high
+- tool: get_zobject_type
+  category: Zobjects
+  rest:
+  - getZobjectType
+  binding: '1:1'
+  confidence: high
+- tool: create_zobject_type
+  category: Zobjects
+  rest:
+  - createZobjectType
+  binding: '1:1'
+  confidence: high
+- tool: update_zobject_type
+  category: Zobjects
+  rest:
+  - updateZobjectType
+  binding: '1:1'
+  confidence: high
+- tool: delete_zobject_type
+  category: Zobjects
+  rest:
+  - deleteZobjectType
+  binding: '1:1'
+  confidence: high
+- tool: list_zobjects
+  category: Zobjects
+  rest:
+  - listZobjects
+  binding: '1:1'
+  confidence: high
+- tool: get_zobject
+  category: Zobjects
+  rest:
+  - getZobject
+  binding: '1:1'
+  confidence: high
+- tool: create_zobject
+  category: Zobjects
+  rest:
+  - createZobject
+  binding: '1:1'
+  confidence: high
+- tool: update_zobject
+  category: Zobjects
+  rest:
+  - updateZobject
+  binding: '1:1'
+  confidence: high
+- tool: delete_zobject
+  category: Zobjects
+  rest:
+  - deleteZobject
+  binding: '1:1'
+  confidence: high
+- tool: add_videos_to_zobject
+  category: Zobjects
+  rest:
+  - addVideoZobject
+  binding: '1:1'
+  confidence: high
+- tool: remove_videos_from_zobject
+  category: Zobjects
+  rest:
+  - removeVideoZobject
+  binding: '1:1'
+  confidence: high
+- tool: get_zobject_videos
+  category: Zobjects
+  rest:
+  - videosZobject
+  binding: '1:1'
+  confidence: high
+- tool: add_playlists_to_zobject
+  category: Zobjects
+  rest:
+  - addPlaylistZobject
+  binding: '1:1'
+  confidence: high
+- tool: remove_playlists_from_zobject
+  category: Zobjects
+  rest:
+  - removePlaylistZobject
+  binding: '1:1'
+  confidence: high
+- tool: get_zobject_playlists
+  category: Zobjects
+  rest:
+  - playlistsZobject
+  binding: '1:1'
+  confidence: high
+- tool: get_player
+  category: Player
+  rest:
+  - getPlayer
+  binding: '1:1'
+  confidence: high
+mcp_only: []
+rest_only:
+- operationId: analytics-consumers-v3
+  spec: openapi/zype-analytics-v3.json
+  operation: GET /v3/platform_dynamics/consumers
+  summary: List Consumers
+- operationId: metrics-v3
+  spec: openapi/zype-analytics-v3.json
+  operation: GET /v3/platform_dynamics/metrics
+  summary: List Metrics Data
+- operationId: playoutHours
+  spec: openapi/zype-analytics-v3.json
+  operation: GET /v3/platform_dynamics/playout_hours
+  summary: List Playout Hours
+- operationId: subscriptionevents-v3
+  spec: openapi/zype-analytics-v3.json
+  operation: GET /v3/revenue/subscription_events
+  summary: List Subscription Events
+- operationId: new-transactions-v3
+  spec: openapi/zype-analytics-v3.json
+  operation: GET /v3/revenue/transactions
+  summary: List New Transactions
+- operationId: engagement
+  spec: openapi/zype-analytics.json
+  operation: GET /v2/engagement
+  summary: List Engagement Data
+- operationId: site-counts
+  spec: openapi/zype-analytics.json
+  operation: GET /v2/site_counts
+  summary: List Site Counts Data
+- operationId: analytics-consumers
+  spec: openapi/zype-analytics.json
+  operation: GET /v2/consumers
+  summary: List Consumers
+- operationId: subscriptionevents
+  spec: openapi/zype-analytics.json
+  operation: GET /v2/subscription_events
+  summary: List Subscription Events
+- operationId: new-transactions
+  spec: openapi/zype-analytics.json
+  operation: GET /v2/transactons
+  summary: List New Transactions
+- operationId: listConsumers
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers
+  summary: List Consumers
+- operationId: createConsumer
+  spec: openapi/zype-consumers.json
+  operation: POST /consumers
+  summary: Create Consumers
+- operationId: getConsumer
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers/{id}
+  summary: View Consumer
+- operationId: updateConsumer
+  spec: openapi/zype-consumers.json
+  operation: PUT /consumers/{id}
+  summary: Update Consumer
+- operationId: deleteConsumer
+  spec: openapi/zype-consumers.json
+  operation: DELETE /consumers/{id}
+  summary: Delete Consumer
+- operationId: getPinStatus
+  spec: openapi/zype-consumers.json
+  operation: GET /pin/status
+  summary: Retrieve Device Pin
+- operationId: acquireDevicePin
+  spec: openapi/zype-consumers.json
+  operation: POST /pin/acquire
+  summary: Acquire Device Pin
+- operationId: linkDevicePin
+  spec: openapi/zype-consumers.json
+  operation: PUT /pin/link
+  summary: Link Device Pin
+- operationId: unlinkDevicePin
+  spec: openapi/zype-consumers.json
+  operation: PUT /pin/unlink
+  summary: Unlink Device Pin
+- operationId: checkVideoEntitlement
+  spec: openapi/zype-consumers.json
+  operation: GET /videos/{video_id}/entitled
+  summary: Check Video Entitlement
+- operationId: listVideoEntitlements
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers/{consumer_id}/videos
+  summary: List Video Entitlements
+- operationId: createVideoEntitlement
+  spec: openapi/zype-consumers.json
+  operation: POST /consumers/{consumer_id}/videos
+  summary: Create video entitlement
+- operationId: viewVideoEntitlement
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers/{consumer_id}/videos/{id}
+  summary: View Video Entitlement
+- operationId: updateVideoEntitlement
+  spec: openapi/zype-consumers.json
+  operation: PUT /consumers/{consumer_id}/videos/{id}
+  summary: Update Video Entitlement
+- operationId: deleteVideoEntitlement
+  spec: openapi/zype-consumers.json
+  operation: DELETE /consumers/{consumer_id}/videos/{id}
+  summary: Delete Video Entitlement
+- operationId: listPlaylistEntitlements
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers/{consumer_id}/playlists
+  summary: List Playlist Entitlements
+- operationId: createPlaylistEntitlement
+  spec: openapi/zype-consumers.json
+  operation: POST /consumers/{consumer_id}/playlists
+  summary: Create a Playlist Entitlement
+- operationId: getPlaylistEntitlement
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers/{consumer_id}/playlists/{id}
+  summary: View Playlist Entitlement
+- operationId: updatePlaylistEntitlement
+  spec: openapi/zype-consumers.json
+  operation: PUT /consumers/{consumer_id}/playlists/{id}
+  summary: Update Playlist Entitlement
+- operationId: deletePlaylistEntitlement
+  spec: openapi/zype-consumers.json
+  operation: DELETE /consumers/{consumer_id}/playlists/{id}
+  summary: Delete Playlist Entitlement
+- operationId: listSubscriptionEntitlements
+  spec: openapi/zype-consumers.json
+  operation: GET /consumers/{consumer_id}/subscription_entitlements
+  summary: List Subscription Entitlements
+- operationId: resetConsumerParentalAccessCode
+  spec: openapi/zype-consumers.json
+  operation: PUT /consumers/{id}/reset_parental_access_code
+  summary: Reset Consumer Parental Access Code
+- operationId: resetPasswordFlow
+  spec: openapi/zype-consumers.json
+  operation: PUT /consumers/forgot_password
+  summary: Initiate Consumer Forgot Password Flow - Consumer receives forgot password email.
+- operationId: updatePassword
+  spec: openapi/zype-consumers.json
+  operation: PUT /consumers/reset_password
+  summary: Reset Consumer's Password Flow
+- operationId: listContentRegions
+  spec: openapi/zype-content-regions.json
+  operation: GET /v3/content_regions
+  summary: List content regions
+- operationId: createContentRegion
+  spec: openapi/zype-content-regions.json
+  operation: POST /v3/content_regions
+  summary: Create Content region
+- operationId: getContentRegion
+  spec: openapi/zype-content-regions.json
+  operation: GET /v3/content_regions/{id}
+  summary: View Content Region
+- operationId: updateContentRegion
+  spec: openapi/zype-content-regions.json
+  operation: PUT /v3/content_regions/{id}
+  summary: Update Content Region
+- operationId: deleteContentRegion
+  spec: openapi/zype-content-regions.json
+  operation: DELETE /v3/content_regions/{id}
+  summary: Delete Content Region
+- operationId: listGlobalContentRegions
+  spec: openapi/zype-content-regions.json
+  operation: GET /v3/global_content_regions
+  summary: List Global Content Regions
+- operationId: getGlobalContentRegion
+  spec: openapi/zype-content-regions.json
+  operation: GET /v3/global_content_regions/{id}
+  summary: View Global Content Region
+- operationId: listContentRuleGroups
+  spec: openapi/zype-content-rule-groups.json
+  operation: GET /v3/content_rule_groups
+  summary: List content rule groups
+- operationId: createContentRuleGroup
+  spec: openapi/zype-content-rule-groups.json
+  operation: POST /v3/content_rule_groups
+  summary: Create content rule group
+- operationId: getContentRuleGroup
+  spec: openapi/zype-content-rule-groups.json
+  operation: GET /v3/content_rule_groups/{id}
+  summary: View content rule group
+- operationId: updateContentRuleGroup
+  spec: openapi/zype-content-rule-groups.json
+  operation: PUT /v3/content_rule_groups/{id}
+  summary: Update content rule group
+- operationId: deleteContentRuleGroup
+  spec: openapi/zype-content-rule-groups.json
+  operation: DELETE /v3/content_rule_groups/{id}
+  summary: Delete content rule group
+- operationId: listGlobalContentRuleGroups
+  spec: openapi/zype-content-rule-groups.json
+  operation: GET /v3/global_content_rule_groups
+  summary: List global content rule groups
+- operationId: getGlobalContentRuleGroup
+  spec: openapi/zype-content-rule-groups.json
+  operation: GET /v3/global_content_rule_groups/{id}
+  summary: View global content rule group
+- operationId: listContentRuleProfiles
+  spec: openapi/zype-content-rules.json
+  operation: GET /v3/content_rule_profiles
+  summary: List Content Rule Profiles
+- operationId: createContentRuleProfile
+  spec: openapi/zype-content-rules.json
+  operation: POST /v3/content_rule_profiles
+  summary: Create Content Rule Profile
+- operationId: listCitiesForState
+  spec: openapi/zype-content-rules.json
+  operation: GET /v3/content_rule_profiles/cities_for_state
+  summary: List Cities For State
+- operationId: listStatesForCountry
+  spec: openapi/zype-content-rules.json
+  operation: GET /v3/content_rule_profiles/states_for_country
+  summary: List States For Country
+- operationId: getContentRuleProfile
+  spec: openapi/zype-content-rules.json
+  operation: GET /v3/content_rule_profiles/{id}
+  summary: View Content Rule Profile
+- operationId: updateContentRuleProfile
+  spec: openapi/zype-content-rules.json
+  operation: PUT /v3/content_rule_profiles/{id}
+  summary: Update Content Rule Profile
+- operationId: deleteContentRuleProfile
+  spec: openapi/zype-content-rules.json
+  operation: DELETE /v3/content_rule_profiles/{id}
+  summary: Delete Content Rule Profile
+- operationId: listEncoders
+  spec: openapi/zype-live-3.json
+  operation: GET /v3/live/encoders
+  summary: List Encoders
+- operationId: createEncoder
+  spec: openapi/zype-live-3.json
+  operation: POST /v3/live/encoders
+  summary: Create Encoder
+- operationId: getEncoder
+  spec: openapi/zype-live-3.json
+  operation: GET /v3/live/encoders/{id}
+  summary: View Encoder
+- operationId: updateEncoder
+  spec: openapi/zype-live-3.json
+  operation: PUT /v3/live/encoders/{id}
+  summary: Update Encoder
+- operationId: deleteEncoder
+  spec: openapi/zype-live-3.json
+  operation: DELETE /v3/live/encoders/{id}
+  summary: Delete Encoder
+- operationId: startEncoder
+  spec: openapi/zype-live-3.json
+  operation: POST /v3/live/encoders/{id}/start
+  summary: Start Encoder
+- operationId: stopEncoder
+  spec: openapi/zype-live-3.json
+  operation: POST /v3/live/encoders/{id}/stop
+  summary: Stop Encoder
+- operationId: syncEncoder
+  spec: openapi/zype-live-3.json
+  operation: POST /v3/live/encoders/{id}/sync_encoder
+  summary: Sync Encoder
+- operationId: listLiveEvents
+  spec: openapi/zype-live-3.json
+  operation: GET /live_events
+  summary: List Live Events
+- operationId: createLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: POST /live_events
+  summary: Create Live Event
+- operationId: getLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: GET /live_events/{id}
+  summary: View Live Event
+- operationId: updateLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: PUT /live_events/{id}
+  summary: Update live event
+- operationId: deleteLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: DELETE /live_events/{id}
+  summary: Delete live event
+- operationId: startLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: PUT /live_events/{id}/start
+  summary: Start broadcasting a live event
+- operationId: stopLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: PUT /live_events/{id}/stop
+  summary: Stop broadcasting a live event
+- operationId: archiveLiveEvent
+  spec: openapi/zype-live-3.json
+  operation: PUT /live_events/{id}/archive
+  summary: Archive a live event
+- operationId: retrieveAccessToken
+  spec: openapi/zype-login.json
+  operation: POST /oauth/token
+  summary: Retrieving an Access Token
+- operationId: retrieveAccessTokenStatus
+  spec: openapi/zype-login.json
+  operation: GET /oauth/token/info
+  summary: Retrieving Access Token Status
+- operationId: null
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/profiles/rtmp
+  summary: List RTMP Profiles
+- operationId: updateSubscription
+  spec: openapi/zype-monetization.json
+  operation: PUT /subscriptions/{id}
+  summary: Update Subscription
+- operationId: deleteSubscription
+  spec: openapi/zype-monetization.json
+  operation: DELETE /subscriptions/{id}
+  summary: Delete Subscription
+- operationId: reactivateSubscription
+  spec: openapi/zype-monetization.json
+  operation: PUT /subscriptions/{id}/reactivate
+  summary: Reactivate Cancelled Subscription
+- operationId: addPlaylists
+  spec: openapi/zype-monetization.json
+  operation: PUT /plans/{id}/add_playlists
+  summary: Add Playlists to a Tiered Subscription Plan
+- operationId: removePlaylists
+  spec: openapi/zype-monetization.json
+  operation: PUT /plans/{id}/remove_playlists
+  summary: Remove Playlists from a Subscription Plan
+- operationId: createTransaction
+  spec: openapi/zype-monetization.json
+  operation: POST /transactions
+  summary: Create Transactions
+- operationId: updateTransaction
+  spec: openapi/zype-monetization.json
+  operation: PUT /transactions/{id}
+  summary: Update a Transaction
+- operationId: deleteTransaction
+  spec: openapi/zype-monetization.json
+  operation: DELETE /transactions/{id}
+  summary: Delete Transaction
+- operationId: createRedemptionCode
+  spec: openapi/zype-monetization.json
+  operation: POST /redemption_codes
+  summary: Create Redemption Codes
+- operationId: updateRedemptionCode
+  spec: openapi/zype-monetization.json
+  operation: PUT /redemption_codes/{id_or_code}
+  summary: Update Redemption Code
+- operationId: deleteRedemptionCode
+  spec: openapi/zype-monetization.json
+  operation: DELETE /redemption_codes/{id_or_code}
+  summary: Delete Redemption Code
+- operationId: redeem
+  spec: openapi/zype-monetization.json
+  operation: POST /redemption_codes/redeem
+  summary: Redeem an available Redemption Code
+- operationId: bulkCreate
+  spec: openapi/zype-monetization.json
+  operation: POST /redemption_codes/bulk_create
+  summary: Create multiple Redemption Codes at once
+- operationId: listVideoFavorites
+  spec: openapi/zype-monetization.json
+  operation: GET /consumers/{consumer_id}/video_favorites
+  summary: List Video Favorites
+- operationId: createVideoFavorite
+  spec: openapi/zype-monetization.json
+  operation: POST /consumers/{consumer_id}/video_favorites
+  summary: Create Video Favorite
+- operationId: deleteVideoFavorite
+  spec: openapi/zype-monetization.json
+  operation: DELETE /consumers/{consumer_id}/video_favorites/{favorite_id}
+  summary: Delete Video Favorite
+- operationId: bulkCreateAIMetadata
+  spec: openapi/zype-platform.json
+  operation: POST /videos/ai_metadata/suggestions
+  summary: Bulk Create AI Metadata
+- operationId: createAIMetadata
+  spec: openapi/zype-platform.json
+  operation: POST /videos/{id}/ai_metadata/suggestions
+  summary: Create AI Metadata
+- operationId: getAIMetadata
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{id}/ai_metadata/suggestions/{session_id}
+  summary: Get AI Metadata
+- operationId: applyAIMetadata
+  spec: openapi/zype-platform.json
+  operation: POST /videos/{id}/ai_metadata/suggestions/{session_id}/apply
+  summary: Apply AI Metadata
+- operationId: addZobject
+  spec: openapi/zype-platform.json
+  operation: PUT /videos/{id}/add_zobjects
+  summary: Add Zobject(s)
+- operationId: removeZobject
+  spec: openapi/zype-platform.json
+  operation: PUT /videos/{id}/remove_zobjects
+  summary: Remove Zobject
+- operationId: listAdTimings
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{id}/ad_timings
+  summary: List Ad Timings
+- operationId: listAdTimingsSingleDataSource
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{id}/data_sources/{data_source_id}/ad_timings
+  summary: List Ad Timings for Single Data Source
+- operationId: createAdTiming
+  spec: openapi/zype-platform.json
+  operation: POST /videos/{id}/data_sources/{data_source_id}/ad_timings
+  summary: Create Ad Timing
+- operationId: getAdTiming
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{id}/data_sources/{data_source_id}/ad_timings/{ad_timing_id}
+  summary: View Ad Timing
+- operationId: updateAdTiming
+  spec: openapi/zype-platform.json
+  operation: PUT /videos/{id}/data_sources/{data_source_id}/ad_timings/{ad_timing_id}
+  summary: Update Ad Timing
+- operationId: destroyAdTiming
+  spec: openapi/zype-platform.json
+  operation: DELETE /videos/{id}/data_sources/{data_source_id}/ad_timings/{ad_timing_id}
+  summary: Destroy Ad Timing
+- operationId: listVideoSourcesForVideo
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{id}/video_sources
+  summary: List Video Sources for a Video
+- operationId: listPlaylistVideosRelative
+  spec: openapi/zype-platform.json
+  operation: GET /playlists/{id}/videos/relative
+  summary: List Relative Playlist Videos
+- operationId: viewPlaylistRelationships
+  spec: openapi/zype-platform.json
+  operation: GET /playlists/relationships
+  summary: View Relationships
+- operationId: getApp
+  spec: openapi/zype-platform.json
+  operation: GET /app
+  summary: View App
+- operationId: listProgramGuides
+  spec: openapi/zype-platform.json
+  operation: GET /program_guides
+  summary: List Program Guides
+- operationId: createProgramGuide
+  spec: openapi/zype-platform.json
+  operation: POST /program_guides
+  summary: Create Program Guide
+- operationId: getProgramGuide
+  spec: openapi/zype-platform.json
+  operation: GET /program_guides/{id}
+  summary: View Program Guide
+- operationId: updateProgramGuide
+  spec: openapi/zype-platform.json
+  operation: PUT /program_guides/{id}
+  summary: Update Program Guide
+- operationId: deleteProgramGuide
+  spec: openapi/zype-platform.json
+  operation: DELETE /program_guides/{id}
+  summary: Delete Program Guide
+- operationId: listProgramGuideEntries
+  spec: openapi/zype-platform.json
+  operation: GET /program_guides/{id}/entries
+  summary: List Program Guide Entries
+- operationId: listDevices
+  spec: openapi/zype-platform.json
+  operation: GET /devices
+  summary: List Devices
+- operationId: getDevice
+  spec: openapi/zype-platform.json
+  operation: GET /devices/{id}
+  summary: View Device
+- operationId: listDeviceCategories
+  spec: openapi/zype-platform.json
+  operation: GET /device_categories
+  summary: List Devices Categories
+- operationId: getDeviceCategory
+  spec: openapi/zype-platform.json
+  operation: GET /device_categories/{id}
+  summary: View Device Category
+- operationId: getGeoIP
+  spec: openapi/zype-platform.json
+  operation: GET /geoip
+  summary: View GeoIP
+- operationId: listSegments
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{video_id}/segments
+  summary: List Segments
+- operationId: createSegment
+  spec: openapi/zype-platform.json
+  operation: POST /videos/{video_id}/segments
+  summary: Create Segment
+- operationId: getSegment
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{video_id}/segments/{id}
+  summary: View Segment
+- operationId: updateSegment
+  spec: openapi/zype-platform.json
+  operation: PUT /videos/{video_id}/segments/{id}
+  summary: Update Segment
+- operationId: deleteSegment
+  spec: openapi/zype-platform.json
+  operation: DELETE /videos/{video_id}/segments/{id}
+  summary: Delete Segment
+- operationId: createSelfHostedVideo
+  spec: openapi/zype-platform.json
+  operation: POST /videos/self_hosted
+  summary: Create Self Hosted Video
+- operationId: listSelfHostedVideoDataSources
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{video_id}/self_hosted
+  summary: List Self Hosted Video Data Sources
+- operationId: createSelfHostedVideoDataSource
+  spec: openapi/zype-platform.json
+  operation: POST /videos/{video_id}/self_hosted
+  summary: Create a Self Hosted Video Data Source
+- operationId: getSelfHostedVideoDataSource
+  spec: openapi/zype-platform.json
+  operation: GET /videos/{video_id}/self_hosted/{data_source_id}
+  summary: View Self Hosted Video Data Source
+- operationId: updateSelfHostedVideoDataSource
+  spec: openapi/zype-platform.json
+  operation: PUT /videos/{video_id}/self_hosted/{data_source_id}
+  summary: Update Self Hosted Video Data Source
+- operationId: deleteSelfHostedVideoDataSource
+  spec: openapi/zype-platform.json
+  operation: DELETE /videos/{video_id}/self_hosted/{data_source_id}
+  summary: Delete Self Hosted Video Data Source
+- operationId: listVideoImports
+  spec: openapi/zype-platform.json
+  operation: GET /video_imports
+  summary: List Video Imports
+- operationId: createVideoImport
+  spec: openapi/zype-platform.json
+  operation: POST /video_imports
+  summary: Create Video Import
+- operationId: addVideoToImport
+  spec: openapi/zype-platform.json
+  operation: PUT /video_imports/{id}/add_video
+  summary: Attach a Video to a Video Import
+- operationId: getVideoImport
+  spec: openapi/zype-platform.json
+  operation: GET /video_imports/{id}
+  summary: View Video Import
+- operationId: listVideoSources
+  spec: openapi/zype-platform.json
+  operation: GET /video_sources
+  summary: List Video Sources
+- operationId: createVideoSource
+  spec: openapi/zype-platform.json
+  operation: POST /video_sources
+  summary: Create Video Source
+- operationId: getVideoSource
+  spec: openapi/zype-platform.json
+  operation: GET /video_sources/{id}
+  summary: View Video Source
+- operationId: updateVideoSource
+  spec: openapi/zype-platform.json
+  operation: PUT /video_sources/{id}
+  summary: Update Video Source
+- operationId: deleteVideoSource
+  spec: openapi/zype-platform.json
+  operation: DELETE /video_sources/{id}
+  summary: Delete a Video Source
+- operationId: listUsers
+  spec: openapi/zype-platform.json
+  operation: GET /site/users
+  summary: List Admin Users
+- operationId: createUser
+  spec: openapi/zype-platform.json
+  operation: POST /site/users
+  summary: Create User
+- operationId: getUser
+  spec: openapi/zype-platform.json
+  operation: GET /site/users/{id}
+  summary: View User
+- operationId: updateUser
+  spec: openapi/zype-platform.json
+  operation: PUT /site/users/{id}
+  summary: Update user
+- operationId: removeUser
+  spec: openapi/zype-platform.json
+  operation: PUT /site/users/{id}/remove
+  summary: Remove an admin user from your property.
+- operationId: listV1Encoders
+  spec: openapi/zype-platform.json
+  operation: GET /live/encoders
+  summary: List Encoders
+- operationId: getV1Encoder
+  spec: openapi/zype-platform.json
+  operation: GET /live/encoders/{encoder_name}
+  summary: View Encoder
+- operationId: startV1Encoder
+  spec: openapi/zype-platform.json
+  operation: POST /live/encoders/{encoder_name}/start
+  summary: Start an Encoder
+- operationId: stopV1Encoder
+  spec: openapi/zype-platform.json
+  operation: POST /live/encoders/{encoder_name}/stop
+  summary: Stop an Encoder
+- operationId: listTargetRtmp
+  spec: openapi/zype-platform.json
+  operation: GET /live/encoders/{encoder_name}/target_rtmp
+  summary: List Targets RTMP entries
+- operationId: getTargetRTMP
+  spec: openapi/zype-platform.json
+  operation: GET /live/encoders/{encoder_name}/target_rtmp/{target_rtmp_name}
+  summary: View Target RTMP entry
+- operationId: getPlaylistCarouselEmbed
+  spec: openapi/zype-player.json
+  operation: GET /playlists/{playlist_id}/carousel.format
+  summary: View Playlist Carousel Embed
+- operationId: getPlayoutSchedulerChannels
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels
+  summary: List Channels
+- operationId: createPlayoutSchedulerChannel
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels
+  summary: Create Channel
+- operationId: getPlayoutSchedulerChannel
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}
+  summary: View Channel
+- operationId: deleteChannel
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v1/channels/{id}
+  summary: Delete Channel
+- operationId: updateChannel
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v1/channels/{id}
+  summary: Update Channel
+- operationId: stopLiveChannel
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels/{id}/stop
+  summary: Stop On-Air Channel
+- operationId: createHlsProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/profiles/hls
+  summary: Create HLS Profile
+- operationId: getHlsProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/profiles/hls/{id}
+  summary: View HLS Profile
+- operationId: deleteHlsProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v1/profiles/hls/{id}
+  summary: Delete HLS Profile
+- operationId: updateHlsProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v1/profiles/hls/{id}
+  summary: Update HLS Profile
+- operationId: duplicateHlsProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/profiles/hls/{id}/duplicate
+  summary: Duplicate HLS Profile
+- operationId: createUdpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/profiles/udp
+  summary: Create UDP Profile
+- operationId: getUdpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/profiles/udp/{id}
+  summary: View UDP Profile
+- operationId: deleteUdpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v1/profiles/udp/{id}
+  summary: Delete UDP Profile
+- operationId: updateUdpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v1/profiles/udp/{id}
+  summary: Update UDP Profile
+- operationId: duplicateUdpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/profiles/udp/{id}/duplicate
+  summary: Duplicate UDP Profile
+- operationId: createRtmpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/profiles/rtmp
+  summary: Create RTMP Profile
+- operationId: getRtmpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/profiles/rtmp/{id}
+  summary: View RTMP Profile
+- operationId: deleteRtmpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v1/profiles/rtmp/{id}
+  summary: Delete RTMP Profile
+- operationId: updateRtmpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v1/profiles/rtmp/{id}
+  summary: Update RTMP Profile
+- operationId: duplicateRtmpProfile
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/profiles/rtmp/{id}/duplicate
+  summary: Duplicate RTMP Profile
+- operationId: getDestinationTypes
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/types
+  summary: List Destination Types
+- operationId: getDestinationType
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/types/{id}
+  summary: View Destination Type
+- operationId: getChannelsDestinations
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/destinations
+  summary: List Destinations
+- operationId: createChannelDestination
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels/{id}/destinations
+  summary: Create Destination
+- operationId: getChannelDestination
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/destinations/{destinationId}
+  summary: View Destination
+- operationId: deleteChannelDestination
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v1/channels/{id}/destinations/{destinationId}
+  summary: Delete Destination
+- operationId: updateChannelDestination
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v1/channels/{id}/destinations/{destinationId}
+  summary: Update Destination
+- operationId: getPlayoutSchedulerChannelDraft
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/draft
+  summary: View Channel's Draft
+- operationId: getPlayoutSchedulerTrackItemGraphics
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/draft/items/{itemId}/graphics
+  summary: View track item's automated graphics
+- operationId: getPlayoutSchedulerChannelDraftsRundown
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/draft/rundown
+  summary: View Channel Draft's Schedule Rundown
+- operationId: publishPlayoutSchedulerChannelDraft
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels/{id}/draft/publish
+  summary: Publish Channel's Draft
+- operationId: getPlayoutSchedulerOperations
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/draft/operations
+  summary: List Operations
+- operationId: createPlayoutSchedulerOperation
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels/{id}/draft/operations
+  summary: Create Operation
+- operationId: revertAllPlayoutSchedulerOperations
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v1/channels/{id}/draft/operations
+  summary: Revert all operations
+- operationId: getPlayoutSchedulerOperation
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/draft/operations/{operationId}
+  summary: View Operation
+- operationId: revertPlayoutSchedulerOperation
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels/{id}/draft/operations/{operationId}/revert
+  summary: Revert a Draft Schedule to the specified operation
+- operationId: getPlayoutSchedulerChannelPublished
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/published
+  summary: View Channel's Published
+- operationId: graphicsSync
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v1/channels/{id}/graphics_sync
+  summary: Sync automated graphic insertions
+- operationId: getPlayoutSchedulerBlocksV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/blocks
+  summary: List Blocks
+- operationId: createPlayoutSchedulerBlockV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v2/assets/blocks
+  summary: Create Block
+- operationId: getPlayoutSchedulerBlockV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/blocks/{id}
+  summary: View Block
+- operationId: updateBlockV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v2/assets/blocks/{id}
+  summary: Update Block
+- operationId: deleteBlockV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v2/assets/blocks/{id}
+  summary: Delete Block
+- operationId: listAdsV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/ads
+  summary: List Ads
+- operationId: getAdV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/ads/{id}
+  summary: View Ad
+- operationId: listBumpersV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/bumpers
+  summary: List Bumpers
+- operationId: getBumperV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/bumpers/{id}
+  summary: View Bumper
+- operationId: listVideosV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/videos
+  summary: List Videos
+- operationId: getPlayoutVideoV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/videos/{id}
+  summary: View Video
+- operationId: listPlayoutPlaylistsV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/playlists
+  summary: List Playlists
+- operationId: getPlayoutPlaylistV2
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/playlists/{id}
+  summary: View Playlist
+- operationId: getPlayoutSchedulerAdTimings
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/ad_timings
+  summary: List Ad Timings
+- operationId: createPlayoutSchedulerAdTiming
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v2/assets/ad_timings
+  summary: Create Ad Timing
+- operationId: deletePlayoutSchedulerAdTimings
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v2/assets/ad_timings
+  summary: Delete Ad Timings
+- operationId: updatePlayoutSchedulerAdTiming
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v2/assets/ad_timings/{id}
+  summary: Update Ad Timing
+- operationId: deletePlayoutSchedulerAdTiming
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v2/assets/ad_timings/{id}
+  summary: Delete Ad Timing
+- operationId: getPlayoutSchedulerLiveAssets
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/{channelId}/live_streams
+  summary: List Live Assets
+- operationId: createPlayoutSchedulerLiveAsset
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v2/assets/{channelId}/live_streams
+  summary: Create Live Asset
+- operationId: updatePlayoutSchedulerLiveAsset
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v2/assets/{channelId}/live_streams/{id}
+  summary: Update Live Asset
+- operationId: deletePlayoutSchedulerLiveAsset
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v2/assets/{channelId}/live_streams/{id}
+  summary: Delete Live Asset
+- operationId: createUploadPlayout
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v2/uploads
+  summary: Create Upload
+- operationId: getUpload
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/uploads/{id}
+  summary: Get Upload
+- operationId: getGraphics
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/graphics
+  summary: List Graphics
+- operationId: createGraphic
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v2/assets/graphics
+  summary: Create Graphic
+- operationId: getGraphic
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/assets/graphics/{id}
+  summary: View Graphic
+- operationId: updateGraphic
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v2/assets/graphics/{id}
+  summary: Update Graphic
+- operationId: deleteGraphic
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v2/assets/graphics/{id}
+  summary: Delete Graphic
+- operationId: getPlayoutSchedulerChannelPublishedJsonRundownEPG
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/published/rundown
+  summary: JSON Rundown EPG
+- operationId: channelXMLTVEPG
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v1/channels/{id}/published/rundown/xmltv.xml
+  summary: View Channel's Published Rundown XMLTV format
+- operationId: getVizioEPG
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/channels/{id}/epg/vizio
+  summary: Vizio EPG
+- operationId: getTclEPG
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/channels/{id}/epg/tcl
+  summary: Tcl EPG
+- operationId: getWurlEPG
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/channels/{id}/epg/wurl
+  summary: Wurl EPG
+- operationId: getRokuEPG
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/channels/{id}/epg/roku
+  summary: Roku EPG
+- operationId: getRecurrenceRules
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/recurrence_rules
+  summary: List Recurrence Rules
+- operationId: createRecurrenceRule
+  spec: openapi/zype-playout-scheduler.json
+  operation: POST /scheduler/v2/recurrence_rules
+  summary: Create Recurrence Rule
+- operationId: getRecurrenceRule
+  spec: openapi/zype-playout-scheduler.json
+  operation: GET /scheduler/v2/recurrence_rules/{id}
+  summary: View Recurrence Rule
+- operationId: deleteRecurrenceRule
+  spec: openapi/zype-playout-scheduler.json
+  operation: DELETE /scheduler/v2/recurrence_rules/{id}
+  summary: Delete Recurrence Rule
+- operationId: updateRecurrenceRule
+  spec: openapi/zype-playout-scheduler.json
+  operation: PUT /scheduler/v2/recurrence_rules/{id}
+  summary: Update Recurrence Rule
+- operationId: postRegisterAdobeDeviceSession
+  spec: openapi/zype-tve.json
+  operation: POST /adobe/device
+  summary: Register Adobe Device Session
+- operationId: postCreateZypeConsumer
+  spec: openapi/zype-tve.json
+  operation: POST /adobe/authn
+  summary: Creates a Zype's Consumer
+- operationId: postValidateDeviceSession
+  spec: openapi/zype-tve.json
+  operation: POST /adobe/validate
+  summary: Validate Device Session token
+- operationId: postRetrievePreauthorizedResources
+  spec: openapi/zype-tve.json
+  operation: POST /adobe/preauthorize
+  summary: Retrieves the list of preauthorized resources
+- operationId: postObtainShortMediaToken
+  spec: openapi/zype-tve.json
+  operation: POST /adobe/media_token
+  summary: Obtains Short Media Token.
+- operationId: postRemoveAdobeDeviceSession
+  spec: openapi/zype-tve.json
+  operation: DELETE /adobe/logout
+  summary: Destroys Device Session.
+- operationId: createUpload
+  spec: openapi/zype-uploads.json
+  operation: POST /uploads
+  summary: Create Upload
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

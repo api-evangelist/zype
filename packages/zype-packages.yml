@@ -1,0 +1,147 @@
+generated: '2026-08-28'
+method: searched
+source: registry.npmjs.org, rubygems.org, pypi.org, api.github.com/orgs/zype
+note: 'Zype''s only currently-maintained first-party package is the MCP server, published twice under two npm names
+  at the same version. Every other first-party client library predates 2024: the Ruby gem last shipped in 2018 and
+  the Python client repo last saw a push in 2023 and was never published to PyPI by Zype (the `zype` project on
+  PyPI belongs to a third party). That gap is the finding — the REST surface has grown to 317 operations across
+  15 OpenAPI files while the SDKs that wrap it have not moved in years.'
+packages:
+- name: '@zype-com/mcp'
+  registry: npm
+  url: https://www.npmjs.com/package/@zype-com/mcp
+  official: true
+  language: JavaScript/TypeScript
+  kind: mcp-server
+  version: 0.6.0
+  published: '2026-08-05'
+  note: MCP server for Zype video platform APIs. Published under the @zype-com npm scope; documented in github.com/zype/zype-mcp-client.
+- name: zype-mcp
+  registry: npm
+  url: https://www.npmjs.com/package/zype-mcp
+  official: true
+  language: JavaScript/TypeScript
+  kind: mcp-server
+  version: 0.6.0
+  published: '2026-08-05'
+  note: Unscoped alias of @zype-com/mcp, same version and description. The README in github.com/zype/zype-mcp-client
+    installs the scoped name.
+- name: zype
+  registry: rubygems
+  url: https://rubygems.org/gems/zype
+  official: true
+  language: Ruby
+  kind: sdk
+  version: 0.20.0
+  published: '2018-09-07'
+  repository: https://github.com/zype/zype-gem
+  license: MIT
+  downloads: 35249
+  note: First-party — RubyGems author field reads "Zype". Last release 2018-09-07; the repo (zype/zype-gem) was
+    last pushed 2023-01-03. Predates the Live V3, Playout Scheduler, Analytics V3, content-rules and AI-metadata
+    surfaces entirely.
+- name: zype-python
+  registry: null
+  url: https://github.com/zype/zype-python
+  official: true
+  language: Python
+  kind: sdk
+  version: null
+  published: null
+  note: First-party Python client, source-only. Zype never published it to PyPI, so there is no registry metadata
+    endpoint to read and no installable version — recorded as null after checking. The `zype` project ON PyPI (0.2.0)
+    is a third-party upload by Khurshid Fayzullaev from a personal fork and is NOT Zype-published. Repo last pushed
+    2023-05-22.
+- name: zype-wordpress-plugin
+  registry: null
+  url: https://github.com/zype/zype-wordpress-plugin
+  official: true
+  language: PHP
+  kind: plugin
+  version: null
+  published: null
+  note: First-party WordPress plugin, distributed from GitHub only — not listed on wordpress.org/plugins and not
+    on Packagist, so no registry version is retrievable. Repo last pushed 2024-04-01.
+- name: zype-roku-scenegraph
+  registry: null
+  url: https://github.com/zype/zype-roku-scenegraph
+  official: true
+  language: BrightScript
+  kind: app-template
+  version: null
+  published: null
+  note: Legacy open-source Roku SceneGraph app template. Zype's own description calls it legacy; last pushed 2022-10-14.
+    No registry.
+- name: zype-ios
+  registry: null
+  url: https://github.com/zype/zype-ios
+  official: true
+  language: Objective-C
+  kind: app-template
+  version: null
+  published: null
+  note: Legacy open-source iOS app template, last pushed 2022-10-14. Not on CocoaPods or SwiftPM under a Zype name;
+    no registry version.
+- name: zype-apple-tv
+  registry: null
+  url: https://github.com/zype/zype-apple-tv
+  official: true
+  language: Swift
+  kind: app-template
+  version: null
+  published: null
+  note: Legacy open-source tvOS app template, last pushed 2022-09-12. No registry.
+- name: ZypeAppleTVBase
+  registry: null
+  url: https://github.com/zype/ZypeAppleTVBase
+  official: true
+  language: Swift
+  kind: sdk
+  version: null
+  published: null
+  note: Apple TV base SDK project, source-only, last pushed 2021-07-16. No registry.
+- name: zype-firebuilder
+  registry: null
+  url: https://github.com/zype/zype-firebuilder
+  official: true
+  language: Java
+  kind: sdk
+  version: null
+  published: null
+  note: Zype Fire Builder SDK for Amazon Fire TV, source-only, last pushed 2022-05-19. Not on Maven Central under
+    a Zype coordinate; no registry version.
+- name: zype-tizen
+  registry: null
+  url: https://github.com/zype/zype-tizen
+  official: true
+  language: JavaScript
+  kind: app-template
+  version: null
+  published: null
+  note: Samsung Tizen app template, source-only, last pushed 2021-08-02. No registry.
+- name: zype
+  registry: pypi
+  url: https://pypi.org/project/zype/
+  official: false
+  language: Python
+  kind: sdk
+  version: 0.2.0
+  published: null
+  note: THIRD PARTY — author "Khurshid Fayzullaev", homepage github.com/khfayzullaev/zype-python. Listed here only
+    so a reader does not mistake it for Zype's own client. PyPI returned no upload_time for the current release.
+registries_checked:
+- npm
+- PyPI
+- RubyGems
+- Packagist
+- GitHub (zype org, 27 public repos)
+registries_with_no_first_party_package:
+- PyPI
+- Packagist
+- Maven Central
+- NuGet
+- crates.io
+- pkg.go.dev
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

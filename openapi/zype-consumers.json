@@ -1,0 +1,1959 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Consumers",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/consumers": {
+      "get": {
+        "summary": "List Consumers",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "listConsumers",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by ID\nExample: `id=5992f328ce593000ef000008`"
+          },
+          {
+            "name": "created_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `created_at.gte`)"
+          },
+          {
+            "name": "updated_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by updated at date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `updated_at.gte`)"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by keyword"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Filter by ascending or descending order"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort on the specified field"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number to return, with per_page dictating page size"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of records to return per page"
+          },
+          {
+            "name": "braintree_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's Braintree ID"
+          },
+          {
+            "name": "recurly_code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's Recurly Code"
+          },
+          {
+            "name": "stripe_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's Stripe ID"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's email"
+          },
+          {
+            "name": "password_token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's password token"
+          },
+          {
+            "name": "rss_token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's RSS token"
+          },
+          {
+            "name": "pass_count",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter consumers by the number of pass plans that have been purchased or redeemed.\n*Note*: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: pass_count.gte = 1)"
+          },
+          {
+            "name": "playlist_count",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter consumers by the number of playlists they are entitled to watch via purchase or pass plan.\n*Note*: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: playlist_count.gte = 1)"
+          },
+          {
+            "name": "remember_token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The password token to use during remember login workflows"
+          },
+          {
+            "name": "sign_in_count",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter consumers by the number of times they have signed in.\n*Note*: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: sign_in_count.gte)"
+          },
+          {
+            "name": "last_sign_in_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by last_sign_in_at using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `last_sign_in_at.gte`)"
+          },
+          {
+            "name": "current_sign_in_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by current_sign_in_at using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `current_sign_in_at.gte`)"
+          },
+          {
+            "name": "terms",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Boolean field to indicate if the consumer has agreed to terms and conditions"
+          },
+          {
+            "name": "updates",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Boolean field to indicate if the consumer has agreed to receive updates"
+          },
+          {
+            "name": "video_count",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records by video count\n*Note*: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: video_count.gte = 3)"
+          },
+          {
+            "name": "transaction_count",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter consumers by their number of transactions.\n*Note*: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: transaction.gte = 3)"
+          },
+          {
+            "name": "payment_provider",
+            "in": "query",
+            "description": "Filter records by payment provider.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stripe",
+                "braintree",
+                "recurly",
+                "redemption",
+                "third_party",
+                "amazon_fire",
+                "google_play",
+                "itunes",
+                "samsung",
+                "tizen",
+                "roku"
+              ]
+            }
+          },
+          {
+            "name": "custom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by custom attribues + Example: custom[weight]=100"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ConsumersResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1consumers/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Consumers",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "createConsumer",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ConsumerRequest",
+                "type": "object",
+                "properties": {
+                  "consumer": {
+                    "required": [
+                      "email"
+                    ],
+                    "type": "object",
+                    "title": "ConsumerProperties",
+                    "properties": {
+                      "birthday": {
+                        "type": "string"
+                      },
+                      "braintree_id": {
+                        "description": "Unique ID assigned to the consumer in Braintree",
+                        "type": "string"
+                      },
+                      "custom": {
+                        "type": "string",
+                        "description": "Custom attributes for the consumer (Example: `consumer[custom][weight]=100`)"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "Consumer full name",
+                        "type": "string"
+                      },
+                      "parental_access_code": {
+                        "description": "The four digit code to use for gating of age restricted content in apps.",
+                        "type": "string"
+                      },
+                      "parental_access_rating": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string",
+                        "description": "The password for the consumer. The password is used for consumer authentication"
+                      },
+                      "password_confirmation": {
+                        "type": "string",
+                        "description": "password_confirmation must match password"
+                      },
+                      "password_token": {
+                        "description": "The password token to use during password reset workflows",
+                        "type": "string"
+                      },
+                      "recurly_code": {
+                        "description": "Unique ID ('Code' in Recurly) assigned to the consumer in Recurly",
+                        "type": "string"
+                      },
+                      "remember_token": {
+                        "description": "The password token to use during remember login workflows",
+                        "type": "string"
+                      },
+                      "rss_token": {
+                        "description": "Unique token to identify a customer accessing your RSS feed",
+                        "type": "string"
+                      },
+                      "sex": {
+                        "type": "string"
+                      },
+                      "stripe_id": {
+                        "description": "Unique ID assigned to the consumer in Stripe",
+                        "type": "string"
+                      },
+                      "super_watcher": {
+                        "description": "Boolean field to indicate that a consumer is exempt from content rules",
+                        "type": "boolean"
+                      },
+                      "terms": {
+                        "description": "If consumer has agreed to the terms and services",
+                        "type": "boolean"
+                      },
+                      "updates": {
+                        "description": "If the consumer has agreed to receive updates",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ConsumerResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Consumer",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "amazon_user_id": {
+                          "description": "Unique ID to identify a consumer by Amazon Fire",
+                          "type": "string"
+                        },
+                        "birthday": {
+                          "type": "string"
+                        },
+                        "braintree_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "current_sign_in_at": {
+                          "type": "string"
+                        },
+                        "current_sign_in_ip": {
+                          "type": "string"
+                        },
+                        "days_trialed": {
+                          "type": "number"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "has_trialed": {
+                          "type": "boolean"
+                        },
+                        "last_sign_in_at": {
+                          "type": "string"
+                        },
+                        "last_sign_in_ip": {
+                          "type": "string"
+                        },
+                        "linked_devices": {
+                          "description": "IDs of Devices a user uses to watch your videos",
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "parental_access_code": {
+                          "description": "The four digit code to use for gating of age restricted content in apps.",
+                          "type": "string"
+                        },
+                        "parental_access_rating": {
+                          "type": "string"
+                        },
+                        "pass_count": {
+                          "description": "Number of passes a consumer has",
+                          "type": "number"
+                        },
+                        "password_token": {
+                          "type": "string"
+                        },
+                        "playist_count": {
+                          "type": "number"
+                        },
+                        "recurly_code": {
+                          "type": "string"
+                        },
+                        "remember_token": {
+                          "type": "string"
+                        },
+                        "rss_token": {
+                          "type": "string"
+                        },
+                        "sex": {
+                          "type": "string"
+                        },
+                        "sign_in_count": {
+                          "type": "number"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "stripe_id": {
+                          "type": "string"
+                        },
+                        "subscription_count": {
+                          "description": "Number of subscriptions a consumer has",
+                          "type": "number"
+                        },
+                        "terms": {
+                          "type": "boolean"
+                        },
+                        "transaction_count": {
+                          "description": "Number of transactions a consumer has",
+                          "type": "number"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "updates": {
+                          "type": "boolean"
+                        },
+                        "video_count": {
+                          "description": "Number of videos a consumer has access to",
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{id}": {
+      "get": {
+        "summary": "View Consumer",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "getConsumer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Consumer ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Consumer",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "updateConsumer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Consumer ID"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1consumers/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Consumer",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "deleteConsumer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Consumer ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Consumer deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pin/status": {
+      "get": {
+        "summary": "Retrieve Device Pin",
+        "description": "",
+        "tags": [
+          "Device Linking"
+        ],
+        "operationId": "getPinStatus",
+        "parameters": [
+          {
+            "name": "linked_device_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique ID of the user's device"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device Pin not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pin/acquire": {
+      "post": {
+        "summary": "Acquire Device Pin",
+        "description": "",
+        "tags": [
+          "Device Linking"
+        ],
+        "operationId": "acquireDevicePin",
+        "parameters": [
+          {
+            "name": "linked_device_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique ID of the user's device"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pin/link": {
+      "put": {
+        "summary": "Link Device Pin",
+        "description": "",
+        "tags": [
+          "Device Linking"
+        ],
+        "operationId": "linkDevicePin",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of consumer to link device to"
+          },
+          {
+            "name": "pin",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The value for the acquired device pin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "DevicePinResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "DevicePin",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "consumer_id": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "deleted_at": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "linked_device_id": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "pin": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "pin_expiration": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "description": "",
+                          "type": "string"
+                        },
+                        "linked true": {
+                          "description": "",
+                          "type": "boolean"
+                        },
+                        "subscription_count": {
+                          "description": "",
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device Pin not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pin/unlink": {
+      "put": {
+        "summary": "Unlink Device Pin",
+        "description": "",
+        "tags": [
+          "Device Linking"
+        ],
+        "operationId": "unlinkDevicePin",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of consumer to link device to"
+          },
+          {
+            "name": "pin",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The value for the acquired device pin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device Pin not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/videos/{video_id}/entitled": {
+      "get": {
+        "tags": [
+          "Video Entitlements"
+        ],
+        "summary": "Check Video Entitlement",
+        "description": "Check Video Entitlement",
+        "operationId": "checkVideoEntitlement",
+        "parameters": [
+          {
+            "name": "video_id",
+            "in": "path",
+            "description": "ID of the video entitlement",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "OAuth token of a consumer",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "CheckVideoEntitlementResponse",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Consumer does not have access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/consumers/{consumer_id}/videos": {
+      "get": {
+        "summary": "List Video Entitlements",
+        "description": "",
+        "tags": [
+          "Video Entitlements"
+        ],
+        "operationId": "listVideoEntitlements",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of video entitlements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "VideoEntitlementsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "title": "Pagination",
+                      "type": "object",
+                      "properties": {
+                        "current": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "The current page of results"
+                        },
+                        "previous": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the previous page of results",
+                          "nullable": true
+                        },
+                        "next": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the next page of results",
+                          "nullable": true
+                        },
+                        "per_page": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the number of results returned per page"
+                        },
+                        "pages": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the total number of pages available, using per_page"
+                        }
+                      },
+                      "example": {
+                        "current": 1,
+                        "previous": null,
+                        "next": 2,
+                        "per_page": 10,
+                        "pages": 20
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create video entitlement",
+        "description": "",
+        "tags": [
+          "Video Entitlements"
+        ],
+        "operationId": "createVideoEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "VideoEntitlementRequest",
+                "type": "object",
+                "properties": {
+                  "entitlement": {
+                    "required": [
+                      "video_id"
+                    ],
+                    "type": "object",
+                    "title": "VideoEntitlementProperties",
+                    "properties": {
+                      "video_id": {
+                        "type": "string",
+                        "description": "ID of the video you wish the consumer to have access to"
+                      },
+                      "transaction_id": {
+                        "type": "string",
+                        "description": "ID of the transaction that happened to allow the consumer to have access to the video"
+                      },
+                      "transaction_type": {
+                        "type": "string",
+                        "description": "Type of transaction (Example: purchase)"
+                      },
+                      "expires_at": {
+                        "type": "string",
+                        "description": "When the entitlement expires"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "VideoEntitlementResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "VideoEntitlement",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "consumer_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "expires_at": {
+                          "type": "string"
+                        },
+                        "transaction_id": {
+                          "type": "string"
+                        },
+                        "transaction_type": {
+                          "type": "string"
+                        },
+                        "video_title": {
+                          "type": "string"
+                        },
+                        "video_id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/videos/{id}": {
+      "get": {
+        "summary": "View Video Entitlement",
+        "description": "",
+        "tags": [
+          "Video Entitlements"
+        ],
+        "operationId": "viewVideoEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the video entitlement"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entitlement not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Video Entitlement",
+        "description": "",
+        "tags": [
+          "Video Entitlements"
+        ],
+        "operationId": "updateVideoEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the video entitlement"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entitlement not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Video Entitlement",
+        "description": "",
+        "tags": [
+          "Video Entitlements"
+        ],
+        "operationId": "deleteVideoEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the video entitlement"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Video Entitlement successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entitlement not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/playlists": {
+      "get": {
+        "summary": "List Playlist Entitlements",
+        "description": "",
+        "tags": [
+          "Playlist Entitlements"
+        ],
+        "operationId": "listPlaylistEntitlements",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose playlist entitlements will be retrieved"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of playlist entitlements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlaylistEntitlementsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/get/responses/200/content/application~1json/schema/properties/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Playlist Entitlement",
+        "description": "",
+        "tags": [
+          "Playlist Entitlements"
+        ],
+        "operationId": "createPlaylistEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "PlaylistEntitlementRequest",
+                "type": "object",
+                "properties": {
+                  "entitlement": {
+                    "required": [
+                      "playlist_id"
+                    ],
+                    "type": "object",
+                    "title": "PlaylistEntitlementProperties",
+                    "properties": {
+                      "playlist_id": {
+                        "type": "string",
+                        "description": "ID of the playlist you wish the consumer to have access to"
+                      },
+                      "transaction_id": {
+                        "type": "string",
+                        "description": "ID of the transaction that happened to allow the consumer to have access to the video"
+                      },
+                      "transaction_type": {
+                        "type": "string",
+                        "description": "Type of transaction (Example: purchase)"
+                      },
+                      "expires_at": {
+                        "type": "string",
+                        "description": "When the entitlement expires"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlaylistEntitlementResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "PlaylistEntitlement",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "consumer_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "expires_at": {
+                          "type": "string"
+                        },
+                        "transaction_id": {
+                          "type": "string"
+                        },
+                        "transaction_type": {
+                          "type": "string"
+                        },
+                        "playlist_title": {
+                          "type": "string"
+                        },
+                        "playlist_id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/playlists/{id}": {
+      "get": {
+        "summary": "View Playlist Entitlement",
+        "description": "",
+        "tags": [
+          "Playlist Entitlements"
+        ],
+        "operationId": "getPlaylistEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the playlist entitlement"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entitlement not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Playlist Entitlement",
+        "description": "",
+        "tags": [
+          "Playlist Entitlements"
+        ],
+        "operationId": "updatePlaylistEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the playlist entitlement"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entitlement not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Playlist Entitlement",
+        "description": "",
+        "tags": [
+          "Playlist Entitlements"
+        ],
+        "operationId": "deletePlaylistEntitlement",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose video entitlements will be retrieved"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the playlist entitlement"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Entitlement successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entitlement not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/subscription_entitlements": {
+      "get": {
+        "summary": "List Subscription Entitlements",
+        "description": "",
+        "tags": [
+          "Subscription Entitlements"
+        ],
+        "operationId": "listSubscriptionEntitlements",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer whose subscription entitlements will be retrieved"
+          },
+          {
+            "name": "entitlement_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "global",
+                "tiered"
+              ]
+            },
+            "description": "Filter by entitlement type. Leaving empty will return all subscription entitlements.\n+ Accepted values:\n    + `global`\n    + `tiered`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of playlist entitlements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/get/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{id}/reset_parental_access_code": {
+      "put": {
+        "summary": "Reset Consumer Parental Access Code",
+        "description": "Consumer Parental Access code will be reset, and email is sent to the consumer initiating a reset parental access code flow.",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "resetConsumerParentalAccessCode",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consumer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1pin~1link/put/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/forgot_password": {
+      "put": {
+        "summary": "Initiate Consumer Forgot Password Flow - Consumer receives forgot password email.",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "resetPasswordFlow",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ForgotPasswordRequest",
+                "type": "object",
+                "required": [
+                  "email"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "the email address of the user who will receive a password reset email."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The password reset flow has been initiated for the submitted email"
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/reset_password": {
+      "put": {
+        "summary": "Reset Consumer's Password Flow",
+        "tags": [
+          "Consumers"
+        ],
+        "operationId": "updatePassword",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ResetConsumerPasswordRequest",
+                "type": "object",
+                "required": [
+                  "password",
+                  "password_token"
+                ],
+                "properties": {
+                  "password": {
+                    "description": "Consumer's New password",
+                    "type": "string"
+                  },
+                  "password_token": {
+                    "description": "Password Token generated when hitting PUT consumers/forgot_password",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The password has been updated succesfully"
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

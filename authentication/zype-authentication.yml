@@ -1,0 +1,56 @@
+generated: '2026-08-28'
+method: derived
+source: openapi/zype-analytics-v3.json, openapi/zype-analytics.json, openapi/zype-consumers.json,
+  openapi/zype-content-regions.json, openapi/zype-content-rule-groups.json, openapi/zype-content-rules.json,
+  openapi/zype-live-3.json, openapi/zype-monetization.json, openapi/zype-platform.json, openapi/zype-player.json,
+  openapi/zype-playout-scheduler.json, openapi/zype-tve.json ...
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+  - query
+schemes:
+- name: api_key
+  type: apiKey
+  in: query
+  parameter: api_key
+  sources:
+  - openapi/zype-analytics-v3.json
+  - openapi/zype-analytics.json
+  - openapi/zype-consumers.json
+  - openapi/zype-content-regions.json
+  - openapi/zype-content-rule-groups.json
+  - openapi/zype-content-rules.json
+  - openapi/zype-live-3.json
+  - openapi/zype-monetization.json
+  - openapi/zype-platform.json
+  - openapi/zype-player.json
+  - openapi/zype-tve.json
+  - openapi/zype-uploads.json
+  - openapi/zype-zobjects.json
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: OAuth access token
+  description: OAuth access token of the consumer
+  sources:
+  - openapi/zype-analytics-v3.json
+  - openapi/zype-analytics.json
+  - openapi/zype-consumers.json
+  - openapi/zype-content-regions.json
+  - openapi/zype-content-rule-groups.json
+  - openapi/zype-content-rules.json
+  - openapi/zype-live-3.json
+  - openapi/zype-monetization.json
+  - openapi/zype-platform.json
+  - openapi/zype-player.json
+  - openapi/zype-uploads.json
+  - openapi/zype-zobjects.json
+- name: api_key
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  sources:
+  - openapi/zype-playout-scheduler.json

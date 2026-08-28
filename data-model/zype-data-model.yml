@@ -1,0 +1,251 @@
+generated: '2026-08-28'
+method: derived
+source: path structure and *_id reference fields across the 15 files in openapi/; entity descriptions cross-checked
+  against https://docs.zype.com/reference/
+note: 'Derived from paths and id-reference fields rather than from schema $refs: NONE of Zype''s 15 OpenAPI files
+  declares a single entry under components.schemas. Every request and response body is inlined, so there is no reusable
+  object model in the contract and no $ref graph to walk. That absence is itself the headline finding — a consumer
+  cannot generate typed models from these specs without first factoring them out.'
+id_format: 24-character hexadecimal (MongoDB ObjectId), e.g. 5992f328ce593000ef000008. No type prefixes.
+root: site (channel) — every key is scoped to one Zype site; site_id appears on 19 distinct operations and cross-site
+  reads return 404 rather than 403.
+entities:
+- name: Video
+  spec: openapi/zype-platform.json
+  path: /videos
+  description: The core content object. Carries metadata, an active flag, on_air/live_event flags, parental guidelines
+    rating, and third-party source ids (youtube_id, vimeo_id, hulu_id, crunchyroll_id).
+  relationships:
+  - type: has_many
+    target: VideoSource
+    via: /videos/{id}/video_sources
+  - type: has_many
+    target: Subtitle
+    via: video_id
+  - type: has_many
+    target: Transcription
+    via: /videos/{id}/transcriptions
+  - type: has_many
+    target: Segment
+    via: video_id
+  - type: has_many
+    target: AdTiming
+    via: /videos/{id}/data_sources/{data_source_id}/ad_timings
+  - type: has_many
+    target: Zobject
+    via: PUT /videos/{id}/add_zobjects
+  - type: belongs_to
+    target: Category
+    via: category_id
+- name: Playlist
+  spec: openapi/zype-platform.json
+  path: /playlists
+  relationships:
+  - type: has_many
+    target: Video
+    via: PUT /playlists/{id}/add_videos
+  - type: belongs_to
+    target: Playlist
+    via: parent_id
+  - type: has_many
+    target: Zobject
+    via: PUT /zobjects/{id}/add_playlists
+- name: Category
+  spec: openapi/zype-platform.json
+  path: /categories
+  relationships:
+  - type: has_many
+    target: Video
+    via: category_id
+- name: ZobjectType
+  spec: openapi/zype-zobjects.json
+  path: /zobject_types
+  description: Schema definition for a class of custom metadata object (actor, director, team...).
+  relationships:
+  - type: has_many
+    target: Zobject
+    via: zobject_type
+- name: Zobject
+  spec: openapi/zype-zobjects.json
+  path: /zobjects
+  relationships:
+  - type: belongs_to
+    target: ZobjectType
+    via: zobject_type
+  - type: has_many
+    target: Video
+    via: PUT /zobjects/{id}/add_videos
+  - type: has_many
+    target: Playlist
+    via: PUT /zobjects/{id}/add_playlists
+- name: Consumer
+  spec: openapi/zype-consumers.json
+  path: /consumers
+  description: The end viewer.
+  relationships:
+  - type: has_many
+    target: Subscription
+    via: consumer_id
+  - type: has_many
+    target: VideoEntitlement
+    via: consumer_id
+  - type: has_many
+    target: PlaylistEntitlement
+    via: consumer_id
+  - type: has_many
+    target: VideoFavorite
+    via: /consumers/{consumer_id}/video_favorites
+  - type: has_many
+    target: LinkedDevice
+    via: linked_device_id
+- name: Subscription
+  spec: openapi/zype-monetization.json
+  path: /subscriptions
+  relationships:
+  - type: belongs_to
+    target: Consumer
+    via: consumer_id
+  - type: belongs_to
+    target: Plan
+    via: plan_id
+- name: Plan
+  spec: openapi/zype-monetization.json
+  path: /plans
+  relationships:
+  - type: has_many
+    target: Playlist
+    via: PUT /plans/{id}/add_playlists
+  - type: has_many
+    target: Subscription
+    via: plan_id
+- name: Transaction
+  spec: openapi/zype-monetization.json
+  path: /transactions
+  relationships:
+  - type: belongs_to
+    target: Consumer
+    via: consumer_id
+  - type: belongs_to
+    target: Video
+    via: video_id
+  note: Carries external processor references — stripe_id, braintree_id, recurly_token_id — which is how Zype ties
+    its billing objects back to Stripe/Braintree/Recurly.
+- name: RedemptionCode
+  spec: openapi/zype-monetization.json
+  path: /redemption_codes
+  relationships:
+  - type: belongs_to
+    target: Plan
+    via: plan_id
+- name: AdTag
+  spec: openapi/zype-monetization.json
+  path: /ad_tags
+- name: RevenueModel
+  spec: openapi/zype-monetization.json
+  path: /revenue_models
+- name: LiveEncoder
+  spec: openapi/zype-live-3.json
+  path: /v3/encoders
+- name: LiveEvent
+  spec: openapi/zype-live-3.json
+  path: /live_events
+  relationships:
+  - type: belongs_to
+    target: LiveEncoder
+    via: encoder_id
+- name: PlayoutChannel
+  spec: openapi/zype-playout-scheduler.json
+  path: /scheduler/v1/channels
+  relationships:
+  - type: has_many
+    target: PlayoutDestination
+    via: playout_channel_id
+  - type: has_one
+    target: PlayoutDraft
+    via: /draft
+  - type: has_one
+    target: PlayoutPublished
+    via: /published
+  - type: belongs_to
+    target: HLSProfile
+    via: profile
+  - type: belongs_to
+    target: UDPProfile
+    via: profile
+  - type: belongs_to
+    target: RTMPProfile
+    via: profile
+- name: PlayoutDraft
+  spec: openapi/zype-playout-scheduler.json
+  relationships:
+  - type: has_many
+    target: TimelineOperation
+    via: /operations
+  - type: has_many
+    target: Block
+    via: /blocks
+  - type: has_many
+    target: Graphic
+    via: /graphics
+  - type: has_many
+    target: RecurrenceRule
+    via: /recurrence_rules
+- name: ProgramGuide
+  spec: openapi/zype-platform.json
+  path: /program_guides
+- name: ContentRuleProfile
+  spec: openapi/zype-content-rules.json
+  path: /v3/content_rule_profiles
+  relationships:
+  - type: has_many
+    target: ContentRuleGroup
+    via: content_rule_profile_id
+- name: ContentRuleGroup
+  spec: openapi/zype-content-rule-groups.json
+  path: /v3/content_rule_groups
+- name: CustomRegion
+  spec: openapi/zype-content-regions.json
+  path: /v3/content_regions
+- name: App
+  spec: openapi/zype-platform.json
+  path: /app
+  relationships:
+  - type: has_one
+    target: AppKey
+    via: app_id
+- name: Device
+  spec: openapi/zype-platform.json
+  path: /devices
+  relationships:
+  - type: belongs_to
+    target: DeviceCategory
+    via: device_category
+- name: User
+  spec: openapi/zype-platform.json
+  path: /site/users
+  description: Admin user on the Zype property (distinct from Consumer, the viewer).
+- name: AdobeDeviceSession
+  spec: openapi/zype-tve.json
+  description: Adobe Primetime / TVE authentication session; maps an MVPD-authenticated device to a Zype Consumer.
+  relationships:
+  - type: belongs_to
+    target: Consumer
+    via: consumer_id
+most_referenced_ids:
+- field: video_id
+  occurrences: 57
+- field: consumer_id
+  occurrences: 46
+- field: site_id
+  occurrences: 19
+- field: playlist_id
+  occurrences: 16
+- field: transaction_id
+  occurrences: 14
+- field: plan_id
+  occurrences: 12
+- field: zobject_id
+  occurrences: 5
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

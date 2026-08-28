@@ -3,85 +3,46 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Zype
 providerId: zype
+generated: '2026-08-28'
+method: searched
+source: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation, https://www.zype.com/pricing, and
+  header/response analysis of the 15 files in openapi/
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-08-28'
 tags:
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Zype API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+- Rate Limiting
+- Quotas
+- Throttling
+description: Zype publishes no API rate limits. This file records that absence with the evidence for it, replacing
+  a 2026-05-04 generated scaffold that asserted 10/100/1000 req-per-minute tiers and X-RateLimit-* headers Zype
+  has never documented.
+note: 'HONEST ZERO. Searched: the docs overview page (which documents authentication, errors, pagination and video
+  formats but says nothing about limits), every reference page listed in docs.zype.com/llms.txt, the pricing page,
+  and all 15 OpenAPI files. No X-RateLimit-*, RateLimit-*, or Retry-After header is declared on any of the 317 operations;
+  the token 429 appears exactly once across ~1.1MB of specification. There is a real hard limit on page size — per_page
+  maximum 100 on every list operation — and that is the only published quantitative bound on API consumption, so
+  it is recorded below as a pagination limit rather than a rate limit.'
+limit_count: 0
+limits: []
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Zype
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Zype
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Zype
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Zype
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Zype
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+response_codes:
+  throttled: null
+  note: 429 is declared on exactly one operation across all 15 specs and is documented nowhere.
+related_published_bounds:
+- name: per_page maximum
+  value: 100
+  scope: every list operation
+  source: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  note: Pagination is mandatory on all list requests; default 10, maximum 100. An agent enumerating a large library
+    is bound by this, not by a rate limit.
+commercial_model: API access is bundled into the product tier (see plans/zype-plans-pricing.yml). Encoding and content
+  delivery are metered at "preferred usage rates" that are not published, but API requests themselves are not a
+  metered unit.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,403 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Uploads",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://uploads.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/uploads": {
+      "post": {
+        "x-server-name": "upload-api",
+        "summary": "Create Upload",
+        "description": "Upload a video to your library",
+        "operationId": "createUpload",
+        "tags": [
+          "Uploads"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "title": "UploadProperties",
+                "required": [
+                  "upload[file]",
+                  "upload[title]",
+                  "upload[active]"
+                ],
+                "properties": {
+                  "upload[file]": {
+                    "description": "The video file to upload",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "upload[title]": {
+                    "description": "Title of the uploaded video",
+                    "type": "string"
+                  },
+                  "upload[active]": {
+                    "description": "Indicate if the video is ready to be watched",
+                    "type": "boolean"
+                  },
+                  "upload[country]": {
+                    "description": "The country the video was created in",
+                    "type": "string"
+                  },
+                  "upload[on_air]": {
+                    "description": "Indicates if the video is live streaming",
+                    "type": "boolean"
+                  },
+                  "upload[description]": {
+                    "description": "Full length description of the video",
+                    "type": "string"
+                  },
+                  "upload[short_description]": {
+                    "description": "Brief description of the video",
+                    "type": "string"
+                  },
+                  "upload[disable_at]": {
+                    "description": "Timestamp of when your video will become inactive",
+                    "type": "string"
+                  },
+                  "upload[enable_at]": {
+                    "description": "Timestamp of when your video will become active",
+                    "type": "string"
+                  },
+                  "upload[episode]": {
+                    "description": "Episode number",
+                    "type": "number",
+                    "format": "int32"
+                  },
+                  "upload[season]": {
+                    "description": "Season number",
+                    "type": "number",
+                    "format": "int32"
+                  },
+                  "upload[featured]": {
+                    "type": "boolean"
+                  },
+                  "upload[friendly_title]": {
+                    "description": "The URL friendly title of the video",
+                    "type": "string"
+                  },
+                  "upload[keywords]": {
+                    "description": "Keywords for the video",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "upload[mature_content]": {
+                    "description": "Indicates if the video requires the viewer to be 18+ to view",
+                    "type": "boolean"
+                  },
+                  "upload[purchase_required]": {
+                    "description": "Whether or not the video must be purchased",
+                    "type": "boolean"
+                  },
+                  "upload[purchase_price]": {
+                    "description": "Amount to purchase the video",
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "upload[rental_duration]": {
+                    "description": "Number of days a video can be rented",
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "upload[rental_price]": {
+                    "description": "Price to rent the video",
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "upload[rental_required]": {
+                    "description": "Whether or not the video must be rented",
+                    "type": "boolean"
+                  },
+                  "upload[pass_required]": {
+                    "type": "boolean"
+                  },
+                  "upload[published_at]": {
+                    "type": "string"
+                  },
+                  "upload[subscription_required]": {
+                    "type": "boolean"
+                  },
+                  "upload[discovery_url]": {
+                    "description": "URL where your video can be discovered",
+                    "type": "string"
+                  },
+                  "upload[custom_thumbnail_url]": {
+                    "description": "URL where your custom thumbnail is stored",
+                    "type": "string"
+                  },
+                  "upload[subscription_ads_enabled]": {
+                    "type": "boolean"
+                  },
+                  "upload[transcriptions_enabled]": {
+                    "description": "If enabled, an AI transcription with SRT and VTT subtitles will be created",
+                    "type": "boolean"
+                  },
+                  "upload[translations_enabled]": {
+                    "description": "If enabled, the video will be translated using the site's translation languages",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "UploadResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "object",
+                      "title": "Upload",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "deleted_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "on_air": {
+                          "type": "boolean"
+                        },
+                        "purchase_price": {
+                          "description": "Amount to purchase the video",
+                          "type": "number"
+                        },
+                        "purchase_required": {
+                          "description": "Indicates if the video must be purchased before viewing",
+                          "type": "boolean"
+                        },
+                        "rating": {
+                          "description": "Overall rating of the video",
+                          "type": "number"
+                        },
+                        "related_playlist_ids": {
+                          "description": "IDs of related playlists",
+                          "type": "array",
+                          "items": {
+                            "type": "number",
+                            "format": "double"
+                          }
+                        },
+                        "rental_duration": {
+                          "description": "Number of days video can be rented",
+                          "type": "number"
+                        },
+                        "rental_price": {
+                          "description": "Price to rent video",
+                          "type": "number"
+                        },
+                        "rental_required": {
+                          "description": "Indicates if video must be rented before viewing",
+                          "type": "boolean"
+                        },
+                        "request_count": {
+                          "description": "Number of times a video has been requested",
+                          "type": "number"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "crunchyroll_id": {
+                          "description": "ID of Crunchyroll source",
+                          "type": "string"
+                        },
+                        "hulu_id": {
+                          "description": "ID of Hulu source",
+                          "type": "string"
+                        },
+                        "mrss_id": {
+                          "description": "ID of MRSS source",
+                          "type": "string"
+                        },
+                        "kaltura_id": {
+                          "description": "ID of Kaltura source",
+                          "type": "string"
+                        },
+                        "vimeo_id": {
+                          "description": "ID of the Vimeo source",
+                          "type": "string"
+                        },
+                        "youtube_id": {
+                          "description": "ID of the YouTube source",
+                          "type": "string"
+                        },
+                        "thumbnails": {
+                          "description": "Thumbnails attached to the video",
+                          "type": "array"
+                        },
+                        "transcoded": {
+                          "description": "Indicates if video has been transcoded",
+                          "type": "boolean"
+                        },
+                        "video_zobjects": {
+                          "type": "array"
+                        },
+                        "active": {
+                          "type": "boolean"
+                        },
+                        "discovery_url": {
+                          "type": "string"
+                        },
+                        "custom_thumbnail_url": {
+                          "type": "string"
+                        },
+                        "subscription_ads_enabled": {
+                          "type": "boolean"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "zobject_ids": {
+                          "type": "array"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "short_description": {
+                          "type": "string"
+                        },
+                        "disable_at": {
+                          "type": "string"
+                        },
+                        "enable_at": {
+                          "type": "string"
+                        },
+                        "episode": {
+                          "type": "number"
+                        },
+                        "season": {
+                          "type": "number"
+                        },
+                        "featured": {
+                          "type": "boolean"
+                        },
+                        "friendly_title": {
+                          "type": "string"
+                        },
+                        "keywords": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "preview_ids": {
+                          "description": "An array of Zype hosted video ids that are previews for the current video.",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "mature_content": {
+                          "type": "boolean"
+                        },
+                        "pass_required": {
+                          "type": "boolean"
+                        },
+                        "published_at": {
+                          "type": "string"
+                        },
+                        "subscription_required": {
+                          "type": "boolean"
+                        },
+                        "registration_required": {
+                          "description": "Requires a consumer to be registered and authenticated to a valid account in order to view the video.",
+                          "type": "boolean"
+                        },
+                        "custom_attributes": {
+                          "type": "object"
+                        },
+                        "categories_attributes": {
+                          "type": "array"
+                        },
+                        "segments": {
+                          "type": "array"
+                        },
+                        "images_attributes": {
+                          "type": "array"
+                        },
+                        "content_rules": {
+                          "type": "array"
+                        },
+                        "manifest": {
+                          "type": "string",
+                          "description": "URL to HLS manifest for video. Only included in response if params[:manifest] = true"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

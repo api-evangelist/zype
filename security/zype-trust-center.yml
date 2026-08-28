@@ -1,0 +1,36 @@
+generated: '2026-08-28'
+method: probed
+source: https://trust.zype.com/ (HTTP 200) and https://www.zype.com/security-compliance (HTTP 200)
+trust_center:
+  url: https://trust.zype.com
+  http_status: 200
+  platform: Laika / Thoropass Trust Center
+  machine_readable: false
+  note: trust.zype.com returns a 200 whose body is an 814-byte SPA shell (<title>Trust Center</title>, bundle served
+    from laika-app-prod.s3.amazonaws.com/static/trust-center/). The page is a genuine hosted trust center, but every
+    certificate, policy and sub-processor listing inside it is rendered client-side, so nothing on it is machine-readable
+    to a crawler or an agent. The readable substance lives on the HTML page at www.zype.com/security-compliance
+    instead.
+public_compliance_page:
+  url: https://www.zype.com/security-compliance
+  http_status: 200
+  certifications:
+  - SOC 2 Type II
+  - PCI (self-certified)
+  - ISO 27001
+  - GDPR
+  - CCPA
+  sub_processors_disclosed: true
+  cloud_providers:
+  - Amazon Web Services
+  - Google Cloud Platform
+  payment_processors:
+  - Stripe
+  - Recurly
+documents_available_under_nda:
+- SOC 2 Type II report
+- PCI self-certification detail
+- Data Processing Agreement
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,309 @@
+# Zype Documentation
+
+> Documentation for Zype
+
+Append .md to any documentation page URL to get its markdown version.
+
+## API Reference
+- [List Videos](https://docs.zype.com/reference/listvideos.md): Retrieve a list of videos from your library
+- [Create Video](https://docs.zype.com/reference/createvideo.md): Add a video to your library
+- [View Video](https://docs.zype.com/reference/getvideo.md): Retrieve a single video from your library
+- [Update Video](https://docs.zype.com/reference/updatevideo.md): Update a single video from your library
+- [Delete Video](https://docs.zype.com/reference/deletevideo.md): Delete Video
+- [Add Zobject(s)](https://docs.zype.com/reference/addzobject.md): Add one or multiple Zobjects to your video
+- [Remove Zobject](https://docs.zype.com/reference/removezobject.md): Remove one or multiple Zobjects from your video
+- [Download Video](https://docs.zype.com/reference/downloadvideo.md): Download the original source file for your video
+- [List Ad Timings](https://docs.zype.com/reference/listadtimings.md): List Ad Timings for each Ad-Timeable Data Source
+- [List Ad Timings for Single Data Source](https://docs.zype.com/reference/listadtimingssingledatasource.md): List Ad Timings for single Ad-Timeable Data Source
+- [Create Ad Timing](https://docs.zype.com/reference/createadtiming.md): Create new Ad Timing on Data Source
+- [View Ad Timing](https://docs.zype.com/reference/getadtiming.md): Retrieve a single Ad Timing from your Video/Data Source
+- [Update Ad Timing](https://docs.zype.com/reference/updateadtiming.md): Update a single Ad Timing
+- [Destroy Ad Timing](https://docs.zype.com/reference/destroyadtiming.md): Destroy a single Ad Timing
+- [Create Self Hosted Video](https://docs.zype.com/reference/createselfhostedvideo.md): Create and add a Self Hosted Video to your library
+- [List Self Hosted Video Data Sources](https://docs.zype.com/reference/listselfhostedvideodatasources.md): Retrieve a list of self-hosted video data sources
+- [Create a Self Hosted Video Data Source](https://docs.zype.com/reference/createselfhostedvideodatasource.md): Add a data source to a self-hosted video
+- [View Self Hosted Video Data Source](https://docs.zype.com/reference/getselfhostedvideodatasource.md): View Self Hosted Video Data Source
+- [Update Self Hosted Video Data Source](https://docs.zype.com/reference/updateselfhostedvideodatasource.md): Update Self Hosted Video Data Source
+- [Delete Self Hosted Video Data Source](https://docs.zype.com/reference/deleteselfhostedvideodatasource.md): Delete Self Hosted Video Data Source
+- [List Video Sources for a Video](https://docs.zype.com/reference/listvideosourcesforvideo.md)
+- [Bulk Create AI Metadata](https://docs.zype.com/reference/bulkcreateaimetadata.md): Generate AI metadata for multiple videos in bulk
+- [Create AI Metadata](https://docs.zype.com/reference/createaimetadata.md): Generate AI metadata for a video
+- [Get AI Metadata](https://docs.zype.com/reference/getaimetadata.md): Retrieve a specific AI metadata session for a video
+- [Apply AI Metadata](https://docs.zype.com/reference/applyaimetadata.md): Apply the AI-generated metadata from a session to a video
+- [List Playlists](https://docs.zype.com/reference/listplaylists.md)
+- [Create Playlist](https://docs.zype.com/reference/createplaylist.md): Create a new Playlist
+- [View Playlist](https://docs.zype.com/reference/getplaylist.md)
+- [Update Playlist](https://docs.zype.com/reference/updateplaylist.md)
+- [Delete Playlist](https://docs.zype.com/reference/deleteplaylist.md)
+- [List Playlist Videos](https://docs.zype.com/reference/listplaylistvideos.md): Retrieve a list of playlists from your library
+- [List Relative Playlist Videos](https://docs.zype.com/reference/listplaylistvideosrelative.md): Returns a windowed set of videos from a playlist relative to the anchor video
+- [Add Videos](https://docs.zype.com/reference/addvideostoplaylist.md): Add videos to a manual playlist
+- [Remove Videos](https://docs.zype.com/reference/removevideosfromplaylist.md): Remove videos in a playlist
+- [View Relationships](https://docs.zype.com/reference/viewplaylistrelationships.md): Returns a list of playlists and its relationships
+- [List Categories](https://docs.zype.com/reference/listcategories.md)
+- [Create Category](https://docs.zype.com/reference/createcategory.md)
+- [View Category](https://docs.zype.com/reference/getcategory.md)
+- [Update category](https://docs.zype.com/reference/updatecategory.md)
+- [Delete Category](https://docs.zype.com/reference/deletecategory.md)
+- [View App](https://docs.zype.com/reference/getapp.md)
+- [List Subtitles](https://docs.zype.com/reference/listsubtitles.md): List Subtitles
+- [Create Subtitle](https://docs.zype.com/reference/createsubtitle.md): Create Subtitle
+- [View Subtitle](https://docs.zype.com/reference/getsubtitle.md): View Subtitle
+- [Update Subtitle](https://docs.zype.com/reference/updatesubtitle.md): Update Subtitle
+- [Create Subtitle Playlist](https://docs.zype.com/reference/createsubtitleplaylist.md): Create Subtitle Playlist
+- [Delete Subtitle Playlist](https://docs.zype.com/reference/deletesubtitleplaylist.md): Delete Subtitle Playlist
+- [List Program Guides](https://docs.zype.com/reference/listprogramguides.md)
+- [Create Program Guide](https://docs.zype.com/reference/createprogramguide.md)
+- [View Program Guide](https://docs.zype.com/reference/getprogramguide.md)
+- [Update Program Guide](https://docs.zype.com/reference/updateprogramguide.md)
+- [Delete Program Guide](https://docs.zype.com/reference/deleteprogramguide.md)
+- [List Program Guide Entries](https://docs.zype.com/reference/listprogramguideentries.md)
+- [List Devices](https://docs.zype.com/reference/listdevices.md)
+- [View Device](https://docs.zype.com/reference/getdevice.md)
+- [List Devices Categories](https://docs.zype.com/reference/listdevicecategories.md)
+- [View Device Category](https://docs.zype.com/reference/getdevicecategory.md)
+- [View GeoIP](https://docs.zype.com/reference/getgeoip.md): Retrieve the GeoIP object for a specific IP Address
+- [List Segments](https://docs.zype.com/reference/listsegments.md): List Segments
+- [Create Segment](https://docs.zype.com/reference/createsegment.md): Create Segment
+- [View Segment](https://docs.zype.com/reference/getsegment.md): View Segment
+- [Update Segment](https://docs.zype.com/reference/updatesegment.md): Update Segment
+- [Delete Segment](https://docs.zype.com/reference/deletesegment.md): Delete Segment
+- [List Transcriptions](https://docs.zype.com/reference/listtranscriptions.md): List Transcriptions
+- [View Transcription](https://docs.zype.com/reference/gettranslation.md): Retrieve a single transcription or translation
+- [Transcribe video](https://docs.zype.com/reference/transcribevideo.md): Transcribe video
+- [Translate video](https://docs.zype.com/reference/translatevideo.md): Translate video
+- [List translation languages](https://docs.zype.com/reference/listlanguages.md): List possible translation languages
+- [List Video Imports](https://docs.zype.com/reference/listvideoimports.md)
+- [Create Video Import](https://docs.zype.com/reference/createvideoimport.md): Import a video from a 3rd party source url
+- [Attach a Video to a Video Import](https://docs.zype.com/reference/addvideotoimport.md): Attach a video import as a Source to a video in the library
+- [View Video Import](https://docs.zype.com/reference/getvideoimport.md)
+- [List Video Sources](https://docs.zype.com/reference/listvideosources.md)
+- [Create Video Source](https://docs.zype.com/reference/createvideosource.md): Only MRSS video sources may be created via the API at this time.
+- [View Video Source](https://docs.zype.com/reference/getvideosource.md)
+- [Update Video Source](https://docs.zype.com/reference/updatevideosource.md)
+- [Delete a Video Source](https://docs.zype.com/reference/deletevideosource.md)
+- [List Admin Users](https://docs.zype.com/reference/listusers.md): Retrieve a list of administrative users on your property.
+- [Create User](https://docs.zype.com/reference/createuser.md): Add an admin user to your property
+- [View User](https://docs.zype.com/reference/getuser.md): Retrieve a single admin user from your site
+- [Update user](https://docs.zype.com/reference/updateuser.md): Update a single user on your property
+- [Remove an admin user from your property.](https://docs.zype.com/reference/removeuser.md): Admin users are global, and can have access to multiple zype properties.  This method does not delete the user, it only removes it from your property.
+- [List Encoders](https://docs.zype.com/reference/listv1encoders.md): Retrieve a list of encoders from your account
+- [View Encoder](https://docs.zype.com/reference/getv1encoder.md)
+- [Start an Encoder](https://docs.zype.com/reference/startv1encoder.md)
+- [Stop an Encoder](https://docs.zype.com/reference/stopv1encoder.md)
+- [List Targets RTMP entries](https://docs.zype.com/reference/listtargetrtmp.md): Retrieve a list of target rtmp entries from your encoder
+- [View Target RTMP entry](https://docs.zype.com/reference/gettargetrtmp.md)
+- [List Encoders](https://docs.zype.com/reference/listencoders.md): Retrieve a list of live encoders from your account
+- [Create Encoder](https://docs.zype.com/reference/createencoder.md): Create a new live encoder
+- [View Encoder](https://docs.zype.com/reference/getencoder.md): Retrieve details of a specific live encoder
+- [Update Encoder](https://docs.zype.com/reference/updateencoder.md): Update an existing live encoder
+- [Delete Encoder](https://docs.zype.com/reference/deleteencoder.md): Delete a live encoder
+- [Start Encoder](https://docs.zype.com/reference/startencoder.md): Start broadcasting with a live encoder. This will schedule the RTMP input to the timeline, publish the draft schedule, and start the encoder.
+- [Stop Encoder](https://docs.zype.com/reference/stopencoder.md): Stop broadcasting with a live encoder
+- [Sync Encoder](https://docs.zype.com/reference/syncencoder.md): Synchronize the encoder data with the external streaming provider. This fetches the latest encoder state and updates the local configuration.
+- [List Live Events](https://docs.zype.com/reference/listliveevents.md)
+- [Create Live Event](https://docs.zype.com/reference/createliveevent.md)
+- [View Live Event](https://docs.zype.com/reference/getliveevent.md)
+- [Update live event](https://docs.zype.com/reference/updateliveevent.md)
+- [Delete live event](https://docs.zype.com/reference/deleteliveevent.md)
+- [Start broadcasting a live event](https://docs.zype.com/reference/startliveevent.md): Use this endpoint to start broadcasting your live event.
+- [Stop broadcasting a live event](https://docs.zype.com/reference/stopliveevent.md): Use this endpoint to end broadcasting your live event.
+- [Archive a live event](https://docs.zype.com/reference/archiveliveevent.md): Use this endpoint to archive your live event. Only perform this action once your event has ended.
+- [List Content Rule Profiles](https://docs.zype.com/reference/listcontentruleprofiles.md): Retrieve the content rule profiles for the current site.
+- [Create Content Rule Profile](https://docs.zype.com/reference/createcontentruleprofile.md): Create a content rule profile for the current site.
+- [List Cities For State](https://docs.zype.com/reference/listcitiesforstate.md): Return the available city options for a state code.
+- [List States For Country](https://docs.zype.com/reference/liststatesforcountry.md): Return the available state options for a country code. The current implementation only returns results for `US`.
+- [View Content Rule Profile](https://docs.zype.com/reference/getcontentruleprofile.md): Retrieve a single content rule profile from the current site.
+- [Update Content Rule Profile](https://docs.zype.com/reference/updatecontentruleprofile.md): Update a content rule profile for the current site.
+- [Delete Content Rule Profile](https://docs.zype.com/reference/deletecontentruleprofile.md): Delete a content rule profile from the current site.
+- [List content rule groups](https://docs.zype.com/reference/listcontentrulegroups.md): Retrieve custom content rule groups (e.g. country groupings) for the current site.
+- [Create content rule group](https://docs.zype.com/reference/createcontentrulegroup.md): Create a custom content rule group for the current site.
+- [View content rule group](https://docs.zype.com/reference/getcontentrulegroup.md): Retrieve a single content rule group from the current site.
+- [Update content rule group](https://docs.zype.com/reference/updatecontentrulegroup.md): Update a content rule group for the current site.
+- [Delete content rule group](https://docs.zype.com/reference/deletecontentrulegroup.md): Delete a content rule group from the current site.
+- [List global content rule groups](https://docs.zype.com/reference/listglobalcontentrulegroups.md): Retrieve the platform global content rule group catalog.
+- [View global content rule group](https://docs.zype.com/reference/getglobalcontentrulegroup.md): Retrieve a single global content rule group by id from the platform catalog. Read-only. Same response shape as custom content rule groups.
+- [Create Upload](https://docs.zype.com/reference/createupload.md): Upload a video to your library
+- [List Consumers](https://docs.zype.com/reference/listconsumers-1.md)
+- [Create Consumers](https://docs.zype.com/reference/createconsumer-1.md)
+- [View Consumer](https://docs.zype.com/reference/getconsumer-1.md)
+- [Update Consumer](https://docs.zype.com/reference/updateconsumer-1.md)
+- [Delete Consumer](https://docs.zype.com/reference/deleteconsumer-1.md)
+- [Reset Consumer Parental Access Code](https://docs.zype.com/reference/resetconsumerparentalaccesscode.md): Consumer Parental Access code will be reset, and email is sent to the consumer initiating a reset parental access code flow.
+- [Initiate Consumer Forgot Password Flow - Consumer receives forgot password email.](https://docs.zype.com/reference/resetpasswordflow.md)
+- [Reset Consumer's Password Flow](https://docs.zype.com/reference/updatepassword.md)
+- [Retrieve Device Pin](https://docs.zype.com/reference/getpinstatus-1.md)
+- [Acquire Device Pin](https://docs.zype.com/reference/acquiredevicepin-1.md)
+- [Link Device Pin](https://docs.zype.com/reference/linkdevicepin-1.md)
+- [Unlink Device Pin](https://docs.zype.com/reference/unlinkdevicepin-1.md)
+- [Check Video Entitlement](https://docs.zype.com/reference/checkvideoentitlement-1.md): Check Video Entitlement
+- [List Video Entitlements](https://docs.zype.com/reference/listvideoentitlements-1.md)
+- [Create video entitlement](https://docs.zype.com/reference/createvideoentitlement-1.md)
+- [View Video Entitlement](https://docs.zype.com/reference/viewvideoentitlement-1.md)
+- [Update Video Entitlement](https://docs.zype.com/reference/updatevideoentitlement-1.md)
+- [Delete Video Entitlement](https://docs.zype.com/reference/deletevideoentitlement-1.md)
+- [List Playlist Entitlements](https://docs.zype.com/reference/listplaylistentitlements-1.md)
+- [Create a Playlist Entitlement](https://docs.zype.com/reference/createplaylistentitlement-1.md)
+- [View Playlist Entitlement](https://docs.zype.com/reference/getplaylistentitlement-1.md)
+- [Update Playlist Entitlement](https://docs.zype.com/reference/updateplaylistentitlement-1.md)
+- [Delete Playlist Entitlement](https://docs.zype.com/reference/deleteplaylistentitlement-1.md)
+- [List Subscription Entitlements](https://docs.zype.com/reference/listsubscriptionentitlements.md)
+- [List Video Favorites](https://docs.zype.com/reference/listvideofavorites-1.md)
+- [Create Video Favorite](https://docs.zype.com/reference/createvideofavorite-1.md)
+- [Delete Video Favorite](https://docs.zype.com/reference/deletevideofavorite-1.md)
+- [List Subscriptions](https://docs.zype.com/reference/listsubscriptions-1.md)
+- [Create a Subscription](https://docs.zype.com/reference/createsubscription-1.md)
+- [View Subscription](https://docs.zype.com/reference/getsubscription-1.md)
+- [Update Subscription](https://docs.zype.com/reference/updatesubscription-1.md)
+- [Delete Subscription](https://docs.zype.com/reference/deletesubscription-1.md)
+- [Cancel Subscription](https://docs.zype.com/reference/cancelsubscription.md)
+- [Reactivate Cancelled Subscription](https://docs.zype.com/reference/reactivatesubscription.md)
+- [List Plans](https://docs.zype.com/reference/listplans-1.md)
+- [Create Plan](https://docs.zype.com/reference/createplan-1.md)
+- [View Plan](https://docs.zype.com/reference/getplan-1.md)
+- [Update Plan](https://docs.zype.com/reference/updateplan-1.md)
+- [Delete Plan](https://docs.zype.com/reference/deleteplan-1.md)
+- [Add Playlists to a Tiered Subscription Plan](https://docs.zype.com/reference/addplaylists-1.md): This operation is only used for Tiered Subscription Plans (i.e., plans that have entitle_type=tiered). This operation is used to determine which videos belonging to playlists in your library should be accessible to each Tiered Subscription Plan. Once you add a playlist to a Tiered Plan, any child playlists (and videos belonging to those child playlists) will also inherit the subscription requirements from that Tiered Plan. Note: This operation will only add the specified Playlists to the Tiered Plan, it won’t remove any of the existing Playlists associated to it. Note: If a video is currently monetized with a purchase, rental, or pass plan, and your property does NOT support multiple monetization, then adding that video to a playlist within a tiered subscription will disable the existing purchase, rental, or pass plan paywall and switch the paywall monetization on the video to the tiered subscription plan.
+- [Remove Playlists from a Subscription Plan](https://docs.zype.com/reference/removeplaylists-1.md): Note: This operation will only remove the specified Playlists to the Plan, if they exist.
+- [List Transactions](https://docs.zype.com/reference/listtransactions-1.md)
+- [Create Transactions](https://docs.zype.com/reference/createtransaction-1.md)
+- [View Transaction](https://docs.zype.com/reference/gettransaction-1.md)
+- [Update a Transaction](https://docs.zype.com/reference/updatetransaction-1.md)
+- [Delete Transaction](https://docs.zype.com/reference/deletetransaction-1.md)
+- [List Redemption Codes](https://docs.zype.com/reference/listredemptioncodes-1.md)
+- [Create Redemption Codes](https://docs.zype.com/reference/createredemptioncode-1.md)
+- [View Redemption Code](https://docs.zype.com/reference/getredemptioncode.md)
+- [Update Redemption Code](https://docs.zype.com/reference/updateredemptioncode.md)
+- [Delete Redemption Code](https://docs.zype.com/reference/deleteredemptioncode.md)
+- [Redeem an available Redemption Code](https://docs.zype.com/reference/redeem.md)
+- [Create multiple Redemption Codes at once](https://docs.zype.com/reference/bulkcreate.md)
+- [List Ad Tags](https://docs.zype.com/reference/listadtags-1.md)
+- [Create Ad Tags](https://docs.zype.com/reference/createadtag-1.md)
+- [View Ad Tag](https://docs.zype.com/reference/getadtag-1.md)
+- [Update Ad Tag](https://docs.zype.com/reference/updateadtag-1.md)
+- [Delete Ad Tag](https://docs.zype.com/reference/deleteadtag-1.md)
+- [List Revenue Models](https://docs.zype.com/reference/listrevenuemodels-1.md)
+- [View Revenue Model](https://docs.zype.com/reference/getrevenuemodel-1.md)
+- [View Player](https://docs.zype.com/reference/getplayer.md): The full URL will look like https://player.zype.com/embed/[video_id].[format]. The format for the player response must be one of Iframes, JavaScript or JSON players  depending on device capabilities (Example: html, js, json). Use a consumer's access token or your site's API/App/Player keys to authenticate this call.
+- [View Playlist Carousel Embed](https://docs.zype.com/reference/getplaylistcarouselembed.md): The full URL will look like https://player.zype.com/playlists/[playlist_id]/carousel.[format]. The format for the player response must be one of Iframes, JavaScript (Example: html, js). Use a consumer's access token or your site's API/App/Player keys to authenticate this call.
+- [List Zobject Types](https://docs.zype.com/reference/listzobjecttypes.md)
+- [Create Zobject Type](https://docs.zype.com/reference/createzobjecttype-1.md)
+- [Retrieve Zobject Type](https://docs.zype.com/reference/getzobjecttype-1.md)
+- [Update Zobject Type](https://docs.zype.com/reference/updatezobjecttype-1.md)
+- [Delete Zobject Type](https://docs.zype.com/reference/deletezobjecttype-1.md)
+- [List Zobjects](https://docs.zype.com/reference/listzobjects-1.md): Retrieve the site Zobjects.  Appart from the fields listed below, you can also filter by custom attributes. Format: `key=value`. Example: if you have a custom attribute `psl_id` you can filter by `psl_id=1234`
+- [Create Zobject](https://docs.zype.com/reference/createzobject-1.md)
+- [Retrieve Zobject](https://docs.zype.com/reference/getzobject-1.md)
+- [Update Zobject](https://docs.zype.com/reference/updatezobject-1.md)
+- [Delete Zobject](https://docs.zype.com/reference/deletezobject-1.md)
+- [Add Video(s)](https://docs.zype.com/reference/addvideozobject-1.md): Add videos to a Zobject
+- [Remove Video(s)](https://docs.zype.com/reference/removevideozobject.md): Remove videos from a Zobject
+- [Retrieve Video(s)](https://docs.zype.com/reference/videoszobject.md): Retrieve all videos linked with a Zobject
+- [Add Playlist(s)](https://docs.zype.com/reference/addplaylistzobject.md): Add playlists to a Zobject
+- [Remove Playlist(s)](https://docs.zype.com/reference/removeplaylistzobject.md): Remove playlists from a Zobject
+- [Retrieve Playlist(s)](https://docs.zype.com/reference/playlistszobject.md): Retrieve all playlists linked with a Zobject
+- [Retrieving an Access Token](https://docs.zype.com/reference/retrieveaccesstoken.md): The password grant flow allows you to pass in a user’s username (email address) and password to get an access token in return.
+- [Retrieving Access Token Status](https://docs.zype.com/reference/retrieveaccesstokenstatus.md)
+- [Revoke Access Token](https://docs.zype.com/reference/post_oauth-revoke-1.md): This requests revokes an access token, removing the session from the active logins list.
+- [List Consumers](https://docs.zype.com/reference/analytics-consumers-v3-1.md): This endpoint will return consumer analytics data for your property.
+- [List Metrics Data](https://docs.zype.com/reference/metrics-v3-1.md): This endpoint returns analytics data showing how your OTT business changes over time.
+- [List Player Requests](https://docs.zype.com/reference/player-requests-v3-1.md): This endpoint will return Player Request analytics data for your property.
+- [List Stream Hours](https://docs.zype.com/reference/streamhoursv3-1.md): This endpoint will retrieve stream hour data for your property.
+- [List Playout Hours](https://docs.zype.com/reference/playouthours-1.md): This endpoint to retrieve hours requested data for Playout Channels. This allows customers who are distributing Playout Channels where Zype supports the delivery to measure and track detailed information related to their Playout Channel hours requested.
+- [List New Subscriptions](https://docs.zype.com/reference/new-subscriptions-v3-1.md): This endpoint will return new subscription analytics data for your property.
+- [List Subscription Events](https://docs.zype.com/reference/subscriptionevents-v3-1.md): This endpoint will counts of subscription creations, trials started, pauses, and cancellations for your property
+- [List Subscription Revenue](https://docs.zype.com/reference/subscriptionrevenue-v3-1.md): This endpoint will return subscription revenue data for your property, optionally grouped by day, for the date range supplied in filters[start_date] and filters[end_date]. The aggregate or daily data will be rendered as: "2021-03-01": { currency_code1: amount1, currency_code2: amount2 } where currency_code is a standard ISO 4217 code (USD, CAD, etc), and amount is a number representing the quantity of the given currency.
+- [List New Transactions](https://docs.zype.com/reference/new-transactions-v3-1.md): This endpoint will return new transaction analytics data for your property.
+- [Plays](https://docs.zype.com/reference/plays-v3-1.md): The plays endpoint provides insights on the number of times content has been played. It returns data on how many times content has been played, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.
+- [Viewers](https://docs.zype.com/reference/viewers-v3-1.md): The viewers endpoint provides insights on how many unique viewers have watched content. It returns data on how many unique viewers have watched content, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.
+- [Hours Watched](https://docs.zype.com/reference/hours-watched-v3-1.md): The hours watched endpoint provides insights on the amount of hours contet has been watched. It returns data on how many hours content has been watched, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.
+- [View Time](https://docs.zype.com/reference/view-time-v3.md): The view time endpoint provides insights on the average amount of time content has been watched. It returns data on the average amount of time content has been watched, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.
+- [List Channels](https://docs.zype.com/reference/getplayoutschedulerchannels.md)
+- [Create Channel](https://docs.zype.com/reference/createplayoutschedulerchannel.md)
+- [View Channel](https://docs.zype.com/reference/getplayoutschedulerchannel.md)
+- [Delete Channel](https://docs.zype.com/reference/deletechannel.md)
+- [Update Channel](https://docs.zype.com/reference/updatechannel.md)
+- [Stop On-Air Channel](https://docs.zype.com/reference/stoplivechannel.md)
+- [Sync automated graphic insertions](https://docs.zype.com/reference/graphicssync.md): Sync the automated graphic insertions configured for the channel on every future track item (performed asynchronously).
+- [List HLS Profiles](https://docs.zype.com/reference/get_scheduler-v1-profiles-hls.md)
+- [Create HLS Profile](https://docs.zype.com/reference/createhlsprofile.md)
+- [View HLS Profile](https://docs.zype.com/reference/gethlsprofile.md)
+- [Delete HLS Profile](https://docs.zype.com/reference/deletehlsprofile.md)
+- [Update HLS Profile](https://docs.zype.com/reference/updatehlsprofile.md)
+- [Duplicate HLS Profile](https://docs.zype.com/reference/duplicatehlsprofile.md)
+- [List UDP Profiles](https://docs.zype.com/reference/get_scheduler-v1-profiles-udp.md)
+- [Create UDP Profile](https://docs.zype.com/reference/createudpprofile.md)
+- [View UDP Profile](https://docs.zype.com/reference/getudpprofile.md)
+- [Delete UDP Profile](https://docs.zype.com/reference/deleteudpprofile.md)
+- [Update UDP Profile](https://docs.zype.com/reference/updateudpprofile.md)
+- [Duplicate UDP Profile](https://docs.zype.com/reference/duplicateudpprofile.md)
+- [List RTMP Profiles](https://docs.zype.com/reference/get_scheduler-v1-profiles-rtmp.md)
+- [Create RTMP Profile](https://docs.zype.com/reference/creatertmpprofile.md)
+- [View RTMP Profile](https://docs.zype.com/reference/getrtmpprofile.md)
+- [Delete RTMP Profile](https://docs.zype.com/reference/deletertmpprofile.md)
+- [Update RTMP Profile](https://docs.zype.com/reference/updatertmpprofile.md)
+- [Duplicate RTMP Profile](https://docs.zype.com/reference/duplicatertmpprofile.md)
+- [List Destination Types](https://docs.zype.com/reference/getdestinationtypes.md)
+- [View Destination Type](https://docs.zype.com/reference/getdestinationtype.md)
+- [List Destinations](https://docs.zype.com/reference/getchannelsdestinations.md)
+- [Create Destination](https://docs.zype.com/reference/createchanneldestination.md)
+- [View Destination](https://docs.zype.com/reference/getchanneldestination.md)
+- [Delete Destination](https://docs.zype.com/reference/deletechanneldestination.md)
+- [Update Destination](https://docs.zype.com/reference/updatechanneldestination.md)
+- [View Channel's Draft](https://docs.zype.com/reference/getplayoutschedulerchanneldraft.md)
+- [View track item's automated graphics](https://docs.zype.com/reference/getplayoutschedulertrackitemgraphics.md): Returns automated graphics associated with the given track item id
+- [View Channel Draft's Schedule Rundown](https://docs.zype.com/reference/getplayoutschedulerchanneldraftsrundown.md)
+- [Publish Channel's Draft](https://docs.zype.com/reference/publishplayoutschedulerchanneldraft.md)
+- [List Operations](https://docs.zype.com/reference/getplayoutscheduleroperations.md)
+- [Create Operation](https://docs.zype.com/reference/createplayoutscheduleroperation.md)
+- [Revert all operations](https://docs.zype.com/reference/revertallplayoutscheduleroperations.md)
+- [View Operation](https://docs.zype.com/reference/getplayoutscheduleroperation.md)
+- [Revert a Draft Schedule to the specified operation](https://docs.zype.com/reference/revertplayoutscheduleroperation.md)
+- [Get Upload](https://docs.zype.com/reference/getupload.md): Retrieve an upload
+- [View Channel's Published](https://docs.zype.com/reference/getplayoutschedulerchannelpublished.md)
+- [List Blocks](https://docs.zype.com/reference/getplayoutschedulerblocksv2.md)
+- [Create Block](https://docs.zype.com/reference/createplayoutschedulerblockv2.md)
+- [View Block](https://docs.zype.com/reference/getplayoutschedulerblockv2.md)
+- [Update Block](https://docs.zype.com/reference/updateblockv2.md)
+- [Delete Block](https://docs.zype.com/reference/deleteblockv2.md)
+- [List Ads](https://docs.zype.com/reference/listadsv2.md): Retrieve a list of ads from your library
+- [View Ad](https://docs.zype.com/reference/getadv2.md): Retrieve a single ad from your library
+- [List Bumpers](https://docs.zype.com/reference/listbumpersv2.md): Retrieve a list of ads from your library
+- [View Bumper](https://docs.zype.com/reference/getbumperv2.md): Retrieve a single bumper from your library
+- [List Videos](https://docs.zype.com/reference/listvideosv2.md): Retrieve a list of videos from your library
+- [View Video](https://docs.zype.com/reference/getplayoutvideov2.md): Retrieve a single video from your library
+- [List Playlists](https://docs.zype.com/reference/listplayoutplaylistsv2.md): Retrieve a list of playlists from your library
+- [View Playlist](https://docs.zype.com/reference/getplayoutplaylistv2.md): Retrieve a single playlist from your library
+- [List Ad Timings](https://docs.zype.com/reference/getplayoutscheduleradtimings.md)
+- [Create Ad Timing](https://docs.zype.com/reference/createplayoutscheduleradtiming.md)
+- [Delete Ad Timings](https://docs.zype.com/reference/deleteplayoutscheduleradtimings.md): Resets all ad timings associated with the asset (deletes the ones created in Playout and resets the ones coming from CMS)
+- [Update Ad Timing](https://docs.zype.com/reference/updateplayoutscheduleradtiming.md)
+- [Delete Ad Timing](https://docs.zype.com/reference/deleteplayoutscheduleradtiming.md)
+- [List Live Assets](https://docs.zype.com/reference/getplayoutschedulerliveassets.md)
+- [Create Live Asset](https://docs.zype.com/reference/createplayoutschedulerliveasset.md)
+- [Update Live Asset](https://docs.zype.com/reference/updateplayoutschedulerliveasset.md)
+- [Delete Live Asset](https://docs.zype.com/reference/deleteplayoutschedulerliveasset.md)
+- [List Graphics](https://docs.zype.com/reference/getgraphics.md): Get graphics in your library
+- [Create Graphic](https://docs.zype.com/reference/creategraphic.md): Add a new graphic to your library
+- [View Graphic](https://docs.zype.com/reference/getgraphic.md): Retrieve a single graphic from your library
+- [Update Graphic](https://docs.zype.com/reference/updategraphic.md): Update a graphic asset in your library
+- [Delete Graphic](https://docs.zype.com/reference/deletegraphic.md): Delete a graphic from your library
+- [Create Upload](https://docs.zype.com/reference/createuploadplayout.md)
+- [JSON Rundown EPG](https://docs.zype.com/reference/getplayoutschedulerchannelpublishedjsonrundownepg.md): Use this endpoint to get the published JSON EPG
+- [View Channel's Published Rundown XMLTV format](https://docs.zype.com/reference/channelxmltvepg.md): This endpoint provides access to EPG data in XMLTV format. XMLTV is a standardized XML-based format for exchanging TV listings and EPG data. This endpoint allows you to retrieve comprehensive and structured information about scheduled TV programs, including program names, descriptions, start times, end times, channels, and more. The response will contain the EPG data in XMLTV format, which you can parse and use to display TV program listings in your application.
+- [Vizio EPG](https://docs.zype.com/reference/getvizioepg.md)
+- [Tcl EPG](https://docs.zype.com/reference/gettclepg.md)
+- [Wurl EPG](https://docs.zype.com/reference/getwurlepg.md)
+- [Roku EPG](https://docs.zype.com/reference/getrokuepg.md)
+- [List Recurrence Rules](https://docs.zype.com/reference/getrecurrencerules.md)
+- [Create Recurrence Rule](https://docs.zype.com/reference/createrecurrencerule.md)
+- [View Recurrence Rule](https://docs.zype.com/reference/getrecurrencerule.md)
+- [Delete Recurrence Rule](https://docs.zype.com/reference/deleterecurrencerule.md)
+- [Update Recurrence Rule](https://docs.zype.com/reference/updaterecurrencerule.md)
+- [Adobe](https://docs.zype.com/reference/adobe.md)
+- [Register Adobe Device Session](https://docs.zype.com/reference/postregisteradobedevicesession.md): Register the Adobe Session device info in Zype
+- [Creates a Zype's Consumer](https://docs.zype.com/reference/postcreatezypeconsumer.md): Given the device session ID, returned in the response of the Register Adobe Device Session endpoint, this endpoint creates a Zype's Consumer.
+- [Validate Device Session token](https://docs.zype.com/reference/postvalidatedevicesession.md): Indicates whether the device has an unexpired authentication token.
+- [Retrieves the list of preauthorized resources](https://docs.zype.com/reference/postretrievepreauthorizedresources.md): This endpoint retrieves the list of resources that have been preauthorized for the specified device session.
+- [Obtains Short Media Token.](https://docs.zype.com/reference/postobtainshortmediatoken.md): Obtain a short-lived media token for Adobe TVE authentication.
+- [Destroys Device Session.](https://docs.zype.com/reference/postremoveadobedevicesession.md): Remove the Adobe Device Session from Zype and Adobe's authn and authz token.

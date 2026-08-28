@@ -1,0 +1,657 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Content Rule Profiles",
+    "version": "1.0.0",
+    "description": "Content rule profile endpoints for managing reusable profile-based geo and access rules."
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/v3/content_rule_profiles": {
+      "get": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "List Content Rule Profiles",
+        "description": "Retrieve the content rule profiles for the current site.",
+        "operationId": "listContentRuleProfiles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of content rule profiles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ContentRuleProfilesResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1v3~1content_rule_profiles/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "Create Content Rule Profile",
+        "description": "Create a content rule profile for the current site.",
+        "operationId": "createContentRuleProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ContentRuleProfileRequest",
+                "type": "object",
+                "required": [
+                  "content_rule_profile"
+                ],
+                "properties": {
+                  "content_rule_profile": {
+                    "title": "ContentRuleProfileProperties",
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "is_default_profile": {
+                        "type": "boolean"
+                      },
+                      "content_rules_attributes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "Used to update or remove an existing rule."
+                            },
+                            "_destroy": {
+                              "type": "boolean",
+                              "description": "Set to `true` to remove an existing rule."
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "match_type": {
+                              "type": "string",
+                              "description": "Valid values include `global`, `country`, `state`, `city`, `zip_code`, `dma_code`, and `ip_address`."
+                            },
+                            "priority": {
+                              "type": "integer"
+                            },
+                            "stackable": {
+                              "type": "boolean"
+                            },
+                            "policy": {
+                              "type": "string",
+                              "description": "Valid values are `allow` and `deny`."
+                            },
+                            "enabled": {
+                              "type": "boolean"
+                            },
+                            "countries": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "states": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "cities": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "zip_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "dma_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "ip_addresses": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "ip_ranges": {
+                              "type": "array",
+                              "description": "For `match_type` `ip_address`. Same semantics as `ContentRuleProfileRule.ip_ranges`.",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "start": {
+                                    "type": "string"
+                                  },
+                                  "end": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "content_rule_group_ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "Site or global content rule group IDs whose `group_type` matches the rule `match_type`."
+                            },
+                            "geographies": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "countries": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "states": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "cities": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "zip_codes": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "dma_codes": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ContentRuleProfileResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "ContentRuleProfile",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "is_default_profile": {
+                          "type": "boolean"
+                        },
+                        "content_rules": {
+                          "type": "array",
+                          "items": {
+                            "title": "ContentRuleProfileRule",
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string"
+                              },
+                              "policy": {
+                                "type": "string",
+                                "description": "Valid values are `allow` and `deny`."
+                              },
+                              "priority": {
+                                "type": "integer",
+                                "description": "Rule priority. Lower values are evaluated first."
+                              },
+                              "countries": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "states": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "cities": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "zip_codes": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "dma_codes": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "ip_addresses": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "description": "For `match_type` `ip_address`, single hosts or CIDR blocks (e.g. `192.168.1.0/24`). May be empty when `ip_ranges` is non-empty."
+                              },
+                              "ip_ranges": {
+                                "type": "array",
+                                "description": "Inclusive start\u2013end pairs for `match_type` `ip_address`. At least one entry in `ip_addresses` or `ip_ranges` is required for IP rules. Bounds must be literal host addresses (not CIDR).",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "start": {
+                                      "type": "string"
+                                    },
+                                    "end": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "content_rule_group_ids": {
+                                "type": "array",
+                                "description": "IDs of site `ContentRuleGroup` documents or global catalog groups. When present, the rule matches if individual criteria match **or** any linked group matches the viewer location for the same dimension as `match_type`. `group_type` on each referenced group must match the rule's `match_type`. Omitted or empty means no group branch.",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "match_type": {
+                                "type": "string",
+                                "description": "Valid values include `global`, `country`, `state`, `city`, `zip_code`, `dma_code`, and `ip_address`."
+                              },
+                              "enabled": {
+                                "type": "boolean"
+                              },
+                              "created_at": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_rule_profiles/cities_for_state": {
+      "get": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "List Cities For State",
+        "description": "Return the available city options for a state code.",
+        "operationId": "listCitiesForState",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Two-letter state code, for example `CA` or `NY`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "City options for the selected state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "LocationOptionsResponse",
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "title": "LocationOption",
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_rule_profiles/states_for_country": {
+      "get": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "List States For Country",
+        "description": "Return the available state options for a country code. The current implementation only returns results for `US`.",
+        "operationId": "listStatesForCountry",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ISO alpha-2 country code, for example `US`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "State options for the selected country.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles~1cities_for_state/get/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_rule_profiles/{id}": {
+      "get": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "View Content Rule Profile",
+        "description": "Retrieve a single content rule profile from the current site.",
+        "operationId": "getContentRuleProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of content rule profile."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return content rule profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content rule profile not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "Update Content Rule Profile",
+        "description": "Update a content rule profile for the current site.",
+        "operationId": "updateContentRuleProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of content rule profile."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1v3~1content_rule_profiles/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated content rule profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content rule profile not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Content Rule Profiles"
+        ],
+        "summary": "Delete Content Rule Profile",
+        "description": "Delete a content rule profile from the current site.",
+        "operationId": "deleteContentRuleProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of content rule profile."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Content rule profile deleted successfully."
+          },
+          "404": {
+            "description": "Content rule profile not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_profiles/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

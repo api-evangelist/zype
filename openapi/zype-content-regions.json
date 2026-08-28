@@ -1,0 +1,466 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Custom Regions",
+    "version": "1.0.0",
+    "description": "Site-scoped **Custom Regions** and the read-only **Global Content Regions** catalog.\n\nReadMe maps `info.title` to the API **category** and each operation's **first** `tags` entry to a **page** under that category, then `summary` lines as endpoint subpages. After upload you should see: Content Regions \u2192 Custom Regions \u2192 (5 endpoints), then Global Content Regions \u2192 (2 endpoints). If you still see two top-level categories, remove a duplicate API definition or manual category in the ReadMe dashboard so only this OpenAPI file powers this section.\n"
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Custom Regions",
+      "description": "CRUD for custom country groupings on the current site."
+    },
+    {
+      "name": "Global Content Regions",
+      "description": "Read-only platform catalog shared across all sites."
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/v3/content_regions": {
+      "get": {
+        "tags": [
+          "Custom Regions"
+        ],
+        "summary": "List content regions",
+        "description": "Retrieve custom content regions (country groupings) for the current site.",
+        "operationId": "listContentRegions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of content regions, ordered by name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ContentRegionsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1v3~1content_regions/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Custom Regions"
+        ],
+        "summary": "Create Content region",
+        "description": "Create a custom content region for the current site.",
+        "operationId": "createContentRegion",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ContentRegionRequest",
+                "type": "object",
+                "required": [
+                  "content_region"
+                ],
+                "properties": {
+                  "content_region": {
+                    "title": "ContentRegionProperties",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "country_codes": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ContentRegionResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "ContentRegion",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "country_codes": {
+                          "type": "array",
+                          "description": "ISO 3166-1 alpha-2 country codes (uppercase). Empty strings are stripped and values are normalized on save.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_regions/{id}": {
+      "get": {
+        "tags": [
+          "Custom Regions"
+        ],
+        "summary": "View Content Region",
+        "description": "Retrieve a single content region from the current site.",
+        "operationId": "getContentRegion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the content region."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return content region.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content region not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Custom Regions"
+        ],
+        "summary": "Update Content Region",
+        "description": "Update a content region for the current site.",
+        "operationId": "updateContentRegion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the content region."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1v3~1content_regions/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated content region.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content region not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Custom Regions"
+        ],
+        "summary": "Delete Content Region",
+        "description": "Delete a content region from the current site.",
+        "operationId": "deleteContentRegion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the content region."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Content region deleted successfully."
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content region not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/global_content_regions": {
+      "get": {
+        "tags": [
+          "Global Content Regions"
+        ],
+        "summary": "List Global Content Regions",
+        "description": "Retrieve the platform global content region catalog.\n",
+        "operationId": "listGlobalContentRegions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of global content regions, ordered by name (case-insensitive).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/global_content_regions/{id}": {
+      "get": {
+        "tags": [
+          "Global Content Regions"
+        ],
+        "summary": "View Global Content Region",
+        "description": "Retrieve a single global content region by id from the platform catalog.\nRead-only. Same response shape as custom content regions.\n",
+        "operationId": "getGlobalContentRegion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the global content region (from the catalog)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return global content region.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Global content region not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_regions/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

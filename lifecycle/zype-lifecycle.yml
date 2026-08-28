@@ -1,0 +1,57 @@
+generated: '2026-08-28'
+method: searched
+source: https://status.zype.com (Atlassian Statuspage, /api/v2/status.json HTTP 200), https://www.zype.com/availability-sla-and-support-terms,
+  https://www.zype.com/pricing, and version paths across openapi/
+status_page:
+  url: https://status.zype.com
+  platform: Atlassian Statuspage
+  page_id: y875p82wyjrj
+  machine_readable: https://status.zype.com/api/v2/status.json
+  observed:
+    checked: '2026-08-28'
+    indicator: none
+    description: All Systems Operational
+sla:
+  url: https://www.zype.com/availability-sla-and-support-terms
+  http_status: 200
+  note: 'Zype publishes an "Availability, SLA and Support Terms" page publicly, and the pricing page states an Availability
+    and Uptime SLA is included on every Streaming Platform tier. Support response targets are published per tier:
+    Standard 2h critical / 6h high / 24h standard, business hours 9-5 ET weekdays; Premium as fast as 30 min critical,
+    24x5 plus weekends.'
+versioning:
+  style: path + separate specification per product
+  note: 'Zype versions by URL path per product line, not with a global API version. Observed live: /v2/* and /v3/*
+    on analytics.zype.com; Live V3 at /v3/*; Playout Scheduler at /scheduler/v1/*; the core Platform, Monetization,
+    Consumers and Zobjects surfaces carry NO version segment at all. There is no Accept-header or query-parameter
+    versioning and no version negotiation documented.'
+  versions_observed:
+  - v1 (Playout Scheduler)
+  - v2 (Analytics, legacy)
+  - v3 (Analytics, Live)
+  - unversioned (Platform, Monetization, Consumers, Zobjects, Uploads, Player, TVE)
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations_in_specs: 0
+  note: 'No deprecation or sunset policy is published anywhere on zype.com or docs.zype.com, no operation in any
+    of the 15 specs carries `deprecated: true`, and neither RFC 8594 Sunset nor the Deprecation header appears in
+    any response definition. The one visible deprecation signal is implicit and undocumented: Analytics V2 (openapi/zype-analytics.json,
+    9 operations, docs title "List Stream Hours (V2)") is superseded by Analytics V3 (13 operations) with no stated
+    end-of-life. The Platform spec also still carries a legacy /live/encoders surface alongside Live V3.'
+  implicit_supersessions:
+  - superseded: Analytics V2 — openapi/zype-analytics.json, /v2/* on analytics.zype.com
+    successor: Analytics V3 — openapi/zype-analytics-v3.json, /v3/*
+    end_of_life: null
+  - superseded: Platform live encoders — /live/encoders in openapi/zype-platform.json (listV1Encoders, getV1Encoder,
+      startV1Encoder, stopV1Encoder)
+    successor: Live V3 — openapi/zype-live-3.json
+    end_of_life: null
+changelog:
+  published: false
+  note: No dated API changelog or release-notes feed was found on docs.zype.com (ReadMe changelog path 404s), www.zype.com/changelog
+    and /product-updates both 404, and neither llms.txt links one. Product news is announced narratively on the
+    blog and in the newsroom.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

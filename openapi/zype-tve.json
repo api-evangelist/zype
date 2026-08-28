@@ -1,0 +1,617 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TVE",
+    "description": "",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://tve.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "paths": {
+    "/adobe/device": {
+      "post": {
+        "summary": "Register Adobe Device Session",
+        "description": "Register the Adobe Session device info in Zype",
+        "operationId": "postRegisterAdobeDeviceSession",
+        "tags": [
+          "Adobe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Register Adobe Device Session",
+                "type": "object",
+                "required": [
+                  "device_info",
+                  "adobe_device_id"
+                ],
+                "properties": {
+                  "device_info": {
+                    "type": "string",
+                    "description": "Adobe's Base64 Normalized Device Information build on information received from User-Agent, X-Device-Info or device_info"
+                  },
+                  "adobe_device_id": {
+                    "type": "string",
+                    "description": "Adobe's Base64-encoded Device Type"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device session registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "device_session_id": {
+                      "type": "string",
+                      "description": "UUID",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1adobe~1authn/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adobe/authn": {
+      "post": {
+        "summary": "Creates a Zype's Consumer",
+        "description": "Given the device session ID, returned in the response of the Register Adobe Device Session endpoint, this endpoint creates a Zype's Consumer.",
+        "operationId": "postCreateZypeConsumer",
+        "tags": [
+          "Adobe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Create Zype Consumer",
+                "type": "object",
+                "required": [
+                  "device_session_id"
+                ],
+                "properties": {
+                  "device_session_id": {
+                    "type": "string",
+                    "description": "The device session ID returned from the Register Adobe Device Session endpoint"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Zype's Consumer created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ConsumerResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Consumer",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "amazon_user_id": {
+                          "description": "Unique ID to identify a consumer by Amazon Fire",
+                          "type": "string"
+                        },
+                        "birthday": {
+                          "type": "string"
+                        },
+                        "braintree_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "current_sign_in_at": {
+                          "type": "string"
+                        },
+                        "current_sign_in_ip": {
+                          "type": "string"
+                        },
+                        "days_trialed": {
+                          "type": "number"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "has_trialed": {
+                          "type": "boolean"
+                        },
+                        "last_sign_in_at": {
+                          "type": "string"
+                        },
+                        "last_sign_in_ip": {
+                          "type": "string"
+                        },
+                        "linked_devices": {
+                          "description": "IDs of Devices a user uses to watch your videos",
+                          "type": "object"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "parental_access_code": {
+                          "description": "The four digit code to use for gating of age restricted content in apps.",
+                          "type": "string"
+                        },
+                        "parental_access_rating": {
+                          "type": "string"
+                        },
+                        "pass_count": {
+                          "description": "Number of passes a consumer has",
+                          "type": "number"
+                        },
+                        "password_token": {
+                          "type": "string"
+                        },
+                        "playist_count": {
+                          "type": "number"
+                        },
+                        "recurly_code": {
+                          "type": "string"
+                        },
+                        "remember_token": {
+                          "type": "string"
+                        },
+                        "rss_token": {
+                          "type": "string"
+                        },
+                        "sex": {
+                          "type": "string"
+                        },
+                        "sign_in_count": {
+                          "type": "number"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "stripe_id": {
+                          "type": "string"
+                        },
+                        "subscription_count": {
+                          "description": "Number of subscriptions a consumer has",
+                          "type": "number"
+                        },
+                        "terms": {
+                          "type": "boolean"
+                        },
+                        "transaction_count": {
+                          "description": "Number of transactions a consumer has",
+                          "type": "number"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "updates": {
+                          "type": "boolean"
+                        },
+                        "video_count": {
+                          "description": "Number of videos a consumer has access to",
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Bad Request",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "string",
+                      "description": "A code representing the specific error condition"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Already Logged in with device session"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Could not save new consumer: {ERROR}"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adobe/validate": {
+      "post": {
+        "summary": "Validate Device Session token",
+        "description": "Indicates whether the device has an unexpired authentication token.",
+        "operationId": "postValidateDeviceSession",
+        "tags": [
+          "Adobe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Validate Adobe Device Session authentication token",
+                "type": "object",
+                "required": [
+                  "device_session_id"
+                ],
+                "properties": {
+                  "device_session_id": {
+                    "type": "string",
+                    "description": "The device session ID returned from the Register Adobe Device Session endpoint"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device session validated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean",
+                      "description": "Indicates whether the device session is valid"
+                    }
+                  },
+                  "example": {
+                    "valid": true
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1adobe~1authn/post/responses/400/content/application~1json/schema"
+                },
+                "example": {
+                  "message": "Invalid authn"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adobe/preauthorize": {
+      "post": {
+        "summary": "Retrieves the list of preauthorized resources",
+        "description": "This endpoint retrieves the list of resources that have been preauthorized for the specified device session.",
+        "operationId": "postRetrievePreauthorizedResources",
+        "tags": [
+          "Adobe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Retrieve Preauthorized Resources",
+                "type": "object",
+                "required": [
+                  "device_session_id",
+                  "resource_ids"
+                ],
+                "properties": {
+                  "device_session_id": {
+                    "type": "string",
+                    "description": "The device session ID returned from the Register Adobe Device Session endpoint"
+                  },
+                  "resource_ids": {
+                    "type": "string",
+                    "description": "A string that contains a comma delimited list of resourceIds that identifies the content that might be accessible to a user and is recognized by Adobe MVPD authorization endpoints."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Preauthorized resources retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier for the preauthorized resource"
+                          },
+                          "authorized": {
+                            "type": "boolean",
+                            "description": "Indicates whether the resource is authorized for the device session"
+                          },
+                          "error": {
+                            "type": "object",
+                            "properties": {
+                              "status": {
+                                "type": "integer",
+                                "description": "HTTP status code if the resource is not authorized"
+                              },
+                              "code": {
+                                "type": "string",
+                                "description": "Error code if the resource is not authorized"
+                              },
+                              "message": {
+                                "type": "string",
+                                "description": "Error message if the resource is not authorized"
+                              },
+                              "details": {
+                                "type": "string",
+                                "description": "Additional details about the error if available"
+                              },
+                              "helpUrl": {
+                                "type": "string",
+                                "description": "URL for more information about the error"
+                              },
+                              "trace": {
+                                "type": "string",
+                                "description": "Trace information for debugging purposes"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "resources": [
+                      {
+                        "id": "TestStream1",
+                        "authorized": true,
+                        "error": null
+                      },
+                      {
+                        "id": "TestStream2",
+                        "authorized": false,
+                        "error": {
+                          "status": 403,
+                          "code": "authorization_denied_by_mvpd",
+                          "message": "User not authorized",
+                          "details": "Your subscription package does not include the \"TestStream3\" channel.",
+                          "helpUrl": "https://experienceleague-review.corp.adobe.com/docs/primetime/authentication/auth-features/error-reportn/enhanced-error-codes.html#error-codes",
+                          "trace": "0453f8c8-167a-4429-8784-cd32cfeaee58"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adobe/media_token": {
+      "post": {
+        "summary": "Obtains Short Media Token.",
+        "description": "Obtain a short-lived media token for Adobe TVE authentication.",
+        "operationId": "postObtainShortMediaToken",
+        "tags": [
+          "Adobe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Obtain Short Media Token",
+                "type": "object",
+                "required": [
+                  "device_session_id",
+                  "resource_id"
+                ],
+                "properties": {
+                  "device_session_id": {
+                    "type": "string",
+                    "description": "The device session ID returned from the Register Adobe Device Session endpoint"
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "description": "A string that contains a resourceId (or MRSS fragment), identifies the content requested by a user and is recognized by MVPD authorization endpoints."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device session registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "serialized_token": {
+                      "type": "string",
+                      "description": "UUID",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "expires": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "The expiration time of the media token in milliseconds since epoch"
+                    }
+                  }
+                },
+                "example": {
+                  "serialized_token": "eyJ0eXAiOiJK[...]",
+                  "expires": "1348649614000"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1adobe~1authn/post/responses/422/content/application~1json/schema"
+                },
+                "example": {
+                  "message": "Could not fetch media token for resource 'sampleResourceId'",
+                  "error_code": "adobe_media_token_not_found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/adobe/logout": {
+      "delete": {
+        "summary": "Destroys Device Session.",
+        "description": "Remove the Adobe Device Session from Zype and Adobe's authn and authz token.",
+        "operationId": "postRemoveAdobeDeviceSession",
+        "tags": [
+          "Adobe"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Remove Adobe Device Session",
+                "type": "object",
+                "required": [
+                  "device_session_id"
+                ],
+                "properties": {
+                  "device_session_id": {
+                    "type": "string",
+                    "description": "The device session ID returned from the Register Adobe Device Session endpoint"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Device session removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Device Session",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "UUID",
+                      "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "adobe_device_id": {
+                      "type": "string",
+                      "description": "Adobe's Base64-encoded Device Type",
+                      "example": "c28tZGV2aWQtMDAz"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1adobe~1authn/post/responses/422/content/application~1json/schema"
+                },
+                "example": {
+                  "message": "Could not log out device session: [ERROR_MESSAGE]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query",
+        "description": "The adobe api key"
+      }
+    }
+  }
+}

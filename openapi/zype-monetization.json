@@ -1,0 +1,3227 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Monetization",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/subscriptions": {
+      "get": {
+        "summary": "List Subscriptions",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "listSubscriptions",
+        "parameters": [
+          {
+            "name": "id",
+            "$ref": "#/paths/~1plans/get/parameters/0"
+          },
+          {
+            "name": "created_at",
+            "$ref": "#/paths/~1plans/get/parameters/1"
+          },
+          {
+            "name": "updated_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by updated at date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `updated_at.gte`)"
+          },
+          {
+            "name": "q",
+            "$ref": "#/paths/~1plans/get/parameters/2"
+          },
+          {
+            "name": "order",
+            "$ref": "#/paths/~1plans/get/parameters/3"
+          },
+          {
+            "name": "sort",
+            "$ref": "#/paths/~1plans/get/parameters/4"
+          },
+          {
+            "name": "page",
+            "$ref": "#/paths/~1plans/get/parameters/5"
+          },
+          {
+            "name": "per_page",
+            "$ref": "#/paths/~1plans/get/parameters/6"
+          },
+          {
+            "name": "plan_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of Plan"
+          },
+          {
+            "name": "braintree_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's Braintree ID"
+          },
+          {
+            "name": "recurly_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's Recurly Code"
+          },
+          {
+            "name": "stripe_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer's Stripe ID"
+          },
+          {
+            "name": "consumer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of consumer"
+          },
+          {
+            "name": "receipt_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Receipt ID of Amazon Fire TV"
+          },
+          {
+            "name": "payment_provider",
+            "in": "query",
+            "description": "Filter records by payment provider.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stripe",
+                "braintree",
+                "recurly",
+                "redemption",
+                "third_party",
+                "amazon_fire",
+                "google_play",
+                "itunes",
+                "samsung",
+                "tizen",
+                "roku"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "SubscriptionsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1subscriptions/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Subscription",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "createSubscription",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "SubscriptionRequest",
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Use this parameter to indicate the subscription type ('stripe', 'braintree' or 'recurly'). This value is **required only** when the subscription type cannot be inferred automatically via its specific attributes (for example when creating a Stripe subscription with a 100% discount coupon where no stripe_id or stripe_card_token is passed)."
+                  },
+                  "subscription": {
+                    "title": "SubscriptionProperties",
+                    "required": [
+                      "plan_id",
+                      "consumer_id"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "consumer_id": {
+                        "type": "string"
+                      },
+                      "plan_id": {
+                        "type": "string"
+                      },
+                      "third_party_id": {
+                        "description": "The id of a third party plan. required if not using recurly, braintree or stripe.\n*Note*: third_party_id can\u2019t have unicode characters in the name. Only alphanumeric characters are allowed (Example: apple123)",
+                        "type": "string"
+                      },
+                      "coupon_code": {
+                        "description": "The code of the coupon, if used.",
+                        "type": "string"
+                      },
+                      "stripe_card_token": {
+                        "description": "The Stripe credit card token as generated by a Stripe payment form",
+                        "type": "string"
+                      },
+                      "stripe_id": {
+                        "description": "The id of a Stripe subscription that has already been fully created (used for reconciling the Zype dashboard with subscriptions that have been previously created)",
+                        "type": "string"
+                      },
+                      "stripe_metadata": {
+                        "description": "Custom Stripe Metadata can be added, updated, and removed from Zype Subscription objects corresponding to a Stripe Subscription.  Metdata will be persisted in Stripe and Zype Platforms.\nTo add or update Stripe metadata use URL or JSON syntax: `subscription[stripe_metadata]key1=value1&subscripition[stripe_metadata]key2=value2`\nTo remove a Stripe metadata key/value pair, include the key to be removed, but do not set a value: `subscription[stripe_metadata]key1&subscripition[stripe_metadata]key2`",
+                        "type": "object"
+                      },
+                      "braintree_payment_nonce": {
+                        "description": "The Braintree credit card payment nonce as generated by a Braintree payment form",
+                        "type": "string"
+                      },
+                      "braintree_id": {
+                        "description": "The id of a Braintree subscription that has already been fully created (used for reconciling the Zype dashboard with subscriptions that have been previously created)",
+                        "type": "string"
+                      },
+                      "recurly_token_id": {
+                        "description": "The Recurly credit card token ID by a Recurly.js payment form",
+                        "type": "string"
+                      },
+                      "recurly_uuid": {
+                        "description": "The uuid of a Recurly subscription that has already been fully created (used for reconciling the Zype dashboard with subscriptions that have been previously created)",
+                        "type": "string"
+                      },
+                      "status": {
+                        "description": "Valid values are \u2018canceled\u2019, \u2018active\u2019 or \u2018paused\u2019 (Stripe only). If left empty, \u2018active\u2019 will be the default value. When \u2018paused\u2019, use \u2018active\u2019 to resume the cycle.",
+                        "type": "string"
+                      },
+                      "cancelled_at": {
+                        "description": "If the subscription has already been cancelled at a certain date",
+                        "type": "string"
+                      },
+                      "cancel_at_period_end": {
+                        "description": "Set Stripe subscription to cancel at period end (Stripe only)",
+                        "type": "boolean"
+                      },
+                      "trial_end": {
+                        "description": "Unix timestamp to set Stripe subscription's trial_end value (Stripe only). Overrides Zype's trialing logic.",
+                        "type": "string"
+                      },
+                      "trial_from_plan": {
+                        "description": "Set Stripe subscription's trial_from_plan (Stripe only). Overrides Zype's trialing logic.",
+                        "type": "boolean"
+                      },
+                      "current_period_start_at": {
+                        "description": "Set the beginning of the subscription period. *Only applies to Recurly and third party subscriptions* Either `current_period_start_at` or `current_period_end_at` should be set, *but not both*.",
+                        "type": "string"
+                      },
+                      "current_period_end_at": {
+                        "description": "Set the end of the subscription period. *Only applies to third party subscriptions* (`third_party_id` field should be present). Either `current_period_start_at` or `current_period_end_at` should be set, *but not both*.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "SubscriptionResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Subscription",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "description": "Amount the subscription costs (3.99)",
+                          "type": "integer"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "description": "will match the Plan's currency",
+                          "type": "string"
+                        },
+                        "current_period_end_at": {
+                          "type": "string"
+                        },
+                        "current_period_start_at": {
+                          "type": "string"
+                        },
+                        "discount_amount": {
+                          "type": "number"
+                        },
+                        "discount_duration": {
+                          "type": "string",
+                          "description": "How long the discount will be valid"
+                        },
+                        "discount_duration_months": {
+                          "description": "How many months the discount will be valid",
+                          "type": "number"
+                        },
+                        "discount_percent": {
+                          "description": "Percentage off total price",
+                          "type": "number"
+                        },
+                        "mrr": {
+                          "description": "Monthly Recurring Revenue",
+                          "type": "number"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "start_at": {
+                          "type": "string"
+                        },
+                        "trial_period_days": {
+                          "description": "Number of days a trial will last",
+                          "type": "number"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "plan_name": {
+                          "type": "string"
+                        },
+                        "consumer_id": {
+                          "type": "string"
+                        },
+                        "plan_id": {
+                          "type": "string"
+                        },
+                        "third_party_id": {
+                          "type": "string"
+                        },
+                        "stripe_card_token": {
+                          "description": "The Stripe credit card token as generated by a Stripe payment form",
+                          "type": "string"
+                        },
+                        "stripe_id": {
+                          "type": "string"
+                        },
+                        "braintree_payment_nonce": {
+                          "type": "string"
+                        },
+                        "braintree_id": {
+                          "type": "string"
+                        },
+                        "recurly_token_id": {
+                          "type": "string"
+                        },
+                        "recurly_uuid": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "description": "Valid values are \u2018canceled\u2019, \u2018active\u2019 or \u2018paused\u2019 (Stripe only). If left empty, \u2018active\u2019 will be the default value. When \u2018paused\u2019, use \u2018active\u2019 to resume the cycle.",
+                          "type": "string"
+                        },
+                        "days_remaining": {
+                          "description": "When the status is \u2018active\u2019, the days remaining in the current cycle. When \u2018canceled\u2019, the value returned is 0. When \u2018paused\u2019 (Stripe only), the days remaining before pausing.",
+                          "type": "integer"
+                        },
+                        "cancelled_at": {
+                          "type": "string"
+                        },
+                        "cancel_at_period_end": {
+                          "description": "Set Stripe subscription to cancel at period end",
+                          "type": "boolean"
+                        },
+                        "coupon_code": {
+                          "description": "The code of the coupon, if used.",
+                          "type": "string"
+                        },
+                        "payment_provider": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}": {
+      "get": {
+        "summary": "View Subscription",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "getSubscription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1subscriptions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Subscription",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "updateSubscription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the subscription"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1subscriptions/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1subscriptions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Subscription",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "deleteSubscription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the subscription"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Subscription successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1subscriptions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}/cancel": {
+      "put": {
+        "summary": "Cancel Subscription",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "cancelSubscription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1subscriptions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{id}/reactivate": {
+      "put": {
+        "summary": "Reactivate Cancelled Subscription",
+        "description": "",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "reactivateSubscription",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the subscription"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1subscriptions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans": {
+      "get": {
+        "summary": "List Plans",
+        "description": "",
+        "tags": [
+          "Plans"
+        ],
+        "operationId": "listPlans",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by ID\nExample: `id=5992f328ce593000ef000008`"
+          },
+          {
+            "name": "created_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `created_at.gte`)"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by keyword"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Filter by ascending or descending order"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort on the specified field"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number to return, with per_page dictating page size"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of records to return per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlansResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1plans/post/responses/201/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "title": "Pagination",
+                      "type": "object",
+                      "properties": {
+                        "current": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "The current page of results"
+                        },
+                        "previous": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the previous page of results",
+                          "nullable": true
+                        },
+                        "next": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the next page of results",
+                          "nullable": true
+                        },
+                        "per_page": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the number of results returned per page"
+                        },
+                        "pages": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the total number of pages available, using per_page"
+                        }
+                      },
+                      "example": {
+                        "current": 1,
+                        "previous": null,
+                        "next": 2,
+                        "per_page": 10,
+                        "pages": 20
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Plan",
+        "description": "",
+        "operationId": "createPlan",
+        "tags": [
+          "Plans"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "PlanRequest",
+                "type": "object",
+                "required": [
+                  "plan"
+                ],
+                "properties": {
+                  "plan": {
+                    "required": [
+                      "name",
+                      "amount",
+                      "interval_count",
+                      "currency",
+                      "interval",
+                      "entitlement_type"
+                    ],
+                    "type": "object",
+                    "title": "PlanProperties",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "integer",
+                        "format": "double",
+                        "description": "The amount to charge to subscribe to this Plan"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "interval": {
+                        "type": "string",
+                        "description": "The unit of time a subscriptions should last before the next charge cycle (`month`, `year`, `lifetime`)"
+                      },
+                      "interval_count": {
+                        "type": "integer",
+                        "description": "How many intervals a subscription should last before the next charge cycle"
+                      },
+                      "trial_period_days": {
+                        "type": "integer",
+                        "description": "How many trial days to provide for the subscription (only for Stripe, Braintree or Recurly Plans)"
+                      },
+                      "active": {
+                        "type": "boolean",
+                        "description": "Indicates if the plan is active"
+                      },
+                      "stripe_id": {
+                        "type": "string",
+                        "description": "The Stripe Plan ID to use for this Plan - **Required for Stripe Plans**"
+                      },
+                      "braintree_id": {
+                        "type": "string",
+                        "description": "The Braintree Plan ID to use for this Plan - **Required for Braintree Plans**"
+                      },
+                      "recurly_code": {
+                        "type": "string",
+                        "description": "The Braintree Plan Code to use for this Plan - **Required for Recurly Plans**"
+                      },
+                      "amazon_id": {
+                        "type": "string",
+                        "description": "The Amazon Plan ID to use for this Plan - **Required for Amazon Plans**"
+                      },
+                      "third_party_id": {
+                        "type": "string",
+                        "description": "An ID from a third-party payment gateway to use for this Plan"
+                      },
+                      "entitlement_type": {
+                        "type": "string",
+                        "description": "The entitlement type for this Plan, used to change configure a plan as global or tiered (`global`, `tiered`) - Default: `global`"
+                      },
+                      "playlist_ids": {
+                        "type": "string",
+                        "description": "A list of Playlist IDs to associate with a Tiered Plan - **Required for `entitlement_type: tiered`**"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlanResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Plan",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "active": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "interval": {
+                          "type": "string"
+                        },
+                        "interval_count": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "stripe_id": {
+                          "type": "string"
+                        },
+                        "braintree_id": {
+                          "type": "string"
+                        },
+                        "recurly_code": {
+                          "type": "string"
+                        },
+                        "amazon_id": {
+                          "type": "string"
+                        },
+                        "third_party_id": {
+                          "type": "string"
+                        },
+                        "stripe_public_key": {
+                          "type": "string"
+                        },
+                        "trial_period_days": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "playlist_ids": {
+                          "type": "array"
+                        },
+                        "entitlement_type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/{id}": {
+      "get": {
+        "summary": "View Plan",
+        "description": "",
+        "tags": [
+          "Plans"
+        ],
+        "operationId": "getPlan",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Plan",
+        "description": "",
+        "tags": [
+          "Plans"
+        ],
+        "operationId": "updatePlan",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of plan"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1plans/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Plan",
+        "description": "",
+        "tags": [
+          "Plans"
+        ],
+        "operationId": "deletePlan",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of plan"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Plan deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Plan could not be deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/{id}/add_playlists": {
+      "put": {
+        "summary": "Add Playlists to a Tiered Subscription Plan",
+        "description": "This operation is only used for Tiered Subscription Plans (i.e., plans that have entitle_type=tiered). This operation is used to determine which videos belonging to playlists in your library should be accessible to each Tiered Subscription Plan.\nOnce you add a playlist to a Tiered Plan, any child playlists (and videos belonging to those child playlists) will also inherit the subscription requirements from that Tiered Plan.\nNote: This operation will only add the specified Playlists to the Tiered Plan, it won\u2019t remove any of the existing Playlists associated to it.\nNote: If a video is currently monetized with a purchase, rental, or pass plan, and your property does NOT support multiple monetization, then adding that video to a playlist within a tiered subscription will disable the existing purchase, rental, or pass plan paywall and switch the paywall monetization on the video to the tiered subscription plan.",
+        "tags": [
+          "Plans"
+        ],
+        "operationId": "addPlaylists",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the plan"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "PlanPlaylistIdsRequest",
+                "type": "object",
+                "required": [
+                  "playlist_ids"
+                ],
+                "properties": {
+                  "playlist_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "List of Playlist IDs to add/remove from the Tiered Subscription Plan."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plans/{id}/remove_playlists": {
+      "put": {
+        "summary": "Remove Playlists from a Subscription Plan",
+        "description": "Note: This operation will only remove the specified Playlists to the Plan, if they exist.",
+        "tags": [
+          "Plans"
+        ],
+        "operationId": "removePlaylists",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the plan"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1plans~1%7Bid%7D~1add_playlists/put/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plan not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "summary": "List Transactions",
+        "description": "",
+        "tags": [
+          "Transactions"
+        ],
+        "operationId": "listTransactions",
+        "parameters": [
+          {
+            "name": "id",
+            "$ref": "#/paths/~1plans/get/parameters/0"
+          },
+          {
+            "name": "created_at",
+            "$ref": "#/paths/~1plans/get/parameters/1"
+          },
+          {
+            "name": "q",
+            "$ref": "#/paths/~1plans/get/parameters/2"
+          },
+          {
+            "name": "order",
+            "$ref": "#/paths/~1plans/get/parameters/3"
+          },
+          {
+            "name": "sort",
+            "$ref": "#/paths/~1plans/get/parameters/4"
+          },
+          {
+            "name": "page",
+            "$ref": "#/paths/~1plans/get/parameters/5"
+          },
+          {
+            "name": "per_page",
+            "$ref": "#/paths/~1plans/get/parameters/6"
+          },
+          {
+            "name": "consumer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of consumer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "TransactionsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1transactions/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Transactions",
+        "description": "",
+        "tags": [
+          "Transactions"
+        ],
+        "operationId": "createTransaction",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "TransactionRequest",
+                "type": "object",
+                "required": [
+                  "provider",
+                  "transaction"
+                ],
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "description": "The type of transaction to create. Valid values include \u2018stripe\u2019, \u2018braintree\u2019, \u2018recurly\u2019, \u2018roku\u2019, \u2018apple_tv\u2019 and \u2018third_party\u2019"
+                  },
+                  "transaction": {
+                    "title": "TransactionProperties",
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "description": "Must be formatted as a string included cent value (Example: 1.99)",
+                        "type": "string"
+                      },
+                      "apple_id": {
+                        "description": "The ID of a native Apple TV payment, use only for storing Apple TV transactions",
+                        "type": "string"
+                      },
+                      "braintree_id": {
+                        "description": "Used to create transactions from payments already processed by Braintree, use only for creating Braintree transactions, and if not supplying a payment nonce",
+                        "type": "string"
+                      },
+                      "consumer_id": {
+                        "type": "string",
+                        "description": "The ID of the consumer making the transaction"
+                      },
+                      "currency": {
+                        "type": "string",
+                        "description": "Set currency type. This is optional. Default value is `USD`"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "pass_plan_id": {
+                        "description": "The ID of the pass plan the user is purchasing if purchasing a pass plan. Required if the transaction is for a pass plan",
+                        "type": "string"
+                      },
+                      "payment_nonce": {
+                        "description": "The payment nonce provided by Stripe, Braintree or Recurly if using one of those platforms",
+                        "type": "string"
+                      },
+                      "playlist_id": {
+                        "description": "The ID of the playlist the user is purchasing if purchasing a playlist. Required if the transaction is for a playlist",
+                        "type": "string"
+                      },
+                      "recurly_invoice_number": {
+                        "description": "Used to create transactions from invoices already processed by Recurly, use only for creating Recurly transactions, and if not supplying a payment nonce",
+                        "type": "string"
+                      },
+                      "roku_id": {
+                        "description": "The ID of a native Roku payment, use only for storing Roku transactions",
+                        "type": "string"
+                      },
+                      "stripe_id": {
+                        "description": "Used to create transactions from payments already processed by Stripe, use only for creating Stripe transactions, and if not supplying a payment nonce",
+                        "type": "string"
+                      },
+                      "third_party_id": {
+                        "description": "The ID of a payment processsed by a \u2018third party\u2019 payment processor, use only for creating \u2018third party\u2019 custom transactions",
+                        "type": "string"
+                      },
+                      "transaction_type": {
+                        "description": "Must be one of:\n  + purchase\n  + rental\n  + pass",
+                        "type": "string"
+                      },
+                      "video_id": {
+                        "description": "The ID of the video the user is purchasing if purchasing a video. Required if the transaction is for a video",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "TransactionResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Transaction",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "expires_at": {
+                          "type": "string"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "stripe_id": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "string"
+                        },
+                        "consumer_id": {
+                          "type": "string"
+                        },
+                        "video_id": {
+                          "type": "string"
+                        },
+                        "playlist_id": {
+                          "type": "string"
+                        },
+                        "pass_plan_id": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "transaction_type": {
+                          "type": "string"
+                        },
+                        "payment_nonce": {
+                          "type": "string"
+                        },
+                        "roku_id": {
+                          "type": "string"
+                        },
+                        "apple_id": {
+                          "type": "string"
+                        },
+                        "braintree_id": {
+                          "type": "string"
+                        },
+                        "recurly_invoice_number": {
+                          "type": "string"
+                        },
+                        "third_party_id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{id}": {
+      "get": {
+        "summary": "View Transaction",
+        "description": "",
+        "tags": [
+          "Transactions"
+        ],
+        "operationId": "getTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the transaction"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1transactions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a Transaction",
+        "description": "",
+        "tags": [
+          "Transactions"
+        ],
+        "operationId": "updateTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the transaction"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1transactions/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1transactions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Transaction",
+        "description": "",
+        "tags": [
+          "Transactions"
+        ],
+        "operationId": "deleteTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the transaction"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Transaction successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1transactions/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/redemption_codes": {
+      "get": {
+        "summary": "List Redemption Codes",
+        "description": "",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "listRedemptionCodes",
+        "parameters": [
+          {
+            "name": "id",
+            "$ref": "#/paths/~1plans/get/parameters/0"
+          },
+          {
+            "name": "created_at",
+            "$ref": "#/paths/~1plans/get/parameters/1"
+          },
+          {
+            "name": "q",
+            "$ref": "#/paths/~1plans/get/parameters/2"
+          },
+          {
+            "name": "order",
+            "$ref": "#/paths/~1plans/get/parameters/3"
+          },
+          {
+            "name": "sort",
+            "$ref": "#/paths/~1plans/get/parameters/4"
+          },
+          {
+            "name": "page",
+            "$ref": "#/paths/~1plans/get/parameters/5"
+          },
+          {
+            "name": "per_page",
+            "$ref": "#/paths/~1plans/get/parameters/6"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by code"
+          },
+          {
+            "name": "expiration_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Filter by created at date using times in ISO8601 format\nNote: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: expires_at.gte)\n+ Examples\n    + `2017-01-01T00:00:00-00:00` - in ISO8601 format\n    + `1483228800` - Unix timestamps"
+          },
+          {
+            "name": "redeemed_at",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Filter by created at date using times in ISO8601 format\nNote: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: expires_at.gte)\n+ Examples\n    + `2017-01-01T00:00:00-00:00` - in ISO8601 format\n    + `1483228800` - Unix timestamps"
+          },
+          {
+            "name": "pass_plan_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by a pass plan ID"
+          },
+          {
+            "name": "plan_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by plan ID"
+          },
+          {
+            "name": "playlist_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by playlist ID"
+          },
+          {
+            "name": "transaction_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by transaction ID"
+          },
+          {
+            "name": "video_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by video ID"
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RedemptionCodesResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1redemption_codes/post/responses/201/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "$ref": "#/paths/~1plans/get/responses/200/content/application~1json/schema/properties/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Redemption Codes",
+        "description": "",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "createRedemptionCode",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "RedemptionCodeRequest",
+                "type": "object",
+                "required": [
+                  "redemption_code"
+                ],
+                "properties": {
+                  "redemption_code": {
+                    "type": "object",
+                    "title": "RedemptionCodeProperties",
+                    "required": [
+                      "code",
+                      "expiration_date"
+                    ],
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "description": "Use this param to specify your own code. If no code is sent, one will automatically be generated."
+                      },
+                      "expiration_date": {
+                        "type": "string",
+                        "description": "Expiration date for the redemption code. Example: 2017-01-15."
+                      },
+                      "video_id": {
+                        "type": "string",
+                        "description": "The ID of the video that the user will be entitled to upon redeeming the code. Required if the redemption code is for a video."
+                      },
+                      "playlist_id": {
+                        "type": "string",
+                        "description": "The ID of the playlist that the user will be entitled to upon redeeming the code. Required if the redemption code is for a playlist."
+                      },
+                      "plan_id": {
+                        "type": "string",
+                        "description": "The ID of the subscription plan that the user will be subscribed to upon redeeming the code. Required if the redemption code is for a subscription."
+                      },
+                      "pass_plan_id": {
+                        "type": "string",
+                        "description": "The ID of the pass plan that the user will have access to upon redeeming the code. Required if the redemption code is for a pass plan."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RedemptionCodeResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "RedemptionCode",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "content_title": {
+                          "type": "string"
+                        },
+                        "content_type": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "redeemed_at": {
+                          "type": "string"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "nice_code": {
+                          "type": "string"
+                        },
+                        "available": {
+                          "type": "string"
+                        },
+                        "redeemed": {
+                          "type": "string"
+                        },
+                        "expired": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string"
+                        },
+                        "expiration_date": {
+                          "type": "string"
+                        },
+                        "video_id": {
+                          "type": "string"
+                        },
+                        "pass_plan_id": {
+                          "type": "string"
+                        },
+                        "plan_id": {
+                          "type": "string"
+                        },
+                        "playlist_id": {
+                          "type": "string"
+                        },
+                        "transaction_id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/redemption_codes/{id_or_code}": {
+      "get": {
+        "summary": "View Redemption Code",
+        "description": "",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "getRedemptionCode",
+        "parameters": [
+          {
+            "name": "id_or_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID or Code of redemption code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a redemption code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1redemption_codes/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Redemption Code not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Redemption Code",
+        "description": "",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "updateRedemptionCode",
+        "parameters": [
+          {
+            "name": "id_or_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID or Code of redemption code"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1redemption_codes/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Return a redemption code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1redemption_codes/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Redemption Code not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Redemption Code",
+        "description": "",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "deleteRedemptionCode",
+        "parameters": [
+          {
+            "name": "id_or_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID or Code of redemption code"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Redemption Code deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1redemption_codes/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Redemption Code not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/redemption_codes/redeem": {
+      "post": {
+        "summary": "Redeem an available Redemption Code",
+        "description": "",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "redeem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "RedemptionCodeRedeemRequest",
+                "type": "object",
+                "required": [
+                  "redemption_code"
+                ],
+                "properties": {
+                  "redemption_code": {
+                    "type": "object",
+                    "title": "RedemptionCodeRedeemProperties",
+                    "required": [
+                      "code"
+                    ],
+                    "properties": {
+                      "code": {
+                        "description": "Code of the Redemption Code",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1redemption_codes/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Redemption Code not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/redemption_codes/bulk_create": {
+      "post": {
+        "summary": "Create multiple Redemption Codes at once",
+        "tags": [
+          "Redemption Codes"
+        ],
+        "operationId": "bulkCreate",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "RedemptionCodeBulkCreateRequest",
+                "type": "object",
+                "required": [
+                  "redemption_code"
+                ],
+                "properties": {
+                  "redemption_code": {
+                    "type": "object",
+                    "title": "RedemptionCodeProperties",
+                    "required": [
+                      "code",
+                      "expiration_date"
+                    ],
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "description": "Use this param to specify your own code. If no code is sent, one will automatically be generated."
+                      },
+                      "expiration_date": {
+                        "type": "string",
+                        "description": "Expiration date for the redemption code. Example: 2017-01-15."
+                      },
+                      "video_id": {
+                        "type": "string",
+                        "description": "The ID of the video that the user will be entitled to upon redeeming the code. Required if the redemption code is for a video."
+                      },
+                      "playlist_id": {
+                        "type": "string",
+                        "description": "The ID of the playlist that the user will be entitled to upon redeeming the code. Required if the redemption code is for a playlist."
+                      },
+                      "plan_id": {
+                        "type": "string",
+                        "description": "The ID of the subscription plan that the user will be subscribed to upon redeeming the code. Required if the redemption code is for a subscription."
+                      },
+                      "pass_plan_id": {
+                        "type": "string",
+                        "description": "The ID of the pass plan that the user will have access to upon redeeming the code. Required if the redemption code is for a pass plan."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RedemptionCodesBulkCreateResponse",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Redemption code not available",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ad_tags": {
+      "get": {
+        "summary": "List Ad Tags",
+        "description": "",
+        "tags": [
+          "Ad Tags"
+        ],
+        "operationId": "listAdTags",
+        "parameters": [
+          {
+            "name": "id",
+            "$ref": "#/paths/~1plans/get/parameters/0"
+          },
+          {
+            "name": "created_at",
+            "$ref": "#/paths/~1plans/get/parameters/1"
+          },
+          {
+            "name": "q",
+            "$ref": "#/paths/~1plans/get/parameters/2"
+          },
+          {
+            "name": "order",
+            "$ref": "#/paths/~1plans/get/parameters/3"
+          },
+          {
+            "name": "sort",
+            "$ref": "#/paths/~1plans/get/parameters/4"
+          },
+          {
+            "name": "page",
+            "$ref": "#/paths/~1plans/get/parameters/5"
+          },
+          {
+            "name": "per_page",
+            "$ref": "#/paths/~1plans/get/parameters/6"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "description": "Filter by active, inactive, or all.  If excluded, query will default to 'true'",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "all"
+              ],
+              "nullable": true
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by name"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by disabled"
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by assigned scope: Options are 'library' or 'video'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "AdTagsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1ad_tags/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Ad Tags",
+        "description": "",
+        "tags": [
+          "Ad Tags"
+        ],
+        "operationId": "createAdTag",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "AdTagRequest",
+                "type": "object",
+                "required": [
+                  "ad_tag"
+                ],
+                "properties": {
+                  "ad_tag": {
+                    "title": "AdTagProperties",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "active": {
+                        "description": "Indicates if an AdTag should be applied to videos",
+                        "type": "string"
+                      },
+                      "device_id": {
+                        "description": "ID of device to display AdTag on",
+                        "type": "string"
+                      },
+                      "device_category_id": {
+                        "description": "ID of the category the device belongs to",
+                        "type": "string"
+                      },
+                      "disabled": {
+                        "description": "Indicates if an AdTag is disabled",
+                        "type": "boolean"
+                      },
+                      "interval_count": {
+                        "description": "How many times a video or videos in a collection will play before a single user gets an ad",
+                        "type": "string"
+                      },
+                      "revenue_partner_id": {
+                        "type": "string"
+                      },
+                      "scope": {
+                        "description": "Indicates if an interval_count applies to single video (\u2018video\u2019) or a collection of videos (\u2018library\u2019).",
+                        "type": "string"
+                      },
+                      "tag": {
+                        "description": "URL of the AdTag",
+                        "type": "string"
+                      },
+                      "vmap": {
+                        "description": "Indicates if AdTag is a VMAP.",
+                        "type": "boolean"
+                      },
+                      "_type": {
+                        "description": "One of \u201cAdTag::Vast\u201d or \u201cAdTag::Googima\u201d",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "AdTagResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "AdTag",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "active": {
+                          "type": "string"
+                        },
+                        "network_key": {
+                          "type": "string"
+                        },
+                        "device_category_id": {
+                          "type": "string"
+                        },
+                        "device_id": {
+                          "type": "string"
+                        },
+                        "disabled": {
+                          "description": "",
+                          "type": "boolean"
+                        },
+                        "interval_count": {
+                          "type": "string"
+                        },
+                        "interval_seconds": {
+                          "type": "string"
+                        },
+                        "revenue_partner_id": {
+                          "type": "string"
+                        },
+                        "scope": {
+                          "type": "string"
+                        },
+                        "tag": {
+                          "type": "string"
+                        },
+                        "vmap": {
+                          "type": "string"
+                        },
+                        "_type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ad_tags/{id}": {
+      "get": {
+        "summary": "View Ad Tag",
+        "description": "",
+        "tags": [
+          "Ad Tags"
+        ],
+        "operationId": "getAdTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the AdTag"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1ad_tags/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "AdTag not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Ad Tag",
+        "description": "",
+        "tags": [
+          "Ad Tags"
+        ],
+        "operationId": "updateAdTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the ad tag"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1ad_tags/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1ad_tags/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "AdTag not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Ad Tag",
+        "description": "",
+        "tags": [
+          "Ad Tags"
+        ],
+        "operationId": "deleteAdTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the ad tag"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "AdTag successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1ad_tags/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "AdTag not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/revenue_models": {
+      "get": {
+        "summary": "List Revenue Models",
+        "description": "",
+        "tags": [
+          "Revenue Models"
+        ],
+        "operationId": "listRevenueModels",
+        "parameters": [
+          {
+            "name": "id",
+            "$ref": "#/paths/~1plans/get/parameters/0"
+          },
+          {
+            "name": "created_at",
+            "$ref": "#/paths/~1plans/get/parameters/1"
+          },
+          {
+            "name": "q",
+            "$ref": "#/paths/~1plans/get/parameters/2"
+          },
+          {
+            "name": "order",
+            "$ref": "#/paths/~1plans/get/parameters/3"
+          },
+          {
+            "name": "sort",
+            "$ref": "#/paths/~1plans/get/parameters/4"
+          },
+          {
+            "name": "page",
+            "$ref": "#/paths/~1plans/get/parameters/5"
+          },
+          {
+            "name": "per_page",
+            "$ref": "#/paths/~1plans/get/parameters/6"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RevenueModelsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1revenue_models~1%7Bid%7D/get/responses/200/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "$ref": "#/paths/~1plans/get/responses/200/content/application~1json/schema/properties/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/revenue_models/{id}": {
+      "get": {
+        "summary": "View Revenue Model",
+        "description": "",
+        "tags": [
+          "Revenue Models"
+        ],
+        "operationId": "getRevenueModel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the revenue model"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "RevenueModelResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "RevenueModel",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "image_content_type": {
+                          "type": "string"
+                        },
+                        "image_file_name": {
+                          "type": "string"
+                        },
+                        "image_file_size": {
+                          "type": "string"
+                        },
+                        "image_fingerprint": {
+                          "type": "string"
+                        },
+                        "image_updated_at": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Revenue Model not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/video_favorites": {
+      "get": {
+        "summary": "List Video Favorites",
+        "description": "",
+        "tags": [
+          "Video Favorites"
+        ],
+        "operationId": "listVideoFavorites",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of consumer"
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "Include detailed information about each video favorite"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Filter by ascending or descending order"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort on the specified field"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Basic or detailed response, depending on `details` query parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "VideoFavoritesResponse",
+                      "type": "object",
+                      "properties": {
+                        "response": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1video_favorites/post/responses/201/content/application~1json/schema/properties/response"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "VideoFavoritesDetailsResponse",
+                      "type": "object",
+                      "properties": {
+                        "response": {
+                          "type": "array",
+                          "items": {
+                            "title": "VideoFavoriteDetails",
+                            "type": "object",
+                            "properties": {
+                              "_id": {
+                                "type": "string"
+                              },
+                              "consumer_id": {
+                                "type": "string"
+                              },
+                              "created_at": {
+                                "type": "string"
+                              },
+                              "deleted_at": {
+                                "type": "string"
+                              },
+                              "updated_at": {
+                                "type": "string"
+                              },
+                              "video_details": {
+                                "type": "object",
+                                "properties": {
+                                  "thumbnails": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "alt_text": {
+                                          "type": "string"
+                                        },
+                                        "aspect_ratio": {
+                                          "type": "number"
+                                        },
+                                        "height": {
+                                          "type": "integer"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "url": {
+                                          "type": "string"
+                                        },
+                                        "width": {
+                                          "type": "integer"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  },
+                                  "internal_title": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "short_description": {
+                                    "type": "string"
+                                  },
+                                  "friendly_title": {
+                                    "type": "string"
+                                  },
+                                  "published_at": {
+                                    "type": "string"
+                                  },
+                                  "enable_at": {
+                                    "type": "string"
+                                  },
+                                  "disable_at": {
+                                    "type": "string"
+                                  },
+                                  "duration": {
+                                    "type": "integer"
+                                  },
+                                  "precise_duration": {
+                                    "type": "number"
+                                  },
+                                  "categories": {
+                                    "type": "array"
+                                  },
+                                  "series": {
+                                    "type": "string"
+                                  },
+                                  "season": {
+                                    "type": "integer"
+                                  },
+                                  "episode": {
+                                    "type": "integer"
+                                  },
+                                  "on_air": {
+                                    "type": "boolean"
+                                  },
+                                  "live_event": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
+                              "video_id": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Video Favorite",
+        "description": "",
+        "tags": [
+          "Video Favorites"
+        ],
+        "operationId": "createVideoFavorite",
+        "parameters": [
+          {
+            "name": "video_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the video to add to the consumer's favorites",
+            "required": true
+          },
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the consumer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "VideoFavoriteResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "VideoFavorite",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "consumer_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "deleted_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "video_id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumers/{consumer_id}/video_favorites/{favorite_id}": {
+      "delete": {
+        "summary": "Delete Video Favorite",
+        "description": "",
+        "tags": [
+          "Video Favorites"
+        ],
+        "operationId": "deleteVideoFavorite",
+        "parameters": [
+          {
+            "name": "consumer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of consumer"
+          },
+          {
+            "name": "favorite_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of favorite to delete, obtainable using `List Video Favorites`."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Video favorite successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1consumers~1%7Bconsumer_id%7D~1video_favorites/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video Favorite not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

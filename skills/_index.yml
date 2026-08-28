@@ -1,0 +1,44 @@
+generated: '2026-08-28'
+method: generated
+source: openapi/*.json (317 operations across 15 specs), https://docs.zype.com, github.com/zype/zype-mcp-client
+note: Four packaged Agent Skills, one per marquee Zype flow. Every operationId referenced was grepped out of the
+  specs in openapi/ before it was written down; none is invented. Each skill carries the conventions that are NOT
+  in the contract — the query-string credential, the absent idempotency key, the mandatory pagination, and above
+  all which writes can be taken back.
+skills:
+- name: zype-publish-video
+  file: skills/zype-publish-video.md
+  api: Zype Platform API
+  description: Ingest a video, enrich it with AI metadata, transcribe and translate it, subtitle it, and place it
+    in a playlist and category.
+  operations: 17
+  spec: openapi/zype-platform.json
+- name: zype-program-fast-channel
+  file: skills/zype-program-fast-channel.md
+  api: Zype Playout Scheduler API
+  description: Build, schedule, review, undo and publish a FAST/linear channel, then export its EPG as XMLTV or
+    a platform feed.
+  operations: 23
+  spec: openapi/zype-playout-scheduler.json
+- name: zype-manage-subscriber
+  file: skills/zype-manage-subscriber.md
+  api: Zype Consumers + Monetization APIs
+  description: Create a consumer, entitle them to content, run the subscription lifecycle, and cancel reversibly
+    instead of deleting.
+  operations: 29
+  spec: openapi/zype-consumers.json, openapi/zype-monetization.json
+- name: zype-report-analytics
+  file: skills/zype-report-analytics.md
+  api: Zype Analytics API
+  description: Pull engagement, revenue and platform-dynamics metrics from the V3 analytics host, avoiding the silently
+    superseded V2.
+  operations: 13
+  spec: openapi/zype-analytics-v3.json
+provider_published_skills:
+  found: false
+  note: No AGENTS.md, skills/ directory or provider-authored agent skill was found on github.com/zype, docs.zype.com
+    or www.zype.com. github.com/zype/zype-mcp-client ships an MCP tool list and example prompts, which is captured
+    in mcp/zype-mcp.yml rather than here.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

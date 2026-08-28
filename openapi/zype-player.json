@@ -1,0 +1,317 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Player",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://player.zype.com"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/embed/{video_id}.{format}": {
+      "get": {
+        "summary": "View Player",
+        "description": "The full URL will look like https://player.zype.com/embed/[video_id].[format]. The format for the player response must be one of Iframes, JavaScript or JSON players \ndepending on device capabilities (Example: html, js, json). Use a consumer's access token or your site's API/App/Player keys to authenticate this call.",
+        "tags": [
+          "Players"
+        ],
+        "operationId": "getPlayer",
+        "parameters": [
+          {
+            "name": "video_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of video"
+          },
+          {
+            "name": "format",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "iframe",
+                "js",
+                "json"
+              ]
+            },
+            "description": "Player response format:\n * iframe - iframe web player.\n * js - JavaScript web Player\n * json - JSON payload with metada and iether a web player or m3u8 files depending on the `User Agent` and the `player_type` parameter)\n"
+          },
+          {
+            "name": "autoplay",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Whether or not to autoplay on page load"
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Request audio only"
+          },
+          {
+            "name": "download",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Request download only player"
+          },
+          {
+            "name": "dvr",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Enable DVR for Zype Live events"
+          },
+          {
+            "name": "player_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "custom"
+              ]
+            },
+            "description": "Only available when using `.json` format, it will return a JSON payload with m3u8 files regardeless of the user-agent. Inteded for 3rd party web playerintegration."
+          },
+          {
+            "name": "archive_url",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Default: false. When true, it will return the live archive HLS URL. This is only valid for live events videos"
+          },
+          {
+            "name": "start_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Time in epoch format. Mandatory when setting archive_url to true. When requesting the archive HLS URL, sets where the event begins or where you want to start the program from."
+          },
+          {
+            "name": "end_time",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Time in epoch format, optional. If the end_time is not defined, it will generate a live event manifest for the stream starting from the start_time."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Player",
+                  "type": "object",
+                  "properties": {
+                    "outputs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "master_manifest_url": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "advertising": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "client": {
+                            "type": "string"
+                          },
+                          "schedule": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "offset": {
+                                  "type": "integer"
+                                },
+                                "tag": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "subtitles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "file": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "analytics": {
+                      "type": "object",
+                      "properties": {
+                        "beacon": {
+                          "type": "string"
+                        },
+                        "dimensions": {
+                          "type": "object",
+                          "properties": {
+                            "video_id": {
+                              "type": "string"
+                            },
+                            "site_id": {
+                              "type": "string"
+                            },
+                            "player_id": {
+                              "type": "string"
+                            },
+                            "device": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "drm": {
+                      "type": "object",
+                      "properties": {
+                        "custom_data": {
+                          "type": "string"
+                        },
+                        "playready": {
+                          "type": "object",
+                          "properties": {
+                            "license_acquisition_url": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "widevine": {
+                          "type": "object",
+                          "properties": {
+                            "license_acquistion_url": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "fairplay": {
+                          "type": "object",
+                          "properties": {
+                            "license_acquisition_url": {
+                              "type": "string"
+                            },
+                            "certificate_url": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/playlists/{playlist_id}/carousel.format": {
+      "get": {
+        "summary": "View Playlist Carousel Embed",
+        "description": "The full URL will look like https://player.zype.com/playlists/[playlist_id]/carousel.[format]. The format for the player response must be one of Iframes, JavaScript (Example: html, js). Use a consumer's access token or your site's API/App/Player keys to authenticate this call.",
+        "tags": [
+          "Playlist Carousel Embed"
+        ],
+        "operationId": "getPlaylistCarouselEmbed",
+        "parameters": [
+          {
+            "name": "playlist_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of playlist"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The HTML or JS carousel embed script will be returned"
+          }
+        }
+      }
+    }
+  }
+}

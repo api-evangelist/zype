@@ -1,0 +1,1676 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Zobjects",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/zobject_types": {
+      "get": {
+        "summary": "List Zobject Types",
+        "description": "",
+        "tags": [
+          "Zobject Types"
+        ],
+        "operationId": "listZobjectTypes",
+        "parameters": [
+          {
+            "name": "id",
+            "$ref": "#/paths/~1zobjects/get/parameters/1"
+          },
+          {
+            "name": "q",
+            "$ref": "#/paths/~1zobjects/get/parameters/3"
+          },
+          {
+            "name": "response_fields",
+            "$ref": "#/paths/~1zobjects/get/parameters/4"
+          },
+          {
+            "name": "order",
+            "$ref": "#/paths/~1zobjects/get/parameters/5"
+          },
+          {
+            "name": "sort",
+            "$ref": "#/paths/~1zobjects/get/parameters/6"
+          },
+          {
+            "name": "page",
+            "$ref": "#/paths/~1zobjects/get/parameters/7"
+          },
+          {
+            "name": "per_page",
+            "$ref": "#/paths/~1zobjects/get/parameters/8"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of Zobject Types",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ZobjectTypesResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1zobject_types/post/responses/201/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "$ref": "#/paths/~1zobjects/get/responses/200/content/application~1json/schema/properties/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Zobject Type",
+        "description": "",
+        "tags": [
+          "Zobject Types"
+        ],
+        "operationId": "createZobjectType",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ZobjectTypeRequest",
+                "type": "object",
+                "properties": {
+                  "zobject_type": {
+                    "title": "ZobjectTypeProperties",
+                    "type": "object",
+                    "properties": {
+                      "zobject_count": {
+                        "description": "Number of Zobjects created with this Zobject Type",
+                        "type": "string"
+                      },
+                      "description": {
+                        "description": "Description of the Zobject Type",
+                        "type": "string"
+                      },
+                      "title": {
+                        "description": "Title of the Zobject Type (must be unique)",
+                        "example": "Type Title",
+                        "type": "string"
+                      },
+                      "videos_enabled": {
+                        "description": "Indicates whether videos can be associated with instances of the Zobject Type",
+                        "type": "boolean"
+                      },
+                      "playlists_enabled": {
+                        "description": "Indicates whether playlists can be associated with instances of the Zobject Type",
+                        "type": "boolean"
+                      },
+                      "zobject_attributes_attributes": {
+                        "type": "array",
+                        "description": "An indexed collection specifying the custom attributes for the zobject type",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "field_name": {
+                              "type": "string",
+                              "description": "Name of the zobject type custom attribute"
+                            },
+                            "field_type": {
+                              "type": "string",
+                              "description": "Type of the zobject type custom attribute. Example: integer"
+                            },
+                            "description": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ZobjectTypeResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "ZobjectType",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "zobject_count": {
+                          "description": "Number of Zobjects created with this Zobject Type",
+                          "type": "string"
+                        },
+                        "description": {
+                          "description": "Description of the Zobject Type",
+                          "type": "string"
+                        },
+                        "title": {
+                          "description": "Title of the Zobject Type (must be unique)",
+                          "example": "Type Title",
+                          "type": "string"
+                        },
+                        "videos_enabled": {
+                          "description": "Indicates whether videos can be associated with instances of the Zobject Type",
+                          "type": "boolean"
+                        },
+                        "playlists_enabled": {
+                          "description": "Indicates whether playlists can be associated with instances of the Zobject Type",
+                          "type": "boolean"
+                        },
+                        "zobject_attributes_attributes": {
+                          "type": "array"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobject_types/{id}": {
+      "get": {
+        "summary": "Retrieve Zobject Type",
+        "description": "",
+        "tags": [
+          "Zobject Types"
+        ],
+        "operationId": "getZobjectType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobject_types/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject Type not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Zobject Type",
+        "description": "",
+        "tags": [
+          "Zobject Types"
+        ],
+        "operationId": "updateZobjectType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1zobject_types/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobject_types/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject Type not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Zobject Type",
+        "description": "",
+        "tags": [
+          "Zobject Types"
+        ],
+        "operationId": "deleteZobjectType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ZobjectType was successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobject_types/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject Type not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects": {
+      "get": {
+        "summary": "List Zobjects",
+        "description": "Retrieve the site Zobjects.\n\nAppart from the fields listed below, you can also filter by custom attributes.\nFormat: `key=value`.\nExample: if you have a custom attribute `psl_id` you can filter by `psl_id=1234`",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "listZobjects",
+        "parameters": [
+          {
+            "name": "zobject_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by ID\nExample: `id=5992f328ce593000ef000008`"
+          },
+          {
+            "name": "friendly_title",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by friendly title"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by keyword"
+          },
+          {
+            "name": "response_fields",
+            "in": "query",
+            "description": "Filter returned fields. Example: response_fields=id,title,description",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Filter by ascending or descending order"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort on the specified field"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number to return, with per_page dictating page size"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of records to return per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of Zobjects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ZobjectsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema/properties/response"
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "title": "Pagination",
+                      "type": "object",
+                      "properties": {
+                        "current": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "The current page of results"
+                        },
+                        "previous": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the previous page of results",
+                          "nullable": true
+                        },
+                        "next": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the next page of results",
+                          "nullable": true
+                        },
+                        "per_page": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the number of results returned per page"
+                        },
+                        "pages": {
+                          "type": "number",
+                          "format": "int32",
+                          "description": "the total number of pages available, using per_page"
+                        }
+                      },
+                      "example": {
+                        "current": 1,
+                        "previous": null,
+                        "next": 2,
+                        "per_page": 10,
+                        "pages": 20
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Zobject",
+        "description": "",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "createZobject",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json",
+                "multipart/form-data"
+              ]
+            },
+            "description": "Specify the request content type (Default: application/json)"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ZobjectRequest",
+                "type": "object",
+                "required": [
+                  "zobject_type",
+                  "zobject"
+                ],
+                "properties": {
+                  "zobject_type": {
+                    "type": "string",
+                    "description": "The type of Zobject"
+                  },
+                  "zobject": {
+                    "type": "object",
+                    "title": "Zobject Properties",
+                    "properties": {
+                      "active": {
+                        "type": "boolean",
+                        "description": "Indicates if the Zobject is active"
+                      },
+                      "custom": {
+                        "type": "string",
+                        "description": "Custom attributes for the zobject (Example: `zobject[custom][color]=blue`)"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "friendly_title": {
+                        "type": "string",
+                        "description": "The friendly title of the zobject"
+                      },
+                      "keywords": {
+                        "type": "array",
+                        "description": "Keywords for the zobject"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "pictures_attributes": {
+                        "type": "array",
+                        "description": "An indexed collection specifying the pictures attributes for the zobject",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "ID of the zobject picture. Needed in case of update"
+                            },
+                            "title": {
+                              "type": "string",
+                              "description": "Title of the zobject picture"
+                            },
+                            "caption": {
+                              "type": "string",
+                              "description": "caption of the zobject picture"
+                            },
+                            "attachment": {
+                              "type": "string",
+                              "format": "binary",
+                              "description": "File Attachment of the zobject picture (Only supported in requests with content-type multipart/form-data)"
+                            },
+                            "_destroy": {
+                              "type": "boolean",
+                              "description": "True if you want to remove the picture from the zobject"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ZobjectResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Zobject",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "site_id": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "video_ids": {
+                          "type": "array"
+                        },
+                        "playlist_ids": {
+                          "type": "array"
+                        },
+                        "zobject_type_id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "friendly_title": {
+                          "type": "string"
+                        },
+                        "keywords": {
+                          "type": "array"
+                        },
+                        "active": {
+                          "type": "string"
+                        },
+                        "zobject_type_title": {
+                          "type": "string"
+                        },
+                        "pictures": {
+                          "type": "array",
+                          "description": "An indexed collection specifying the pictures attributes for the zobject",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "ID of the zobject picture. Needed in case of update"
+                              },
+                              "title": {
+                                "type": "string",
+                                "description": "Title of the zobject picture"
+                              },
+                              "caption": {
+                                "type": "string",
+                                "description": "caption of the zobject picture"
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "URL of the Picture attachment"
+                              },
+                              "content_type": {
+                                "type": "string",
+                                "description": "Picture content type"
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "description": "Timestamp the image was updated",
+                                "example": "2025-02-04T12:20:30.236-05:00"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}": {
+      "get": {
+        "summary": "Retrieve Zobject",
+        "description": "",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "getZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          },
+          {
+            "name": "zobject_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The type of zobject (Example: guest)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Zobject",
+        "description": "",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "updateZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json",
+                "multipart/form-data"
+              ]
+            },
+            "description": "Specify the request content type (Default: application/json)"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1zobjects/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Zobject",
+        "description": "",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "deleteZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          },
+          {
+            "name": "zobject_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The type of zobject"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Zobject successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}/add_videos": {
+      "put": {
+        "summary": "Add Video(s)",
+        "description": "Add videos to a Zobject",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "addVideoZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the zobject record"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ZobjectAddVideoRequest",
+                "type": "object",
+                "required": [
+                  "zobject_type",
+                  "video_id"
+                ],
+                "properties": {
+                  "zobject_type": {
+                    "type": "string",
+                    "description": "The type of Zobject"
+                  },
+                  "video_id": {
+                    "type": "array",
+                    "title": "Array of video IDs to add",
+                    "items": {
+                      "type": "string",
+                      "description": "Id for the video"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}/remove_videos": {
+      "put": {
+        "summary": "Remove Video(s)",
+        "description": "Remove videos from a Zobject",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "removeVideoZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the zobject record"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1zobjects~1%7Bid%7D~1add_videos/put/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}/videos": {
+      "get": {
+        "summary": "Retrieve Video(s)",
+        "description": "Retrieve all videos linked with a Zobject",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "videosZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          },
+          {
+            "name": "zobject_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The type of zobject"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of videos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "VideosResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "title": "Video",
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "deleted_at": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          },
+                          "on_air": {
+                            "type": "boolean"
+                          },
+                          "purchase_price": {
+                            "type": "number",
+                            "description": "Amount to purchase the video"
+                          },
+                          "purchase_required": {
+                            "type": "boolean",
+                            "description": "Indicates if the video must be purchased before viewing"
+                          },
+                          "rating": {
+                            "type": "number",
+                            "description": "Overall rating of the video"
+                          },
+                          "related_playlist_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "description": "IDs of related playlists"
+                          },
+                          "rental_duration": {
+                            "type": "number",
+                            "description": "Number of days video can be rented"
+                          },
+                          "rental_price": {
+                            "type": "number",
+                            "description": "Price to rent video"
+                          },
+                          "rental_required": {
+                            "type": "boolean",
+                            "description": "Indicates if video must be rented before viewing"
+                          },
+                          "request_count": {
+                            "type": "number",
+                            "description": "Number of times a video has been requested"
+                          },
+                          "site_id": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "crunchyroll_id": {
+                            "type": "string",
+                            "description": "ID of Crunchyroll source"
+                          },
+                          "hulu_id": {
+                            "type": "string",
+                            "description": "ID of Hulu source"
+                          },
+                          "mrss_id": {
+                            "type": "string",
+                            "description": "ID of MRSS source"
+                          },
+                          "kaltura_id": {
+                            "type": "string",
+                            "description": "ID of Kaltura source"
+                          },
+                          "vimeo_id": {
+                            "type": "string",
+                            "description": "ID of the Vimeo source"
+                          },
+                          "youtube_id": {
+                            "type": "string",
+                            "description": "ID of the YouTube source"
+                          },
+                          "thumbnails": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": "Thumbnails attached to the video"
+                          },
+                          "transcoded": {
+                            "type": "boolean",
+                            "description": "Indicates if video has been transcoded"
+                          },
+                          "video_zobjects": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "discovery_url": {
+                            "type": "string"
+                          },
+                          "subscription_ads_enabled": {
+                            "type": "boolean"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "zobject_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": ""
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "short_description": {
+                            "type": "string"
+                          },
+                          "disable_at": {
+                            "type": "string"
+                          },
+                          "enable_at": {
+                            "type": "string"
+                          },
+                          "episode": {
+                            "type": "number"
+                          },
+                          "season": {
+                            "type": "number"
+                          },
+                          "featured": {
+                            "type": "boolean"
+                          },
+                          "friendly_title": {
+                            "type": "string"
+                          },
+                          "keywords": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": ""
+                          },
+                          "live_event": {
+                            "type": "boolean",
+                            "description": "Indicates if the video is a live event"
+                          },
+                          "marketplace_ids": {
+                            "type": "object",
+                            "description": "Override default Marketplace IDs for this video. Marketplace IDs map Zype purchaseable products to 3rd party marketplaces such as Apple iTunes and Google Play Store."
+                          },
+                          "preview_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "An array of Zype hosted video ids that are previews for the current video."
+                          },
+                          "mature_content": {
+                            "type": "boolean"
+                          },
+                          "parental_guidelines_rating": {
+                            "type": "string",
+                            "description": "Parental guidance rating of the video"
+                          },
+                          "pass_required": {
+                            "type": "boolean"
+                          },
+                          "published_at": {
+                            "type": "string"
+                          },
+                          "subscription_required": {
+                            "type": "boolean"
+                          },
+                          "registration_required": {
+                            "type": "boolean",
+                            "description": "Requires a consumer to be registered and authenticated to a valid account in order to view the video."
+                          },
+                          "custom_attributes": {
+                            "type": "object"
+                          },
+                          "categories_attributes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "content_rule_profile_id": {
+                            "type": "string",
+                            "description": "ID of the content rule profile assigned to the video."
+                          },
+                          "segments": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "images_attributes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "manifest": {
+                            "type": "string",
+                            "description": "URL to HLS manifest for video. Only included in response if params[:manifest] = true"
+                          },
+                          "video_source_types": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": "The types of video sources that are associated with the video."
+                          }
+                        }
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "$ref": "#/paths/~1zobjects/get/responses/200/content/application~1json/schema/properties/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}/add_playlists": {
+      "put": {
+        "summary": "Add Playlist(s)",
+        "description": "Add playlists to a Zobject",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "addPlaylistZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the zobject record"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ZobjectAddPlaylistRequest",
+                "type": "object",
+                "required": [
+                  "zobject_type",
+                  "playlist_id"
+                ],
+                "properties": {
+                  "zobject_type": {
+                    "type": "string",
+                    "description": "The type of Zobject"
+                  },
+                  "playlist_id": {
+                    "type": "array",
+                    "title": "Array of playlist IDs to add",
+                    "items": {
+                      "type": "string",
+                      "description": "Id for the playlist"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}/remove_playlists": {
+      "put": {
+        "summary": "Remove Playlist(s)",
+        "description": "Remove playlists from a Zobject",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "removePlaylistZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the zobject record"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1zobjects~1%7Bid%7D~1add_playlists/put/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zobjects/{id}/playlists": {
+      "get": {
+        "summary": "Retrieve Playlist(s)",
+        "description": "Retrieve all playlists linked with a Zobject",
+        "tags": [
+          "Zobjects"
+        ],
+        "operationId": "playlistsZobject",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the record"
+          },
+          {
+            "name": "zobject_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The type of zobject"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of playlists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlaylistsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "title": "Playlist",
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "auto_remove_video_entitlements": {
+                            "type": "boolean"
+                          },
+                          "auto_update_video_entitlements": {
+                            "type": "boolean"
+                          },
+                          "categories": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "content_rule_profile_id": {
+                            "type": "string",
+                            "description": "ID of the content rule profile assigned to the playlist."
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "deleted_at": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "discovery_url": {
+                            "type": "string",
+                            "description": "URL where your playlist can be discovered"
+                          },
+                          "friendly_title": {
+                            "type": "string"
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "internal_title": {
+                            "type": "string"
+                          },
+                          "keywords": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": ""
+                          },
+                          "match_type": {
+                            "type": "string"
+                          },
+                          "parent_id": {
+                            "type": "string"
+                          },
+                          "playlist_item_count": {
+                            "type": "number",
+                            "description": "Number of videos in a playlist"
+                          },
+                          "playlist_type": {
+                            "type": "string"
+                          },
+                          "priority": {
+                            "type": "number"
+                          },
+                          "purchase_price": {
+                            "type": "number"
+                          },
+                          "purchase_required": {
+                            "type": "boolean"
+                          },
+                          "rental_duration": {
+                            "type": "number"
+                          },
+                          "rental_price": {
+                            "type": "number"
+                          },
+                          "rental_required": {
+                            "type": "boolean"
+                          },
+                          "site_id": {
+                            "type": "string"
+                          },
+                          "sort_options": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "thumbnail_layout": {
+                            "type": "string"
+                          },
+                          "thumbnails": {
+                            "type": "array",
+                            "items": {
+                              "type": "object"
+                            },
+                            "description": ""
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "updated_at": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "description": ""
+                    },
+                    "pagination": {
+                      "$ref": "#/paths/~1zobjects/get/responses/200/content/application~1json/schema/properties/pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zobject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

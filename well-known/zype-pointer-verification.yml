@@ -1,0 +1,32 @@
+generated: '2026-08-28'
+method: probed
+source: live GET of every http(s) pointer in apis.yml with a browser User-Agent
+note: >-
+  Every pointer emitted or retained in apis.yml on 2026-08-28 was fetched and its status
+  recorded. 30 of 31 returned 200. The one non-200 is support.zype.com, a Zendesk help
+  center that returns 403 to non-browser clients — it is a bot challenge, not a dead page:
+  the site is linked from Zype's own llms.txt, its security-compliance page and its
+  developer hub, and it renders normally in a browser. It is retained and annotated rather
+  than removed. No pointer was found dead, so none was removed.
+results:
+  live_200: 30
+  bot_challenged_403: 1
+  dead: 0
+  removed: 0
+bot_challenged:
+  - url: https://support.zype.com/hc/en-us
+    status: 403
+    platform: Zendesk Help Center
+    note: 403 to curl with and without a browser User-Agent; linked from www.zype.com/llms.txt as "Help Center".
+corrected:
+  - pointer: humanURL for zype:analytics (Analytics V2)
+    was: https://docs.zype.com/reference/engagement
+    status_was: 404
+    now: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+    note: >-
+      The V2 analytics spec is still published in the ReadMe API registry but its reference
+      pages have been removed from docs.zype.com. Recorded in lifecycle/zype-lifecycle.yml
+      as the implicit, unannounced deprecation of Analytics V2.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

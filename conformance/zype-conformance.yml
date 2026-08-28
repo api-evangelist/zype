@@ -1,0 +1,193 @@
+generated: '2026-08-28'
+method: searched
+source: https://api.zype.com/.well-known/oauth-authorization-server, https://www.zype.com/security-compliance, and
+  the 15 files in openapi/
+note: Cross-cutting web-API standards first, then the domain standards Zype's own contract declares for the streaming/OTT
+  market. Every domain entry cites the exact spec location that declares it — none is inferred from marketing copy.
+conformance:
+- id: oauth2
+  conforms: true
+  evidence: https://api.zype.com/.well-known/oauth-authorization-server (HTTP 200) declares authorization_endpoint,
+    token_endpoint, four grant types (authorization_code, client_credentials, password, refresh_token) and 148 scopes.
+    openapi/zype-login.json publishes POST /oauth/token, the token-status read and POST /oauth/revoke.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: Served at /.well-known/oauth-authorization-server on BOTH api.zype.com and login.zype.com, HTTP 200
+    application/json, with issuer/authorization_endpoint/token_endpoint/scopes_supported/response_types_supported
+    present.
+- id: rfc7636
+  name: PKCE
+  conforms: true
+  evidence: 'code_challenge_methods_supported: ["S256"] in the authorization server metadata.'
+- id: rfc7662
+  name: OAuth 2.0 Token Introspection
+  conforms: true
+  evidence: 'introspection_endpoint: https://api.zype.com/oauth/introspect in the metadata document.'
+- id: rfc7009
+  name: OAuth 2.0 Token Revocation
+  conforms: true
+  evidence: revocation_endpoint in the metadata document; POST /oauth/revoke in openapi/zype-login.json (operationId
+    post_oauth-revoke).
+- id: oauth-client-id-metadata-document
+  conforms: true
+  evidence: 'client_id_metadata_document_supported: true in the authorization server metadata — Zype accepts a URL
+    as client_id, the dynamic-registration-free pattern MCP and agent clients increasingly rely on. Rare: very few
+    providers in the catalog advertise it.'
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on api.zype.com and login.zype.com. OAuth 2.0 only — no
+    id_token, no userinfo endpoint.
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: 'All 383 documented 4xx/5xx responses across the 15 specs use application/json with a bare {"message":
+    "..."} envelope; application/problem+json appears nowhere. See errors/zype-problem-types.yml.'
+- id: pagination
+  conforms: true
+  evidence: Page-number pagination (page, per_page, max 100) with a `pagination` response envelope carrying current/previous/next/per_page/pages,
+    documented at https://docs.zype.com/reference/welcome-to-the-zype-api-documentation and required on all list
+    operations.
+- id: idempotency
+  conforms: false
+  evidence: The string "idempoten" appears in none of the 15 OpenAPI files and nowhere in the published documentation.
+    No idempotency key header exists.
+- id: json:api
+  conforms: false
+  evidence: 'Vendor JSON shape ({response: ..., pagination: ...}); no application/vnd.api+json media type anywhere.'
+- id: odata
+  conforms: false
+  evidence: No $metadata surface and no OData query options.
+- id: scim
+  conforms: false
+  evidence: No urn:ietf:params:scim:schemas:* URN in any spec; admin users are managed through a proprietary /site/users
+    surface.
+- id: fhir
+  conforms: false
+  evidence: Out of market — Zype is a video/OTT platform.
+- id: psd2
+  conforms: false
+  evidence: Out of market. Zype delegates card processing to Stripe and Recurly, both of which it names as PSD2-compliant
+    on https://www.zype.com/security-compliance, but Zype itself publishes no PSD2 surface.
+domain_standards:
+- id: xmltv
+  name: XMLTV (electronic programme guide interchange)
+  conforms: true
+  evidence: openapi/zype-playout-scheduler.json declares GET /scheduler/v1/channels/{id}/published/rundown/xmltv.xml
+    — "View Channel's Published Rundown XMLTV format" (operationId channelxmltvepg). A downstream EPG consumer that
+    already speaks XMLTV ingests a Zype FAST channel with no bespoke connector.
+  market: FAST / linear channel distribution
+- id: iab-vast
+  name: IAB VAST
+  conforms: true
+  evidence: openapi/zype-monetization.json AdTag._type is documented as one of "AdTag::Vast" or "AdTag::Googima";
+    openapi/zype-playout-scheduler.json describes the channel ad tag as "typically a VAST-compliant tag URL generated
+    by your ad provider".
+  market: digital video advertising
+- id: iab-vmap
+  name: IAB VMAP
+  conforms: true
+  evidence: openapi/zype-monetization.json AdTag carries a `vmap` boolean — "Indicates if AdTag is a VMAP".
+  market: digital video advertising
+- id: scte-35
+  name: SCTE-35 (digital program insertion cueing)
+  conforms: partial
+  evidence: openapi/zype-playout-scheduler.json exposes scteMidrollIdMatchEnabled on the channel configuration,
+    so SCTE-35 marker matching is configurable through the API. Zype does not publish a SCTE-35 message surface
+    itself — it configures how upstream markers are honoured.
+  market: linear playout / ad insertion
+- id: mrss
+  name: Media RSS (MRSS)
+  conforms: true
+  evidence: mrss_id is a first-class video-source identifier in openapi/zype-platform.json, openapi/zype-uploads.json
+    and openapi/zype-zobjects.json ("ID of MRSS source"); MRSS is listed as an included capability on every Streaming
+    Platform tier at https://www.zype.com/pricing.
+  market: content syndication
+- id: hls
+  name: HTTP Live Streaming (RFC 8216)
+  conforms: true
+  evidence: HLS appears 84 times across the specs; the Playout Scheduler publishes a full HLS Profile resource (/scheduler/v1/profiles/hls,
+    6 operations) and openapi/zype-player.json returns m3u8. The docs publish the exact HLS rendition ladder (240p-1080p,
+    16x9).
+  market: video delivery
+- id: mpeg-dash
+  name: MPEG-DASH
+  conforms: partial
+  evidence: DASH appears in the player and delivery configuration in openapi/zype-player.json; Zype publishes no
+    DASH profile resource comparable to the HLS one.
+  market: video delivery
+- id: drm-cenc
+  name: Common Encryption DRM (Widevine / FairPlay / PlayReady)
+  conforms: true
+  evidence: openapi/zype-player.json returns discrete `widevine`, `fairplay` and `playready` objects in the player
+    payload — all three CENC-family key systems, which is what an EME-based player needs to acquire a licence.
+  market: content protection
+- id: tve-mvpd-authentication
+  name: TV Everywhere / MVPD authentication (Adobe Primetime Authentication)
+  conforms: true
+  evidence: 'openapi/zype-tve.json (6 operations on tve.zype.com) implements the Adobe Primetime device-session
+    flow end to end: register device session, validate device session token, retrieve preauthorized resources, obtain
+    short media token, destroy device session — including the resourceId/MRSS-fragment form an MVPD authorization
+    endpoint recognises.'
+  market: pay-TV / TV Everywhere
+- id: vendor-epg-feeds
+  name: Platform EPG feeds (Vizio, TCL, Wurl, Roku)
+  conforms: true
+  evidence: openapi/zype-playout-scheduler.json publishes getvizioepg, gettclepg, getwurlepg and getrokuepg alongside
+    the XMLTV and JSON rundown endpoints — one endpoint per FAST platform. These are vendor formats, not open standards;
+    recorded here because they are the practical integration surface for FAST distribution.
+  market: FAST distribution
+  standard: false
+compliance_programs:
+  source: https://www.zype.com/security-compliance (HTTP 200)
+  certifications:
+  - name: SOC 2 Type II
+    status: attested
+    note: Zype states it has received a SOC 2 Type II report; the report is available on request under NDA.
+  - name: PCI
+    status: self-certified
+    note: Zype self-certifies PCI compliance for payments on the platform in accordance with its payment provider
+      partners (Stripe and Recurly, both PCI DSS Level 1); details available on request under NDA.
+  - name: ISO 27001
+    status: claimed
+    note: Named in Zype's own list of industry-standard certifications the platform is hosted and managed to comply
+      with.
+  - name: GDPR
+    status: compliant
+    note: For services provided in the EU; a standard Data Processing Agreement can be executed on request.
+  - name: CCPA
+    status: compliant
+    note: For services provided in California.
+  infrastructure_inheritance:
+  - provider: Amazon Web Services
+    standards:
+    - ISO 27001
+    - ISO 27017
+    - ISO 27018
+    - MPA
+    - SOC 2
+    - GDPR
+  - provider: Google Cloud Platform
+    standards:
+    - ISO 27001
+    - ISO 27017
+    - ISO 27018
+    - MPA
+    - SOC 2
+    - GDPR
+  - provider: Stripe
+    standards:
+    - PCI DSS Level 1
+    - PSD2
+    - SOC 2
+  - provider: Recurly
+    standards:
+    - PCI DSS Level 1
+    - PSD2
+    - SOC 2
+  note: MPA (Motion Picture Association) content-security is the media-specific standard in this list and it is
+    inherited from AWS/GCP rather than held by Zype directly. Penetration testing internal and external is claimed
+    on the same page.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

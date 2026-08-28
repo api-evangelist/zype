@@ -1,53 +1,452 @@
 aid: zype
 name: Zype
-description: >-
-  Zype products are built for developers by developers. By keeping the developer in
-  focus with regular API-innovation and a robust library of reference documentation,
-  Zype provides the tools and knowledge resources for building better video products
-  that will delight and engage streaming audiences.
+description: Zype is an API-first video content management and streaming platform used by enterprises and media
+  companies to run OTT apps, FAST and linear channels, and global video distribution. The platform spans a video
+  CMS and CRM, cloud encoding, multi-CDN delivery, AI-assisted metadata, transcription and translation, SSAI advertising
+  and DRM, subscription and transactional monetization, consumer entitlements, TV Everywhere authentication, cloud
+  playout scheduling with XMLTV and platform EPG export, and a no-code app builder for web, mobile and connected
+  TV. Zype publishes fifteen OpenAPI 3.0.1 definitions covering 317 operations, an RFC 8414 OAuth authorization
+  server advertising 148 scopes, and a first-party MCP server. Zype is a Backlight business.
 type: Index
 accessModel:
-  pricing: freemium
-  onboarding: unknown
+  pricing: paid
+  onboarding: sales
   trial: false
   try_now: false
-  public: false
-  label: Freemium
-  confidence: medium
+  public: true
+  label: Paid, sales-led
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
+  - https://www.zype.com/pricing
+  generated: '2026-08-28'
+  method: searched
+  note: Corrected from "freemium". Zype publishes seven named, priced plans on zype.com/pricing (from $500/mo on
+    annual terms) and every one closes with Contact Sales. There is no free tier, no trial and no self-serve checkout.
+    Documentation and the OpenAPI definitions are fully public; only the keys are gated.
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/zype.png
-tags: []
+tags:
+- Video
+- Streaming
+- OTT
+- Video CMS
+- FAST
+- Linear TV
+- Playout
+- Monetization
+- Live Streaming
+- Analytics
+- Media & Entertainment
+- DRM
+- Advertising
+- Encoding
+- EPG
 created: '2025-02-12'
-modified: '2026-03-16'
+modified: '2026-08-28'
 url: https://raw.githubusercontent.com/api-evangelist/zype/refs/heads/main/apis.yml
 specificationVersion: '0.23'
+parent:
+  name: Backlight
+  url: https://www.backlight.co
+  note: Zype is a Backlight business — stated in the footer of www.zype.com. Backlight also owns iconik, Celtx,
+    ftrack and Wildmoka. Zype keeps its own domain, docs, status page and API surface, which is why it is profiled
+    here rather than under backlight.
 common:
-  - type: DomainSecurity
-    url: security/zype-domain-security.yml
-  - type: GitHubOrganization
-    url: https://github.com/zype
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/zype-inc
-  - url: https://www.zype.com/blog/rss.xml
-    type: Blog
+- type: Website
+  url: https://www.zype.com/
+- type: DeveloperPortal
+  url: https://www.zype.com/developers
+- type: Documentation
+  url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+- type: APIReference
+  url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+- type: GettingStarted
+  url: https://www.zype.com/developers/zype-api
+- type: Support
+  url: https://www.zype.com/resources/support
+- type: HelpCenter
+  url: https://support.zype.com/hc/en-us
+- type: Blog
+  url: https://www.zype.com/blog
+- type: BlogRSS
+  url: https://www.zype.com/blog/rss.xml
+- type: GitHubOrganization
+  url: https://github.com/zype
+- type: LinkedIn
+  url: https://www.linkedin.com/company/zype-inc
+- type: Pricing
+  url: https://www.zype.com/pricing
+- type: Plans
+  url: plans/zype-plans-pricing.yml
+- type: SignUp
+  url: https://www.zype.com/request-demo
+- type: Login
+  url: https://admin.zype.com/login
+- type: TermsOfService
+  url: https://www.zype.com/availability-sla-and-support-terms
+- type: PrivacyPolicy
+  url: https://www.backlight.co/privacy
+- type: StatusPage
+  url: https://status.zype.com
+- type: Lifecycle
+  url: lifecycle/zype-lifecycle.yml
+- type: Security
+  url: https://www.zype.com/security-compliance
+- type: VulnerabilityDisclosure
+  url: security/zype-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: https://trust.zype.com
+- type: Compliance
+  url: conformance/zype-conformance.yml
+- type: Conformance
+  url: conformance/zype-conformance.yml
+- type: DomainSecurity
+  url: security/zype-domain-security.yml
+- type: Authentication
+  url: authentication/zype-authentication.yml
+- type: OAuthScopes
+  url: scopes/zype-scopes.yml
+- type: WellKnown
+  url: well-known/zype-well-known.yml
+- type: MCPServer
+  url: mcp/zype-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/zype-tool-crosswalk.yml
+- type: Packages
+  url: packages/zype-packages.yml
+- type: SDKs
+  url: packages/zype-packages.yml
+- type: LLMsTxt
+  url: llms/zype-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ErrorCatalog
+  url: errors/zype-problem-types.yml
+- type: Conventions
+  url: conventions/zype-conventions.yml
+- type: DataModel
+  url: data-model/zype-data-model.yml
+- type: Components
+  url: components/zype-components.yml
+- type: RateLimits
+  url: rate-limits/zype-rate-limits.yml
+- type: FinOps
+  url: finops/zype-finops.yml
+- type: PointerVerification
+  url: well-known/zype-pointer-verification.yml
 apis:
-  - aid: zype:zype
-    name: Zype
-    description: >-
-      Zype products are built for developers by developers. By keeping the developer
-      in focus with regular API-innovation and a robust library of reference documentation,
-      Zype provides the tools and knowledge resources for building better video products
-      that will delight and engage streaming audiences.
-    humanURL: ' https://www.zype.com/developers/zype-api'
-    tags: []
-    properties:
-      - type: Documentation
-        url: ' https://www.zype.com/developers/zype-api'
+- aid: zype:platform
+  name: Zype Platform API
+  description: 'The core Zype content API: videos, playlists, categories, subtitles and subtitle playlists, transcriptions
+    and translations, AI metadata suggestions, segments, program guides, video imports and sources, devices, GeoIP,
+    admin users and legacy live encoders. 88 operations.'
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Video
+  - Content Management
+  - Metadata
+  - Transcription
+  - Playlists
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-platform.json
+  - type: Overlay
+    url: overlays/zype-platform-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+- aid: zype:playout-scheduler
+  name: Zype Playout Scheduler API
+  description: 'Cloud playout for FAST and linear channels: channels, HLS/UDP/RTMP delivery profiles, destinations
+    and connectors, draft and published schedule versions, revertible timeline operations, assets (blocks, ads,
+    bumpers, videos, playlists, graphics, live streams), ad timings, recurrence rules, and EPG export in XMLTV,
+    JSON rundown and Vizio/TCL/Wurl/Roku formats. 82 operations. This is the only Zype API that authenticates with
+    an X-API-Key header rather than a query parameter.'
+  humanURL: https://docs.zype.com/reference/channels
+  baseURL: https://api.zype.com/
+  tags:
+  - FAST
+  - Linear TV
+  - Playout
+  - Scheduling
+  - EPG
+  - XMLTV
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-playout-scheduler.json
+  - type: Overlay
+    url: overlays/zype-playout-scheduler-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+- aid: zype:monetization
+  name: Zype Monetization API
+  description: Subscriptions with a reversible cancel/reactivate pair, plans and tiered plan-to-playlist binding,
+    transactions carrying Stripe/Braintree/Recurly references, redemption codes with bulk minting and redemption,
+    IAB VAST/VMAP ad tags, revenue models and video favorites. 36 operations.
+  humanURL: https://docs.zype.com/reference/subscriptions
+  baseURL: https://api.zype.com/
+  tags:
+  - Monetization
+  - Subscriptions
+  - Advertising
+  - VAST
+  - Payments
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-monetization.json
+  - type: Overlay
+    url: overlays/zype-monetization-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+- aid: zype:consumers
+  name: Zype Consumers API
+  description: 'The end-viewer surface: consumer records, password reset flows, parental access codes, device pin
+    linking, and video, playlist and subscription entitlements. 24 operations.'
+  humanURL: https://docs.zype.com/reference/consumers
+  baseURL: https://api.zype.com/
+  tags:
+  - Consumers
+  - Entitlements
+  - Identity
+  - Device Linking
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-consumers.json
+  - type: Overlay
+    url: overlays/zype-consumers-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+- aid: zype:live-3
+  name: Zype Live API (V3)
+  description: 'Live streaming V3: encoder lifecycle including start, stop and sync, and live events with start,
+    stop and archive. 16 operations. Supersedes the legacy /live/encoders surface still carried in the Platform
+    spec.'
+  humanURL: https://docs.zype.com/reference/live-encoders
+  baseURL: https://api.zype.com
+  tags:
+  - Live Streaming
+  - Encoding
+  - Broadcast
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-live-3.json
+  - type: Overlay
+    url: overlays/zype-live-3-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+- aid: zype:zobjects
+  name: Zype Zobjects API
+  description: 'Zype''s custom-metadata model: Zobject Types define a schema (actor, director, team, season) and
+    Zobjects are instances, attachable to videos and playlists in both directions. 16 operations.'
+  humanURL: https://docs.zype.com/reference/zobjects
+  baseURL: https://api.zype.com/
+  tags:
+  - Metadata
+  - Taxonomy
+  - Content Management
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-zobjects.json
+  - type: Overlay
+    url: overlays/zype-zobjects-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+- aid: zype:analytics-v3
+  name: Zype Analytics API (V3)
+  description: 'Current analytics surface across three families: engagement (plays, viewers, hours watched, view
+    time), revenue (new subscriptions, subscription events, subscription revenue, new transactions) and platform
+    dynamics (consumers, metrics, player requests, stream hours, playout hours). 13 operations.'
+  humanURL: https://docs.zype.com/reference/platform-dynamics
+  baseURL: https://analytics.zype.com
+  tags:
+  - Analytics
+  - Reporting
+  - Engagement
+  - Revenue
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-analytics-v3.json
+  - type: Overlay
+    url: overlays/zype-analytics-v3-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+- aid: zype:analytics
+  name: Zype Analytics API (V2)
+  description: Legacy V2 analytics surface — stream hours, player requests, engagement, site counts, consumers,
+    subscriptions, subscription events, subscription revenue and transactions. 9 operations. Superseded by Analytics
+    V3 with no published deprecation notice or sunset date. No dedicated reference category is published for V2
+    on docs.zype.com — the spec is still served from the ReadMe API registry but its docs pages have been removed,
+    which is the clearest deprecation signal Zype gives.
+  humanURL: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  baseURL: https://analytics.zype.com
+  tags:
+  - Analytics
+  - Reporting
+  - Legacy
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-analytics.json
+  - type: Overlay
+    url: overlays/zype-analytics-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+- aid: zype:content-regions
+  name: Zype Custom Regions API
+  description: Site-scoped custom regions and global content regions, the geographic building blocks used by content
+    rules. 7 operations.
+  humanURL: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  baseURL: https://api.zype.com/
+  tags:
+  - Geo
+  - Content Rules
+  - Rights Management
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-content-regions.json
+  - type: Overlay
+    url: overlays/zype-content-regions-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+- aid: zype:content-rule-groups
+  name: Zype Content Rule Groups API
+  description: Site-scoped and global content rule groups — reusable bundles of rules applied to content availability.
+    7 operations.
+  humanURL: https://docs.zype.com/reference/content-rule-groups
+  baseURL: https://api.zype.com/
+  tags:
+  - Content Rules
+  - Rights Management
+  - Geo
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-content-rule-groups.json
+  - type: Overlay
+    url: overlays/zype-content-rule-groups-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+- aid: zype:content-rules
+  name: Zype Content Rule Profiles API
+  description: Content rule profiles plus the country/state/city lookups they are built from — geo-blocking and
+    availability windows. 7 operations.
+  humanURL: https://docs.zype.com/reference/content-rule-profiles
+  baseURL: https://api.zype.com/
+  tags:
+  - Content Rules
+  - Geo
+  - Rights Management
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-content-rules.json
+  - type: Overlay
+    url: overlays/zype-content-rules-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+- aid: zype:tve
+  name: Zype TVE API
+  description: 'TV Everywhere / MVPD authentication implemented against the Adobe Primetime device-session flow:
+    register a device session, create a Zype consumer, validate a session token, retrieve preauthorized resources,
+    obtain a short media token and destroy the session. 6 operations.'
+  humanURL: https://docs.zype.com/reference/adobe
+  baseURL: https://tve.zype.com/
+  tags:
+  - TV Everywhere
+  - MVPD
+  - Authentication
+  - Adobe Primetime
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-tve.json
+  - type: Overlay
+    url: overlays/zype-tve-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+- aid: zype:login
+  name: Zype Consumer Authentication API
+  description: 'Consumer-facing OAuth 2.0: retrieve an access token, read token status and revoke a token. 3 operations.
+    login.zype.com serves its own RFC 8414 authorization server metadata document alongside the one on api.zype.com.'
+  humanURL: https://docs.zype.com/reference/oauth
+  baseURL: https://login.zype.com
+  tags:
+  - OAuth
+  - Authentication
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-login.json
+  - type: Overlay
+    url: overlays/zype-login-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+- aid: zype:player
+  name: Zype Player API
+  description: Retrieves the embeddable player for a video in html, js or json form — the json form returns metadata
+    plus the Widevine, FairPlay and PlayReady DRM objects and m3u8 references — and the playlist carousel embed.
+    2 operations.
+  humanURL: https://docs.zype.com/reference/players
+  baseURL: https://player.zype.com
+  tags:
+  - Player
+  - Embed
+  - DRM
+  - HLS
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-player.json
+  - type: Overlay
+    url: overlays/zype-player-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+- aid: zype:uploads
+  name: Zype Uploads API
+  description: Creates an upload for direct ingest of a source file into the Zype library. 1 operation.
+  humanURL: https://docs.zype.com/reference/uploads
+  baseURL: https://uploads.zype.com/
+  tags:
+  - Uploads
+  - Ingest
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-uploads.json
+  - type: Overlay
+    url: overlays/zype-uploads-overlay.yaml
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-28'
+  status: enriched
+  artifacts_added: 54
+  pass: local-v1

@@ -1,0 +1,1574 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Live (V3)",
+    "version": "1.0.0",
+    "description": "Live (V3) API for managing live streaming encoders"
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "paths": {
+    "/v3/live/encoders": {
+      "get": {
+        "summary": "List Encoders",
+        "description": "Retrieve a list of live encoders from your account",
+        "operationId": "listEncoders",
+        "tags": [
+          "Live Encoders"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of encoders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "V3EncodersResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Encoder",
+        "description": "Create a new live encoder",
+        "operationId": "createEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "requestBody": {
+          "description": "Encoder configuration",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "V3EncoderRequest",
+                "type": "object",
+                "required": [
+                  "encoder"
+                ],
+                "properties": {
+                  "encoder": {
+                    "type": "object",
+                    "title": "V3EncoderProperties",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name for the encoder"
+                      },
+                      "region": {
+                        "type": "string",
+                        "description": "AWS region where the encoder will be deployed",
+                        "enum": [
+                          "us-east-1",
+                          "eu-central-1",
+                          "ap-southeast-2"
+                        ]
+                      },
+                      "event_profile_id": {
+                        "type": "string",
+                        "description": "HLS profile ID for the encoder output. Available profiles: CMAF 1080p @ 30fps (70e05a7a-f5e4-4a5b-9e4d-c0b9c5d9056c), CMAF 720p @ 30fps (e201c104-c58d-4fcd-bb29-cca4cb46803a), CMAF 1080p @ 60fps (e1deb531-fb06-464f-b859-4ecec656ee6b), CMAF 720p @ 60fps (4356814e-aa38-4e0b-b1bb-0bc9b824de35)"
+                      },
+                      "mqcs_input_switch_enabled": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "When enabled, MediaPackage automatically switches to the input presenting the best Media Quality Confidence Score (MQCS)."
+                      },
+                      "high_availability_enabled": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "When enabled, provisions a secondary input source for failover. Requires secondary_hostname on push inputs (e.g. RTMP) or source_secondary_url on HLS pull inputs. Also requires backup_url on any RTMP destinations."
+                      },
+                      "nielsen_tagging": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "When enabled, Nielsen PCM-to-ID3 tagging is activated for DAR measurement."
+                      },
+                      "nielsen_distributor_id": {
+                        "type": "string",
+                        "description": "Nielsen distributor ID for DAR measurement. Only used when nielsen_tagging is enabled."
+                      },
+                      "live_inputs_attributes": {
+                        "type": "array",
+                        "description": "List of live inputs for the encoder",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "protocol",
+                            "hostname"
+                          ],
+                          "properties": {
+                            "protocol": {
+                              "type": "string",
+                              "description": "Protocol for the live input (required on create)",
+                              "enum": [
+                                "rtmp"
+                              ]
+                            },
+                            "ip_whitelist": {
+                              "type": "array",
+                              "description": "List of IP addresses/CIDR blocks allowed to stream (1-2 entries required)",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "hostname": {
+                              "type": "string",
+                              "description": "Hostname for the live input (1-63 characters, alphanumeric and hyphens only)"
+                            },
+                            "source_secondary_url": {
+                              "type": "string",
+                              "description": "Secondary source URL for HA failover (HLS pull inputs only). Required when high_availability_enabled is true."
+                            }
+                          }
+                        }
+                      },
+                      "live_destinations_attributes": {
+                        "type": "array",
+                        "description": "List of live destinations for the encoder",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "destination_type"
+                          ],
+                          "properties": {
+                            "destination_type": {
+                              "type": "string",
+                              "description": "Type of destination",
+                              "enum": [
+                                "hls",
+                                "rtmp"
+                              ]
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the destination"
+                            },
+                            "enabled": {
+                              "type": "boolean",
+                              "description": "Whether this destination is enabled"
+                            },
+                            "start_over_window": {
+                              "type": "integer",
+                              "description": "DVR window duration in seconds (HLS only, 10800-1209600)"
+                            },
+                            "playlist_window_duration": {
+                              "type": "integer",
+                              "description": "Live playlist window duration in seconds (HLS only, 0-10800)"
+                            },
+                            "username": {
+                              "type": "string",
+                              "description": "Username for RTMP authentication (RTMP only)"
+                            },
+                            "password": {
+                              "type": "string",
+                              "description": "Password for RTMP authentication (RTMP only)"
+                            },
+                            "stream_key": {
+                              "type": "string",
+                              "description": "Stream key for the RTMP destination (RTMP only)"
+                            },
+                            "primary_url": {
+                              "type": "string",
+                              "description": "Primary RTMP URL for streaming (RTMP only, required)"
+                            },
+                            "backup_url": {
+                              "type": "string",
+                              "description": "Backup RTMP URL for failover (RTMP only). Required when high_availability_enabled is true on the encoder."
+                            },
+                            "auth_enabled": {
+                              "type": "boolean",
+                              "description": "Whether authentication is enabled (RTMP only)"
+                            },
+                            "resolution": {
+                              "type": "integer",
+                              "description": "Output resolution (RTMP only)",
+                              "enum": [
+                                720,
+                                1080
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Encoder created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "V3EncoderResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "object",
+                      "title": "V3Encoder",
+                      "description": "V3 Live Encoder configuration",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "Unique identifier for the encoder"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the encoder"
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "Current status of the encoder",
+                          "enum": [
+                            "off-air",
+                            "on-air",
+                            "error"
+                          ]
+                        },
+                        "region": {
+                          "type": "string",
+                          "description": "AWS region where the encoder is deployed",
+                          "enum": [
+                            "us-east-1",
+                            "eu-central-1",
+                            "ap-southeast-2"
+                          ]
+                        },
+                        "event_profile_id": {
+                          "type": "string",
+                          "description": "HLS profile ID for the encoder output"
+                        },
+                        "mqcs_input_switch_enabled": {
+                          "type": "boolean",
+                          "description": "Whether MediaPackage input switching based on Media Quality Confidence Score (MQCS) is enabled for this encoder."
+                        },
+                        "encoder_url": {
+                          "type": "string",
+                          "description": "URL for the encoder input"
+                        },
+                        "high_availability_enabled": {
+                          "type": "boolean",
+                          "description": "Whether High Availability failover is enabled for this encoder."
+                        },
+                        "nielsen_tagging": {
+                          "type": "boolean",
+                          "description": "Whether Nielsen PCM-to-ID3 tagging is enabled for this encoder."
+                        },
+                        "nielsen_distributor_id": {
+                          "type": "string",
+                          "description": "Nielsen distributor ID used for DAR measurement. Only relevant when nielsen_tagging is enabled."
+                        },
+                        "encoder_secondary_url": {
+                          "type": "string",
+                          "description": "Secondary input URL for failover when High Availability is enabled. Empty string when HA is not enabled."
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp when the encoder was created"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp when the encoder was last updated"
+                        },
+                        "live_inputs": {
+                          "type": "array",
+                          "description": "List of live inputs for the encoder",
+                          "items": {
+                            "type": "object",
+                            "title": "V3LiveInput",
+                            "description": "Live input configuration for an encoder",
+                            "properties": {
+                              "_id": {
+                                "type": "string",
+                                "description": "Unique identifier for the live input"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the live input"
+                              },
+                              "protocol": {
+                                "type": "string",
+                                "description": "Protocol used for the live input",
+                                "enum": [
+                                  "rtmp"
+                                ]
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "Full URL for the live input stream"
+                              },
+                              "hostname": {
+                                "type": "string",
+                                "description": "Hostname for the live input"
+                              },
+                              "domain": {
+                                "type": "string",
+                                "description": "Domain for the live input"
+                              },
+                              "external_id": {
+                                "type": "string",
+                                "description": "External identifier from the streaming provider"
+                              },
+                              "ip_whitelist": {
+                                "type": "array",
+                                "description": "List of IP addresses/CIDR blocks allowed to stream",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "secondary_hostname": {
+                                "type": "string",
+                                "description": "Secondary hostname for failover (push protocols only, e.g. RTMP). Present when High Availability is enabled."
+                              },
+                              "source_secondary_url": {
+                                "type": "string",
+                                "description": "Secondary source URL for failover (HLS pull inputs only). Present when High Availability is enabled."
+                              },
+                              "live_streams": {
+                                "type": "array",
+                                "description": "List of live streams for this input",
+                                "items": {
+                                  "type": "object",
+                                  "title": "V3LiveStream",
+                                  "description": "Live stream information for a live input",
+                                  "properties": {
+                                    "_id": {
+                                      "type": "string",
+                                      "description": "Unique identifier for the live stream"
+                                    },
+                                    "external_id": {
+                                      "type": "string",
+                                      "description": "External identifier from the streaming provider"
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "description": "Title of the live stream"
+                                    },
+                                    "duration": {
+                                      "type": "integer",
+                                      "description": "Duration of the live stream in seconds"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "live_destinations": {
+                          "type": "array",
+                          "description": "List of live destinations for the encoder",
+                          "items": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "title": "V3LiveDestinationHls",
+                                "description": "HLS-specific destination properties",
+                                "allOf": [
+                                  {
+                                    "type": "object",
+                                    "title": "V3LiveDestination",
+                                    "description": "Base live destination configuration",
+                                    "properties": {
+                                      "_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the live destination"
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Name of the live destination"
+                                      },
+                                      "description": {
+                                        "type": "string",
+                                        "description": "Description of the live destination"
+                                      },
+                                      "destination_type": {
+                                        "type": "string",
+                                        "description": "Type of destination",
+                                        "enum": [
+                                          "hls",
+                                          "rtmp"
+                                        ]
+                                      },
+                                      "enabled": {
+                                        "type": "boolean",
+                                        "description": "Whether this destination is enabled"
+                                      },
+                                      "external_id": {
+                                        "type": "string",
+                                        "description": "External identifier from the streaming provider"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "playlist_window_duration": {
+                                        "type": "integer",
+                                        "description": "Duration of the live playlist window in seconds (0-10800)"
+                                      },
+                                      "start_over_window": {
+                                        "type": "integer",
+                                        "description": "DVR window duration in seconds (10800-1209600)"
+                                      },
+                                      "url": {
+                                        "type": "string",
+                                        "description": "HLS manifest URL"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "object",
+                                "title": "V3LiveDestinationRtmp",
+                                "description": "RTMP-specific destination properties",
+                                "allOf": [
+                                  {
+                                    "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema/properties/response/properties/live_destinations/items/oneOf/0/allOf/0"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "username": {
+                                        "type": "string",
+                                        "description": "Username for RTMP authentication"
+                                      },
+                                      "password": {
+                                        "type": "string",
+                                        "description": "Password for RTMP authentication"
+                                      },
+                                      "stream_key": {
+                                        "type": "string",
+                                        "description": "Stream key for the RTMP destination"
+                                      },
+                                      "primary_url": {
+                                        "type": "string",
+                                        "description": "Primary RTMP URL for streaming"
+                                      },
+                                      "backup_url": {
+                                        "type": "string",
+                                        "description": "Backup RTMP URL for failover"
+                                      },
+                                      "auth_enabled": {
+                                        "type": "boolean",
+                                        "description": "Whether authentication is enabled for this destination"
+                                      },
+                                      "resolution": {
+                                        "type": "integer",
+                                        "description": "Output resolution (720 or 1080)",
+                                        "enum": [
+                                          720,
+                                          1080
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing required fields (protocol or destination_type)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Bad Request",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "error_code": {
+                      "type": "string",
+                      "description": "A code representing the specific error condition"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - validation errors, hostname taken, or quota reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/live/encoders/{id}": {
+      "get": {
+        "summary": "View Encoder",
+        "description": "Retrieve details of a specific live encoder",
+        "operationId": "getEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the encoder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the encoder details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Encoder not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Encoder",
+        "description": "Update an existing live encoder",
+        "operationId": "updateEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/paths/~1v3~1live~1encoders~1%7Bid%7D/get/parameters/0"
+          }
+        ],
+        "requestBody": {
+          "description": "Encoder configuration to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "V3EncoderUpdateRequest",
+                "type": "object",
+                "required": [
+                  "encoder"
+                ],
+                "properties": {
+                  "encoder": {
+                    "type": "object",
+                    "title": "V3EncoderUpdateProperties",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "description": "Name for the encoder"
+                      },
+                      "event_profile_id": {
+                        "type": "string",
+                        "description": "HLS profile ID for the encoder output. Available profiles: CMAF 1080p @ 30fps (70e05a7a-f5e4-4a5b-9e4d-c0b9c5d9056c), CMAF 720p @ 30fps (e201c104-c58d-4fcd-bb29-cca4cb46803a), CMAF 1080p @ 60fps (e1deb531-fb06-464f-b859-4ecec656ee6b), CMAF 720p @ 60fps (4356814e-aa38-4e0b-b1bb-0bc9b824de35)"
+                      },
+                      "mqcs_input_switch_enabled": {
+                        "type": "boolean",
+                        "description": "When enabled, MediaPackage automatically switches to the input presenting the best Media Quality Confidence Score (MQCS)."
+                      },
+                      "high_availability_enabled": {
+                        "type": "boolean",
+                        "description": "When enabled, provisions a secondary input source for failover. Cannot be changed while the encoder is on-air (returns 422 if attempted). Requires secondary_hostname on push inputs (e.g. RTMP) or source_secondary_url on HLS pull inputs. Also requires backup_url on any RTMP destinations."
+                      },
+                      "nielsen_tagging": {
+                        "type": "boolean",
+                        "description": "When enabled, Nielsen PCM-to-ID3 tagging is activated for DAR measurement. Cannot be changed while the encoder is on-air."
+                      },
+                      "nielsen_distributor_id": {
+                        "type": "string",
+                        "description": "Nielsen distributor ID for DAR measurement. Only used when nielsen_tagging is enabled. Cannot be changed while the encoder is on-air."
+                      },
+                      "live_inputs_attributes": {
+                        "type": "array",
+                        "description": "List of live inputs to update",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "description": "ID of the live input to update"
+                            },
+                            "_destroy": {
+                              "type": "boolean",
+                              "description": "Set to true to delete this live input"
+                            },
+                            "ip_whitelist": {
+                              "type": "array",
+                              "description": "List of IP addresses/CIDR blocks allowed to stream (1-2 entries required)",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "hostname": {
+                              "type": "string",
+                              "description": "Hostname for the live input (1-63 characters, alphanumeric and hyphens only)"
+                            },
+                            "source_secondary_url": {
+                              "type": "string",
+                              "description": "Secondary source URL for HA failover (HLS pull inputs only). Required when high_availability_enabled is true."
+                            }
+                          }
+                        }
+                      },
+                      "live_destinations_attributes": {
+                        "type": "array",
+                        "description": "List of live destinations to create orupdate",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "description": "ID of the live destination to update (if not provided, a new destination will be created)"
+                            },
+                            "_destroy": {
+                              "type": "boolean",
+                              "description": "Set to true to delete this live destination"
+                            },
+                            "destination_type": {
+                              "type": "string",
+                              "description": "Type of destination (required when creating a new destination)",
+                              "enum": [
+                                "hls",
+                                "rtmp"
+                              ]
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Name of the destination"
+                            },
+                            "enabled": {
+                              "type": "boolean",
+                              "description": "Whether this destination is enabled"
+                            },
+                            "start_over_window": {
+                              "type": "integer",
+                              "description": "DVR window duration in seconds (HLS only, 10800-1209600)"
+                            },
+                            "playlist_window_duration": {
+                              "type": "integer",
+                              "description": "Live playlist window duration in seconds (HLS only, 0-10800)"
+                            },
+                            "username": {
+                              "type": "string",
+                              "description": "Username for RTMP authentication (RTMP only)"
+                            },
+                            "password": {
+                              "type": "string",
+                              "description": "Password for RTMP authentication (RTMP only)"
+                            },
+                            "stream_key": {
+                              "type": "string",
+                              "description": "Stream key for the RTMP destination (RTMP only)"
+                            },
+                            "primary_url": {
+                              "type": "string",
+                              "description": "Primary RTMP URL for streaming (RTMP only)"
+                            },
+                            "backup_url": {
+                              "type": "string",
+                              "description": "Backup RTMP URL for failover (RTMP only). Required when high_availability_enabled is true on the encoder."
+                            },
+                            "auth_enabled": {
+                              "type": "boolean",
+                              "description": "Whether authentication is enabled (RTMP only)"
+                            },
+                            "resolution": {
+                              "type": "integer",
+                              "description": "Output resolution (RTMP only)",
+                              "enum": [
+                                720,
+                                1080
+                              ]
+                            },
+                            "rtmp_external_profile_id": {
+                              "type": "string",
+                              "description": "External profile ID for RTMP destination (RTMP only)"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Encoder updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Encoder not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - validation errors or hostname taken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Encoder",
+        "description": "Delete a live encoder",
+        "operationId": "deleteEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/paths/~1v3~1live~1encoders~1%7Bid%7D/get/parameters/0"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Encoder deleted successfully"
+          },
+          "404": {
+            "description": "Encoder not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/live/encoders/{id}/start": {
+      "post": {
+        "summary": "Start Encoder",
+        "description": "Start broadcasting with a live encoder. This will schedule the RTMP input to the timeline, publish the draft schedule, and start the encoder.",
+        "operationId": "startEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/paths/~1v3~1live~1encoders~1%7Bid%7D/get/parameters/0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Encoder started successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Encoder not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - encoder already started or other error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/live/encoders/{id}/stop": {
+      "post": {
+        "summary": "Stop Encoder",
+        "description": "Stop broadcasting with a live encoder",
+        "operationId": "stopEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/paths/~1v3~1live~1encoders~1%7Bid%7D/get/parameters/0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Encoder stopped successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Encoder not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - encoder not running or other error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/live/encoders/{id}/sync_encoder": {
+      "post": {
+        "summary": "Sync Encoder",
+        "description": "Synchronize the encoder data with the external streaming provider. This fetches the latest encoder state and updates the local configuration.",
+        "operationId": "syncEncoder",
+        "tags": [
+          "Live Encoders"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/paths/~1v3~1live~1encoders~1%7Bid%7D/get/parameters/0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Encoder synchronized successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1live~1encoders/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Encoder not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity - sync error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live_events": {
+      "get": {
+        "summary": "List Live Events",
+        "description": "",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "listLiveEvents",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by title"
+          },
+          {
+            "name": "encoder_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the ID of the encoder. Example: `encoder_id=5992f328ce593000ef000008`"
+          },
+          {
+            "name": "event_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the type of event (`linear`, `on-demand`)"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by ID\nExample: `id=5992f328ce593000ef000008`"
+          },
+          {
+            "name": "created_at",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: \u2018.gt\u2019, \u2018.gte\u2019, \u2018.lt\u2019, \u2018lte\u2019 (Example: `created_at.gte`)"
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "required": false,
+            "description": "Filter by active, inactive, or all.  If excluded, query will default to 'true'",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false",
+                "all"
+              ],
+              "nullable": true
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Filter by ascending or descending order"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort on the specified field"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number to return, with per_page dictating page size"
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of records to return per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "LiveEventsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Live Event",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "createLiveEvent",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "LiveEventRequest",
+                "type": "object",
+                "required": [
+                  "live_event"
+                ],
+                "properties": {
+                  "live_event": {
+                    "type": "object",
+                    "title": "LiveEventProperties",
+                    "required": [
+                      "title"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "description": "Give your event a descriptive title"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "event_type": {
+                        "type": "string",
+                        "description": "Must be one of `linear` or `on-demand`. `linear` events have a sliding DVR window and are recommended for 24/7 events. `on-demand` events have a fixed DVR window and are recommended for scheduled events."
+                      },
+                      "on_air_at": {
+                        "type": "string",
+                        "description": "The date and time the event will begin broadcasting. If you do not include a time, then you will need to start the event yourself."
+                      },
+                      "off_air_at": {
+                        "type": "string",
+                        "description": "The date and time the event will end. If you do not include a time, then you will need to end the event yourself."
+                      },
+                      "subscription_required": {
+                        "type": "boolean",
+                        "description": "Determines if your event requires a subscription to view."
+                      },
+                      "pass_required": {
+                        "type": "boolean",
+                        "description": "Determines if your event requires a pass to view."
+                      },
+                      "purchase_required": {
+                        "type": "boolean",
+                        "description": "Determines if your event must be purchased to view."
+                      },
+                      "rental_required": {
+                        "type": "boolean",
+                        "description": "Determines if your event must be rented to view."
+                      },
+                      "rental_duration": {
+                        "type": "boolean",
+                        "description": "Number of days your event can be rented."
+                      },
+                      "encoder_id": {
+                        "type": "string",
+                        "description": "The id of the encoder that should be used to broadcast your event."
+                      },
+                      "auto_archive": {
+                        "type": "boolean",
+                        "description": "Determines if your event should automatically be archived once the event ends. You can archive your event as well using the `archive` endpoint."
+                      },
+                      "auto_manage_encoder": {
+                        "type": "boolean",
+                        "description": "Determines if you will manage your encoder (turn it on/off) and or if Zype will manage your encoders."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "LiveEventResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Live Event",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "event_type": {
+                          "type": "string"
+                        },
+                        "on_air_at": {
+                          "type": "string"
+                        },
+                        "off_air_at": {
+                          "type": "string"
+                        },
+                        "subscription_required": {
+                          "type": "boolean"
+                        },
+                        "pass_required": {
+                          "type": "boolean"
+                        },
+                        "purchase_required": {
+                          "type": "boolean"
+                        },
+                        "rental_required": {
+                          "type": "boolean"
+                        },
+                        "rental_duration": {
+                          "type": "boolean"
+                        },
+                        "encoder_id": {
+                          "type": "string"
+                        },
+                        "auto_archive": {
+                          "type": "boolean"
+                        },
+                        "auto_manage_encoder": {
+                          "type": "boolean"
+                        },
+                        "encoder_url": {
+                          "type": "string"
+                        },
+                        "backup_encoder_url": {
+                          "type": "string"
+                        },
+                        "encoder_username": {
+                          "type": "string"
+                        },
+                        "encoder_password": {
+                          "type": "string"
+                        },
+                        "player_embed": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live_events/{id}": {
+      "get": {
+        "summary": "View Live Event",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "getLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of live event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a live event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Live event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update live event",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "updateLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of live event"
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1live_events/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Live event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete live event",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "deleteLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of live event"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Live event deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Live event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live_events/{id}/start": {
+      "put": {
+        "summary": "Start broadcasting a live event",
+        "description": "Use this endpoint to start broadcasting your live event.",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "startLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of live event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Live event was successfully started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Live event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live_events/{id}/stop": {
+      "put": {
+        "summary": "Stop broadcasting a live event",
+        "description": "Use this endpoint to end broadcasting your live event.",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "stopLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of live event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Live event was successfully ended",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Live event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live_events/{id}/archive": {
+      "put": {
+        "summary": "Archive a live event",
+        "description": "Use this endpoint to archive your live event. Only perform this action once your event has ended.",
+        "tags": [
+          "Live Events"
+        ],
+        "operationId": "archiveLiveEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of live event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Live event was successfully archived",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Live event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

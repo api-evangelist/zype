@@ -1,0 +1,55 @@
+generated: '2026-08-28'
+method: searched
+source: openapi/zype-player.json, https://docs.zype.com/reference/players, https://docs.zype.com/reference/playlist-carousel-embed,
+  https://www.zype.com/pricing
+note: 'Zype''s client-side surface is embed-oriented rather than a JavaScript element library: the player and the
+  playlist carousel are retrieved as rendered embeds from player.zype.com, and the app-builder output is a whole
+  packaged application rather than a component. There is no npm-distributed web-component or React element library
+  — see packages/zype-packages.yml.'
+families:
+- name: Embedded Player
+  kind: hosted embed
+  endpoint: GET https://player.zype.com/embed/{video_id}.{format}
+  operationId: getPlayer
+  formats:
+  - html
+  - js
+  - json
+  description: Returns an embeddable player for a single video. `html` is an iframe-ready page, `js` a JavaScript
+    web player, and `json` a payload carrying metadata plus either a web player or m3u8 files depending on the User-Agent
+    and the player_type parameter.
+  auth: Player key (api_key). Player keys are the credential class Zype tells you to put in public embed codes.
+  drm:
+  - Widevine
+  - FairPlay
+  - PlayReady
+  note: 'The JSON form is the interesting one for an agent or a custom app: it returns the DRM key-system objects
+    and the m3u8 references directly rather than an opaque iframe.'
+- name: Playlist Carousel Embed
+  kind: hosted embed
+  endpoint: GET https://player.zype.com/playlists/{playlist_id}/carousel.{format}
+  operationId: getPlaylistCarouselEmbed
+  description: Returns an embeddable browse carousel for a playlist.
+  auth: Player key (api_key)
+- name: Zype Apps Creator
+  kind: no-code application builder
+  description: Generates whole branded streaming applications for web, mobile and connected TV (Apple TV, Android
+    TV, Roku, Amazon Fire TV, Samsung, LG, Philips, Vizio; Xbox as an add-on) from a configuration dashboard. Priced
+    separately — see plans/zype-plans-pricing.yml.
+  url: https://www.zype.com/product/zype-apps-creator
+  note: Not a component library; listed here because it is the productized client-side surface a buyer compares
+    against one.
+- name: Legacy open-source app templates
+  kind: source templates
+  description: Zype publishes forkable app templates for Roku SceneGraph, iOS, tvOS, Tizen and Amazon Fire TV on
+    github.com/zype. Zype's own repository descriptions call them legacy; the newest was last pushed 2022-10-14.
+  see: packages/zype-packages.yml
+- name: Zype WordPress Plugin
+  kind: CMS plugin
+  repository: https://github.com/zype/zype-wordpress-plugin
+  description: First-party WordPress plugin for embedding Zype content, distributed from GitHub only (not listed
+    on wordpress.org). Last pushed 2024-04-01.
+loader_libraries: []
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

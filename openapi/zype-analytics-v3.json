@@ -1,0 +1,4652 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Analytics (V3)",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://analytics.zype.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "paths": {
+    "/v3/platform_dynamics/consumers": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Consumers",
+        "description": "This endpoint will return consumer analytics data for your property.",
+        "tags": [
+          "Platform Dynamics"
+        ],
+        "operationId": "analytics-consumers-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "day",
+                "week",
+                "month",
+                "year"
+              ]
+            },
+            "description": "Shortcut method to group records by time intervals. Accepted values: `day`, `week`, `month`, `year`."
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "consumer_id_asc",
+                "consumer_id_desc",
+                "consumer_email_asc",
+                "consumer_email_desc",
+                "name_asc",
+                "name_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ConsumersResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "ConsumerAnalytics",
+                        "type": "object",
+                        "properties": {
+                          "consumer_id": {
+                            "type": "string"
+                          },
+                          "consumer_email": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/platform_dynamics/metrics": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Metrics Data",
+        "description": "This endpoint returns analytics data showing how your OTT business changes over time.",
+        "tags": [
+          "Platform Dynamics"
+        ],
+        "operationId": "metrics-v3",
+        "parameters": [
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "day",
+                "week",
+                "month",
+                "year"
+              ],
+              "default": "day"
+            },
+            "required": true,
+            "description": "Group records by time intervals. Accepted values: `day`, `week`, `month`, `year`."
+          },
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "subscriptions",
+                  "transactions",
+                  "playlists",
+                  "plans",
+                  "consumers",
+                  "apps",
+                  "uploads",
+                  "videos",
+                  "video_imports",
+                  "categories",
+                  "mrr_sum"
+                ]
+              }
+            },
+            "description": "Grouping by an array of Site Count properties will return the counts and deltas for each time interval. Accepted properties are: `subscriptions`, `transactions`, `playlists`, `plans`, `consumers`, `apps`, `uploads`, `videos`, `video_imports`, `categories`, `mrr_sum`"
+          },
+          {
+            "name": "percentages",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "subscriptions",
+                  "transactions",
+                  "playlists",
+                  "plans",
+                  "consumers",
+                  "apps",
+                  "uploads",
+                  "videos",
+                  "video_imports",
+                  "categories",
+                  "mrr_sum"
+                ]
+              }
+            },
+            "description": "To be used with `group_by`. Returns delta percentages per time interval for each property listed. Properties must be in 'group_by' array as well as 'percentages' array. Same list of properties is accepted"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "SiteCountsResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "Site Count",
+                        "type": "object",
+                        "properties": {
+                          "start_date": {
+                            "type": "string"
+                          },
+                          "consumers_count": {
+                            "type": "number"
+                          },
+                          "consumers_delta": {
+                            "type": "number"
+                          },
+                          "consumers_percentage_delta": {
+                            "type": "number"
+                          },
+                          "subscriptions_count": {
+                            "type": "number"
+                          },
+                          "subscriptions_delta": {
+                            "type": "number"
+                          },
+                          "subscriptions_percentage_delta": {
+                            "type": "number"
+                          },
+                          "uploads_count": {
+                            "type": "number"
+                          },
+                          "uploads_delta": {
+                            "type": "number"
+                          },
+                          "uploads_percentage_delta": {
+                            "type": "number"
+                          },
+                          "playlists_count": {
+                            "type": "number"
+                          },
+                          "playlists_delta": {
+                            "type": "number"
+                          },
+                          "playlists_percentage_delta": {
+                            "type": "number"
+                          },
+                          "plans_count": {
+                            "type": "number"
+                          },
+                          "plans_delta": {
+                            "type": "number"
+                          },
+                          "plans_percentage_delta": {
+                            "type": "number"
+                          },
+                          "transactions_count": {
+                            "type": "number"
+                          },
+                          "transactions_delta": {
+                            "type": "number"
+                          },
+                          "transactions_percentage_delta": {
+                            "type": "number"
+                          },
+                          "apps_count": {
+                            "type": "number"
+                          },
+                          "apps_delta": {
+                            "type": "number"
+                          },
+                          "apps_percentage_delta": {
+                            "type": "number"
+                          },
+                          "videos_count": {
+                            "type": "number"
+                          },
+                          "videos_delta": {
+                            "type": "number"
+                          },
+                          "videos_percentage_delta": {
+                            "type": "number"
+                          },
+                          "video_imports_count": {
+                            "type": "number"
+                          },
+                          "video_imports_delta": {
+                            "type": "number"
+                          },
+                          "video_imports_percentage_delta": {
+                            "type": "number"
+                          },
+                          "categories_count": {
+                            "type": "number"
+                          },
+                          "categories_delta": {
+                            "type": "number"
+                          },
+                          "categories_percentage_delta": {
+                            "type": "number"
+                          },
+                          "mrr_sum_count": {
+                            "type": "number"
+                          },
+                          "mrr_sum_delta": {
+                            "type": "number"
+                          },
+                          "mrr_sum_percentage_delta": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/platform_dynamics/player_requests": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Player Requests",
+        "description": "This endpoint will return Player Request analytics data for your property.",
+        "tags": [
+          "Platform Dynamics"
+        ],
+        "operationId": "player-requests-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `id`"
+          },
+          {
+            "name": "filters[browser_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `browser`"
+          },
+          {
+            "name": "filters[browser_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `browser_version`"
+          },
+          {
+            "name": "filters[os_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `os`"
+          },
+          {
+            "name": "filters[os_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `os_version`"
+          },
+          {
+            "name": "filters[player_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `player_name`"
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `video_id`"
+          },
+          {
+            "name": "filters[device_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `device_name`"
+          },
+          {
+            "name": "filters[revenue_model_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `revenue_model_name`"
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `consumer_id`"
+          },
+          {
+            "name": "filters[name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified consumer `name`"
+          },
+          {
+            "name": "filters[consumer_email_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `consumer_email`"
+          },
+          {
+            "name": "filters[country_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "AD",
+                "AE",
+                "AF",
+                "AG",
+                "AI",
+                "AL",
+                "AM",
+                "AO",
+                "AQ",
+                "AR",
+                "AS",
+                "AT",
+                "AU",
+                "AW",
+                "AX",
+                "AZ",
+                "BA",
+                "BB",
+                "BD",
+                "BE",
+                "BF",
+                "BG",
+                "BH",
+                "BI",
+                "BJ",
+                "BL",
+                "BM",
+                "BN",
+                "BO",
+                "BQ",
+                "BR",
+                "BS",
+                "BT",
+                "BV",
+                "BW",
+                "BY",
+                "BZ",
+                "CA",
+                "CC",
+                "CD",
+                "CF",
+                "CG",
+                "CH",
+                "CI",
+                "CK",
+                "CL",
+                "CM",
+                "CN",
+                "CO",
+                "CR",
+                "CU",
+                "CV",
+                "CW",
+                "CX",
+                "CY",
+                "CZ",
+                "DE",
+                "DJ",
+                "DK",
+                "DM",
+                "DO",
+                "DZ",
+                "EC",
+                "EE",
+                "EG",
+                "EH",
+                "ER",
+                "ES",
+                "ET",
+                "FI",
+                "FJ",
+                "FK",
+                "FM",
+                "FO",
+                "FR",
+                "GA",
+                "GB",
+                "GD",
+                "GE",
+                "GF",
+                "GG",
+                "GH",
+                "GI",
+                "GL",
+                "GM",
+                "GN",
+                "GP",
+                "GQ",
+                "GR",
+                "GS",
+                "GT",
+                "GU",
+                "GW",
+                "GY",
+                "HK",
+                "HM",
+                "HN",
+                "HR",
+                "HT",
+                "HU",
+                "ID",
+                "IE",
+                "IL",
+                "IM",
+                "IN",
+                "IO",
+                "IQ",
+                "IR",
+                "IS",
+                "IT",
+                "JE",
+                "JM",
+                "JO",
+                "JP",
+                "KE",
+                "KG",
+                "KH",
+                "KI",
+                "KM",
+                "KN",
+                "KP",
+                "KR",
+                "KW",
+                "KY",
+                "KZ",
+                "LA",
+                "LB",
+                "LC",
+                "LI",
+                "LK",
+                "LR",
+                "LS",
+                "LT",
+                "LU",
+                "LV",
+                "LY",
+                "MA",
+                "MC",
+                "MD",
+                "ME",
+                "MF",
+                "MG",
+                "MH",
+                "MK",
+                "ML",
+                "MM",
+                "MN",
+                "MO",
+                "MP",
+                "MQ",
+                "MR",
+                "MS",
+                "MT",
+                "MU",
+                "MV",
+                "MW",
+                "MX",
+                "MY",
+                "MZ",
+                "NA",
+                "NC",
+                "NE",
+                "NF",
+                "NG",
+                "NI",
+                "NL",
+                "NO",
+                "NP",
+                "NR",
+                "NU",
+                "NZ",
+                "OM",
+                "PA",
+                "PE",
+                "PF",
+                "PG",
+                "PH",
+                "PK",
+                "PL",
+                "PM",
+                "PN",
+                "PR",
+                "PS",
+                "PT",
+                "PW",
+                "PY",
+                "QA",
+                "RE",
+                "RO",
+                "RS",
+                "RU",
+                "RW",
+                "SA",
+                "SB",
+                "SC",
+                "SD",
+                "SE",
+                "SG",
+                "SH",
+                "SI",
+                "SJ",
+                "SK",
+                "SL",
+                "SM",
+                "SN",
+                "SO",
+                "SR",
+                "SS",
+                "ST",
+                "SV",
+                "SX",
+                "SY",
+                "SZ",
+                "TC",
+                "TD",
+                "TF",
+                "TG",
+                "TH",
+                "TJ",
+                "TK",
+                "TL",
+                "TM",
+                "TN",
+                "TO",
+                "TR",
+                "TT",
+                "TV",
+                "TW",
+                "TZ",
+                "UA",
+                "UG",
+                "UM",
+                "US",
+                "UY",
+                "UZ",
+                "VA",
+                "VC",
+                "VE",
+                "VG",
+                "VI",
+                "VN",
+                "VU",
+                "WF",
+                "WS",
+                "YE",
+                "YT",
+                "ZA",
+                "ZM",
+                "ZW"
+              ]
+            },
+            "description": "Filter records with specified `country`"
+          },
+          {
+            "name": "filters[domain_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `domain`"
+          },
+          {
+            "name": "filters[tracking_code_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `tracking_code`"
+          },
+          {
+            "name": "filters[tracking_partner_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `tracking_partner`"
+          },
+          {
+            "name": "filters[video_title_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records with specified `video_title`"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "day"
+              ]
+            },
+            "description": "Shortcut method to group records by time intervals. Accepted values: `day`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "browser",
+                  "browser_version",
+                  "os",
+                  "os_version",
+                  "player_name",
+                  "video_id",
+                  "device_name",
+                  "revenue_model_name",
+                  "consumer_id",
+                  "name",
+                  "consumer_email",
+                  "country",
+                  "domain",
+                  "tracking_code",
+                  "tracking_partner",
+                  "video_title",
+                  "start_date"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned -- accepted values are: `browser`, `browser_version`, `os`, `os_version`, `player_name`, `video_id`, `device_name`, `revenue_model_name`, `consumer_id`, `name`, `consumer_email`, `country`, `domain`, `tracking_code`, `tracking_partner`, `video_title`, `start_date`"
+          },
+          {
+            "name": "counts",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Return count of records per grouping. Using counts = [\"*\"] for generic count of all records in grouping, response will include `request_count`."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Limit the number of records returned"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "id_asc",
+                "id_desc",
+                "browser_asc",
+                "browser_desc",
+                "browser_version_asc",
+                "browser_version_desc",
+                "os_asc",
+                "os_desc",
+                "os_version_asc",
+                "os_version_desc",
+                "player_name_asc",
+                "player_name_desc",
+                "video_id_asc",
+                "video_id_desc",
+                "device_name_asc",
+                "device_name_desc",
+                "revenue_model_name_asc",
+                "revenue_model_name_desc",
+                "consumer_id_asc",
+                "consumer_id_desc",
+                "name_asc",
+                "name_desc",
+                "consumer_email_asc",
+                "consumer_email_desc",
+                "country_asc",
+                "country_desc",
+                "domain_asc",
+                "domain_desc",
+                "tracking_code_asc",
+                "tracking_code_desc",
+                "tracking_partner_asc",
+                "tracking_partner_desc",
+                "video_title_asc",
+                "video_title_desc",
+                "start_date_asc",
+                "start_date_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlayerRequestsResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "PlayerRequest",
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "browser": {
+                            "type": "string"
+                          },
+                          "browser_version": {
+                            "type": "string"
+                          },
+                          "os": {
+                            "type": "string"
+                          },
+                          "os_version": {
+                            "type": "string"
+                          },
+                          "player_name": {
+                            "type": "string"
+                          },
+                          "video_id": {
+                            "type": "string"
+                          },
+                          "device_name": {
+                            "type": "string"
+                          },
+                          "revenue_model_name": {
+                            "type": "string"
+                          },
+                          "consumer_id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "consumer_email": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "domain": {
+                            "type": "string"
+                          },
+                          "tracking_code": {
+                            "type": "string"
+                          },
+                          "tracking_partner": {
+                            "type": "string"
+                          },
+                          "video_title": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/platform_dynamics/stream_hours": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Stream Hours",
+        "description": "This endpoint will retrieve stream hour data for your property.",
+        "tags": [
+          "Platform Dynamics"
+        ],
+        "operationId": "streamHoursV3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "2020-10-04"
+            },
+            "description": "Filter records created after the specified `start_date`. \nNeeds to be used in with `start_date_lt` (or `start_date_lte`).\nIf no start_date is specified, then data returned will date back two days ago."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`. Needs to be used in with `start_date_lt` (or `start_date_lte`)"
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`. Needs to be used in with `start_date_gt` (or `start_date_gte`)"
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`. Needs to be used in with `start_date_gt` (or `start_date_gte`)"
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[device_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "Roku",
+                "Chromecast",
+                "Desktop",
+                "iOS (Native)",
+                "iOS (HTML5)",
+                "Apple TV",
+                "Windows Phone (HTML5)",
+                "Xbox (HTML5)",
+                "Android (Native)",
+                "FireTV",
+                "Xbox",
+                "BlackBerry (HTML5)",
+                "Android (HTML5)",
+                "Metrological",
+                "OperaTV",
+                "Xumo",
+                "SmartTV"
+              ]
+            },
+            "description": "Filter by device name.  Device names are case sensitive - current options include `Roku`, `Chromecast`, `Desktop`, `iOS (Native)`, `iOS (HTML5)`, `Apple TV`, `Windows Phone (HTML5)`, `Xbox (HTML5)`, `Android (Native)`, `FireTV`, `Xbox`, `BlackBerry (HTML5)`, `Android (HTML5)`, `Metrological`, `OperaTV`, `Xumo`, `SmartTV`"
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the video ID."
+          },
+          {
+            "name": "filters[stream_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "vod",
+                "live",
+                "download"
+              ]
+            },
+            "description": "Filter by the type of stream. Options are `vod`, `live`, and `download`."
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the consumer ID."
+          },
+          {
+            "name": "filters[consumer_email_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by a specific consumer's email. (Example: filters[consumer_email_eq]=consumer@zype.com)"
+          },
+          {
+            "name": "filters[monetized_option_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the type of monetization of the videos. Options are `free`, `paid` and `avod`."
+          },
+          {
+            "name": "filters[country_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                null,
+                "AD",
+                "AE",
+                "AF",
+                "AG",
+                "AI",
+                "AL",
+                "AM",
+                "AO",
+                "AQ",
+                "AR",
+                "AS",
+                "AT",
+                "AU",
+                "AW",
+                "AX",
+                "AZ",
+                "BA",
+                "BB",
+                "BD",
+                "BE",
+                "BF",
+                "BG",
+                "BH",
+                "BI",
+                "BJ",
+                "BL",
+                "BM",
+                "BN",
+                "BO",
+                "BQ",
+                "BR",
+                "BS",
+                "BT",
+                "BV",
+                "BW",
+                "BY",
+                "BZ",
+                "CA",
+                "CC",
+                "CD",
+                "CF",
+                "CG",
+                "CH",
+                "CI",
+                "CK",
+                "CL",
+                "CM",
+                "CN",
+                "CO",
+                "CR",
+                "CU",
+                "CV",
+                "CW",
+                "CX",
+                "CY",
+                "CZ",
+                "DE",
+                "DJ",
+                "DK",
+                "DM",
+                "DO",
+                "DZ",
+                "EC",
+                "EE",
+                "EG",
+                "EH",
+                "ER",
+                "ES",
+                "ET",
+                "FI",
+                "FJ",
+                "FK",
+                "FM",
+                "FO",
+                "FR",
+                "GA",
+                "GB",
+                "GD",
+                "GE",
+                "GF",
+                "GG",
+                "GH",
+                "GI",
+                "GL",
+                "GM",
+                "GN",
+                "GP",
+                "GQ",
+                "GR",
+                "GS",
+                "GT",
+                "GU",
+                "GW",
+                "GY",
+                "HK",
+                "HM",
+                "HN",
+                "HR",
+                "HT",
+                "HU",
+                "ID",
+                "IE",
+                "IL",
+                "IM",
+                "IN",
+                "IO",
+                "IQ",
+                "IR",
+                "IS",
+                "IT",
+                "JE",
+                "JM",
+                "JO",
+                "JP",
+                "KE",
+                "KG",
+                "KH",
+                "KI",
+                "KM",
+                "KN",
+                "KP",
+                "KR",
+                "KW",
+                "KY",
+                "KZ",
+                "LA",
+                "LB",
+                "LC",
+                "LI",
+                "LK",
+                "LR",
+                "LS",
+                "LT",
+                "LU",
+                "LV",
+                "LY",
+                "MA",
+                "MC",
+                "MD",
+                "ME",
+                "MF",
+                "MG",
+                "MH",
+                "MK",
+                "ML",
+                "MM",
+                "MN",
+                "MO",
+                "MP",
+                "MQ",
+                "MR",
+                "MS",
+                "MT",
+                "MU",
+                "MV",
+                "MW",
+                "MX",
+                "MY",
+                "MZ",
+                "NA",
+                "NC",
+                "NE",
+                "NF",
+                "NG",
+                "NI",
+                "NL",
+                "NO",
+                "NP",
+                "NR",
+                "NU",
+                "NZ",
+                "OM",
+                "PA",
+                "PE",
+                "PF",
+                "PG",
+                "PH",
+                "PK",
+                "PL",
+                "PM",
+                "PN",
+                "PR",
+                "PS",
+                "PT",
+                "PW",
+                "PY",
+                "QA",
+                "RE",
+                "RO",
+                "RS",
+                "RU",
+                "RW",
+                "SA",
+                "SB",
+                "SC",
+                "SD",
+                "SE",
+                "SG",
+                "SH",
+                "SI",
+                "SJ",
+                "SK",
+                "SL",
+                "SM",
+                "SN",
+                "SO",
+                "SR",
+                "SS",
+                "ST",
+                "SV",
+                "SX",
+                "SY",
+                "SZ",
+                "TC",
+                "TD",
+                "TF",
+                "TG",
+                "TH",
+                "TJ",
+                "TK",
+                "TL",
+                "TM",
+                "TN",
+                "TO",
+                "TR",
+                "TT",
+                "TV",
+                "TW",
+                "TZ",
+                "UA",
+                "UG",
+                "UM",
+                "US",
+                "UY",
+                "UZ",
+                "VA",
+                "VC",
+                "VE",
+                "VG",
+                "VI",
+                "VN",
+                "VU",
+                "WF",
+                "WS",
+                "YE",
+                "YT",
+                "ZA",
+                "ZM",
+                "ZW"
+              ],
+              "nullable": true
+            },
+            "description": "Filter by the the request origin country's 2 letter ISO 3166-1 alpha-2 code (Example: `US`, `FR`, `GB`, `CA`)."
+          },
+          {
+            "name": "filters[time_slice_bucket_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "15 min",
+                "30 min",
+                "60 min"
+              ]
+            },
+            "description": "Filter by time slice bucket. Supported values are: `15 min`, `30 min`, and `60 min`. ** If filtering by time_slice_bucket, you also need to filter by time_slice_start_gt or time_slice_start_gte AND time_slice_end_lt or time_slice_end_lte."
+          },
+          {
+            "name": "filters[time_slice_start_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter time slice results after the specified start date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`"
+          },
+          {
+            "name": "filters[time_slice_start_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter time slice results on or after the specified start date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`"
+          },
+          {
+            "name": "filters[time_slice_end_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter time slice results before the specified end date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`"
+          },
+          {
+            "name": "filters[time_slice_end_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter time slice reslts on or before the specified end date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`"
+          },
+          {
+            "name": "email_address",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required when group_by is set to \"all\". Results will be delivered as a downloadable CSV link via email."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "start_date",
+                  "device_name",
+                  "video_id",
+                  "stream_type",
+                  "consumer_email",
+                  "consumer_id",
+                  "monetized_option",
+                  "country",
+                  "all"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned. Accepted values are: `start_date`, `device_name`, `video_id`, `stream_type`, `consumer_email`, `consumer_id`, `monetized_option`, `country`, `all`"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "start_date_asc",
+                "start_date_desc",
+                "device_name_asc",
+                "device_name_desc",
+                "video_id_asc",
+                "video_id_desc",
+                "stream_type_asc",
+                "stream_type_desc",
+                "consumer_email_asc",
+                "consumer_email_desc",
+                "consumer_id_asc",
+                "consumer_id_desc",
+                "monetized_option_asc",
+                "monetized_option_desc",
+                "country_asc",
+                "country_desc",
+                "impressions_asc",
+                "impressions_desc",
+                "bytes_streamed_asc",
+                "bytes_streamed_desc",
+                "stream_hours_asc",
+                "stream_hours_desc"
+              ]
+            },
+            "description": "Sort results by a value of a specific property + '_' sort direction (Example - sort_by=start_date_asc, or sort_by=start_date_desc)"
+          },
+          {
+            "name": "view_mode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "detailed",
+                "summary"
+              ],
+              "default": "summary"
+            },
+            "description": "Set view mode to detailed to return all available properties for all records."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "StreamHoursV3Response",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "StreamHour",
+                        "type": "object",
+                        "properties": {
+                          "start_date": {
+                            "type": "string"
+                          },
+                          "device_name": {
+                            "type": "string"
+                          },
+                          "video_id": {
+                            "type": "string"
+                          },
+                          "video_title": {
+                            "type": "string"
+                          },
+                          "stream_type": {
+                            "type": "string"
+                          },
+                          "consumer_id": {
+                            "type": "string"
+                          },
+                          "consumer_email": {
+                            "type": "string"
+                          },
+                          "monetized_option": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "time_slice": {
+                            "type": "string"
+                          },
+                          "time_slice_start": {
+                            "type": "string"
+                          },
+                          "time_slice_end": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/platform_dynamics/playout_hours": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Playout Hours",
+        "description": "This endpoint to retrieve hours requested data for Playout Channels. This allows customers who are distributing Playout Channels where Zype supports the delivery to measure and track detailed information related to their Playout Channel hours requested.",
+        "tags": [
+          "Platform Dynamics"
+        ],
+        "operationId": "playoutHours",
+        "parameters": [
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date` (UTC).(filters[start_date_eq]=2020-07-01). A start date is required when making a data request."
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the Video ID."
+          },
+          {
+            "name": "filters[channel_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the Playout Channel ID. Use the Zype platform channel ID to filter records for a specific Playout channel."
+          },
+          {
+            "name": "filters[partner_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the Playout partner ID. Supported values are `pluto_tv`, `samsung_tv`"
+          },
+          {
+            "name": "filters[playlist_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the Zype Playlist ID."
+          },
+          {
+            "name": "filters[country_code_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by 2 character country code. (filters[country_code_eq]=US)"
+          },
+          {
+            "name": "filters[device_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the device name."
+          },
+          {
+            "name": "filters[dma_code_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the DMA code. (filters[dma_code_eq]=501)"
+          },
+          {
+            "name": "filters[city_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the City. (filters[city_eq]=New York)"
+          },
+          {
+            "name": "filters[state_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the State. (filters[state_eq]=New York)"
+          },
+          {
+            "name": "filters[zip_code_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by Zip Code."
+          },
+          {
+            "name": "filters[client_ip_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the Client IP address."
+          },
+          {
+            "name": "filters[user_agent_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by User Agent string."
+          },
+          {
+            "name": "filters[session_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by the Session ID."
+          },
+          {
+            "name": "filters[region_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter query by region. Using this overrides the region param and is more granular. -- Accepted regions are: `US`, `EU`, `AP`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "all",
+                  "video_id",
+                  "channel_id",
+                  "partner_id",
+                  "country_code",
+                  "device_name",
+                  "region"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned -- accepted values are: `all`, `video_id`, `channel_id`, `partner_id`, `country_code`, `device_name`, `region`."
+          },
+          {
+            "name": "email_address",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required when group_by is set to \"all\". Results will be delivered as downloadable CSV links via email."
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "US",
+                "EU"
+              ],
+              "default": "US"
+            },
+            "description": "Select Playout Analytics Region to query -- default is US."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlayoutHoursResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "PlayoutHour",
+                        "type": "object",
+                        "properties": {
+                          "video_id": {
+                            "type": "string"
+                          },
+                          "channel_id": {
+                            "type": "string"
+                          },
+                          "partner_id": {
+                            "type": "string"
+                          },
+                          "playout_hours": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/revenue/subscriptions": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List New Subscriptions",
+        "description": "This endpoint will return new subscription analytics data for your property.",
+        "tags": [
+          "Revenue"
+        ],
+        "operationId": "new-subscriptions-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[discount_percent_gt]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `discount_percent` is greater than the specified value."
+          },
+          {
+            "name": "filters[discount_percent_gte]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `discount_percent` is greater than or equal to the specified value."
+          },
+          {
+            "name": "filters[discount_percent_lt]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `discount_percent` is less than the specified value`."
+          },
+          {
+            "name": "filters[discount_percent_lte]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `discount_percent` is less than or equal to the specified value."
+          },
+          {
+            "name": "filters[discount_percent_eq]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `discount_percent` is equal to the specified value`."
+          },
+          {
+            "name": "filters[discount_amount_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `discount_amount` is greater than the specified value."
+          },
+          {
+            "name": "filters[discount_amount_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `discount_amount` is greater than or equal to the specified value."
+          },
+          {
+            "name": "filters[discount_amount_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `discount_amount` is less than the specified value."
+          },
+          {
+            "name": "filters[discount_amount_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `discount_amount` is less than or equal to the specified value."
+          },
+          {
+            "name": "filters[discount_amount_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `discount_amount` is equal to the specified value."
+          },
+          {
+            "name": "filters[discount_duration_months_gt]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `discount_duration_months` is greater than the specified value."
+          },
+          {
+            "name": "filters[discount_duration_months_gte]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `discount_duration_months` is greater than or equal to the specified value."
+          },
+          {
+            "name": "filters[discount_duration_months_lt]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `discount_duration_months` is less than the specified value."
+          },
+          {
+            "name": "filters[discount_duration_months_lte]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `discount_duration_months` is less than or equal to the specified value."
+          },
+          {
+            "name": "filters[discount_duration_months_eq]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `discount_duration_months` is equal to the specified value."
+          },
+          {
+            "name": "filters[trial_period_days_gt]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `trial_period_days` is greater than the specified value."
+          },
+          {
+            "name": "filters[trial_period_days_gte]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `trial_period_days` is greater than or equalt to the specified value."
+          },
+          {
+            "name": "filters[trial_period_days_lt]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `trial_period_days` is less than the specified value."
+          },
+          {
+            "name": "filters[trial_period_days_lte]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `trial_period_days` is less than or equal to the specified value."
+          },
+          {
+            "name": "filters[trial_period_days_eq]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Filter records where `trial_period_days` is equal to the specified value."
+          },
+          {
+            "name": "filters[amount_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `amount` is greater than the specified value."
+          },
+          {
+            "name": "filters[amount_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `amount` is greater than or equal to the specified value."
+          },
+          {
+            "name": "filters[amount_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `amount` is less than the specified value."
+          },
+          {
+            "name": "filters[amount_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `amount` is less than or equal to the specified value."
+          },
+          {
+            "name": "filters[amount_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `amount` is equal to the specified value."
+          },
+          {
+            "name": "filters[interval_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "month",
+                "year",
+                "lifetime"
+              ]
+            },
+            "description": "Filter records by subscription interval. Accepted values are `month`, `year`, and `lifetime`."
+          },
+          {
+            "name": "filters[currency_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `currency`."
+          },
+          {
+            "name": "filters[consumer_email_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_email`."
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_id`."
+          },
+          {
+            "name": "filters[plan_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `plan_id`."
+          },
+          {
+            "name": "filters[name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by consumer `name`."
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "day",
+                "week",
+                "month",
+                "year"
+              ]
+            },
+            "description": "Group records by time intervals. Accepted values: `day`, `week`, `month`, `year`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "interval",
+                  "coupon_code",
+                  "discount_percent",
+                  "discount_duration_months",
+                  "discount_duration",
+                  "discount_amount",
+                  "currency",
+                  "amount",
+                  "trial_period_days",
+                  "name",
+                  "consumer_email",
+                  "consumer_id",
+                  "plan_id",
+                  "start_date"
+                ]
+              }
+            },
+            "description": "Group by an array of properties. Accepted properties are: `interval`, `coupon_code`, `discount_percent`, `discount_duration_months`, `discount_duration`, `discount_amount`, `currency`, `amount`, `trial_period_days`, `name`, `consumer_email`, `consumer_id`, `plan_id`, `start_date`"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "interval_asc",
+                "interval_desc",
+                "coupon_code_asc",
+                "coupon_code_desc",
+                "discount_percent_asc",
+                "discount_percent_desc",
+                "discount_duration_months_asc",
+                "discount_duration_months_desc",
+                "discount_duration_asc",
+                "discount_duration_desc",
+                "discount_amount_asc",
+                "discount_amount_desc",
+                "currency_asc",
+                "currency_desc",
+                "trial_period_days_asc",
+                "trial_period_days_desc",
+                "name_asc",
+                "name_desc",
+                "consumer_email_asc",
+                "consumer_email_desc",
+                "consumer_id_asc",
+                "consumer_id_desc",
+                "plan_id_asc",
+                "plan_id_desc",
+                "start_date_asc",
+                "start_date_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "SubscriptionsResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "SubscriptionAnalytics",
+                        "type": "object",
+                        "properties": {
+                          "interval": {
+                            "type": "string"
+                          },
+                          "coupon_code": {
+                            "type": "string"
+                          },
+                          "discount_percent": {
+                            "type": "number"
+                          },
+                          "discount_duration_months": {
+                            "type": "integer"
+                          },
+                          "discount_duration": {
+                            "type": "number"
+                          },
+                          "discount_amount": {
+                            "type": "number"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "trial_period_days": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "consumer_email": {
+                            "type": "string"
+                          },
+                          "consumer_id": {
+                            "type": "string"
+                          },
+                          "plan_id": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/revenue/subscription_events": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Subscription Events",
+        "description": "This endpoint will counts of subscription creations, trials started, pauses, and cancellations for your property",
+        "tags": [
+          "Revenue"
+        ],
+        "operationId": "subscriptionevents-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date]=2021-03-09)",
+            "required": true
+          },
+          {
+            "name": "filters[end_date]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `end_date`.",
+            "required": true
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "day"
+              ]
+            },
+            "description": "Group records by day"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "SubscriptionEventsResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "properties": {
+                        "date": {
+                          "title": "SubscriptionEventsByDate",
+                          "type": "object",
+                          "properties": {
+                            "active_created_count": {
+                              "type": "number"
+                            },
+                            "trial_created_count": {
+                              "type": "number"
+                            },
+                            "cancelled_count": {
+                              "type": "number"
+                            },
+                            "paused_count": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/revenue/subscription_revenue": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List Subscription Revenue",
+        "description": "This endpoint will return subscription revenue data for your property, optionally grouped by day, for the date range supplied in filters[start_date] and filters[end_date]. The aggregate or daily data will be rendered as:\n\"2021-03-01\": { currency_code1: amount1, currency_code2: amount2 }\nwhere currency_code is a standard ISO 4217 code (USD, CAD, etc), and amount is a number representing the quantity of the given currency.",
+        "tags": [
+          "Revenue"
+        ],
+        "operationId": "subscriptionrevenue-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date]=2021-03-09)",
+            "required": true
+          },
+          {
+            "name": "filters[end_date]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `end_date`.",
+            "required": true
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                null,
+                "day"
+              ],
+              "nullable": true
+            },
+            "description": "Group records by day"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "SubscriptionRevenueResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "currencies": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "description": "Currency Codes represented in Subscription Revenue"
+                          }
+                        },
+                        "revenue": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "properties": {
+                            "date": {
+                              "title": "SubscriptionRevenueByDate",
+                              "type": "object",
+                              "additionalProperties": true,
+                              "properties": {
+                                "currency_code": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/revenue/transactions": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "List New Transactions",
+        "description": "This endpoint will return new transaction analytics data for your property.",
+        "tags": [
+          "Revenue"
+        ],
+        "operationId": "new-transactions-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[amount_percent_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `amount` is greater than the specified value."
+          },
+          {
+            "name": "filters[amount_gte]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `amount` is greater than or equal to the specified value."
+          },
+          {
+            "name": "filters[amount_lt]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `amount` is less than the specified value`."
+          },
+          {
+            "name": "filters[amount_lte]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `amount` is less than or equal to the specified value."
+          },
+          {
+            "name": "filters[amount_eq]",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter records where `amount` is equal to the specified value`."
+          },
+          {
+            "name": "filters[purchase_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "purchase",
+                "rental",
+                "pass"
+              ]
+            },
+            "description": "Filter records by transaction type. Accepted values are `purchase`, `rental`, and `pass`."
+          },
+          {
+            "name": "filters[currency_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `currency`."
+          },
+          {
+            "name": "filters[consumer_email_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_email`."
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_id`."
+          },
+          {
+            "name": "filters[consumer_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by consumer `name`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "\u00e5consumer_id",
+                  "name",
+                  "amount",
+                  "start_date",
+                  "consumer_email",
+                  "transaction_type",
+                  "transaction_id"
+                ]
+              }
+            },
+            "description": "Group by an array of properties. Accepted properties are: `consumer_id`, `name`, `amount`, `start_date`, `consumer_email`, `transaction_type`, `transaction_id`"
+          },
+          {
+            "name": "counts",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Return count of records per grouping. Using counts = [\"*\"] for generic count of all records in grouping, response will include `request_count`."
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "enum": [
+                null,
+                "start_date_asc",
+                "start_date_desc",
+                "amount_asc",
+                "amount_desc",
+                "consumer_email_asc",
+                "consumer_email_desc",
+                "currency_asc",
+                "currency_desc",
+                "name_asc",
+                "name_desc",
+                "transaction_type_asc",
+                "transaction_type_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "TransactionsResponse",
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "title": "TransactionAnalytics",
+                        "type": "object",
+                        "properties": {
+                          "transaction_id": {
+                            "type": "string"
+                          },
+                          "transaction_type": {
+                            "type": "string"
+                          },
+                          "consumer_id": {
+                            "type": "string"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "consumer_email": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/engagement/plays": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "Plays",
+        "description": "The plays endpoint provides insights on the number of times content has been played. It returns data on how many times content has been played, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.",
+        "tags": [
+          "Engagement"
+        ],
+        "operationId": "plays-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`. If no `start_date` filter is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`."
+          },
+          {
+            "name": "filters[start_time_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_time`. If no `start_time` filter is specified, then data returned will date back two weeks ago. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[played_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `played` is greater than the specified value."
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_id`"
+          },
+          {
+            "name": "filters[video_title_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_title`"
+          },
+          {
+            "name": "filters[platform_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform` (e.g., Web, etc.)"
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_id`"
+          },
+          {
+            "name": "filters[subscription_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `subscription_id`"
+          },
+          {
+            "name": "filters[transaction_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `transaction_id`"
+          },
+          {
+            "name": "filters[monetization_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `monetization_type` (e.g., subscription, etc.)"
+          },
+          {
+            "name": "filters[playlist_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_id`"
+          },
+          {
+            "name": "filters[playlist_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_name`"
+          },
+          {
+            "name": "filters[app_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_id`"
+          },
+          {
+            "name": "filters[app_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_name`"
+          },
+          {
+            "name": "filters[app_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_version`"
+          },
+          {
+            "name": "filters[player_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_name`"
+          },
+          {
+            "name": "filters[player_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_version`"
+          },
+          {
+            "name": "filters[content_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `content_type` (e.g., video, audio, etc.)"
+          },
+          {
+            "name": "filters[playout_channel_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_id`"
+          },
+          {
+            "name": "filters[playout_channel_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_name`"
+          },
+          {
+            "name": "filters[playout_destination_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_id`"
+          },
+          {
+            "name": "filters[playout_destination_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_name`"
+          },
+          {
+            "name": "filters[platform_source_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform_source`"
+          },
+          {
+            "name": "filters[external_user_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `external_user_id`"
+          },
+          {
+            "name": "filters[domain_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `domain`"
+          },
+          {
+            "name": "filters[country_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `country` (e.g., US, CA, etc.)"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "default": "day",
+              "enum": [
+                null,
+                "hour",
+                "day",
+                "month"
+              ]
+            },
+            "description": "Group records by time intervals. Accepted values: `hour`, `day`, `month`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "nullable": true,
+                "type": "string",
+                "enum": [
+                  null,
+                  "video_id",
+                  "video_title",
+                  "platform",
+                  "subscription_id",
+                  "transaction_id",
+                  "monetization_type",
+                  "playlist_id",
+                  "playlist_name",
+                  "app_id",
+                  "app_name",
+                  "app_version",
+                  "player_name",
+                  "player_version",
+                  "content_type",
+                  "playout_channel_id",
+                  "playout_channel_name",
+                  "playout_destination_id",
+                  "playout_destination_name",
+                  "platform_source",
+                  "external_user_id",
+                  "domain",
+                  "country"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "day_desc",
+              "enum": [
+                null,
+                "hour_asc",
+                "hour_desc",
+                "day_asc",
+                "day_desc",
+                "month_asc",
+                "month_desc",
+                "video_id_asc",
+                "video_id_desc",
+                "video_title_asc",
+                "video_title_desc",
+                "platform_asc",
+                "platform_desc",
+                "subscription_id_asc",
+                "subscription_id_desc",
+                "transaction_id_asc",
+                "transaction_id_desc",
+                "monetization_type_asc",
+                "monetization_type_desc",
+                "playlist_id_asc",
+                "playlist_id_desc",
+                "playlist_name_asc",
+                "playlist_name_desc",
+                "app_id_asc",
+                "app_id_desc",
+                "app_name_asc",
+                "app_name_desc",
+                "app_version_asc",
+                "app_version_desc",
+                "player_name_asc",
+                "player_name_desc",
+                "player_version_asc",
+                "player_version_desc",
+                "content_type_asc",
+                "content_type_desc",
+                "playout_channel_id_asc",
+                "playout_channel_id_desc",
+                "playout_channel_name_asc",
+                "playout_channel_name_desc",
+                "playout_destination_id_asc",
+                "playout_destination_id_desc",
+                "playout_destination_name_asc",
+                "playout_destination_name_desc",
+                "platform_source_asc",
+                "platform_source_desc",
+                "external_user_id_asc",
+                "external_user_id_desc",
+                "domain_asc",
+                "domain_desc",
+                "country_asc",
+                "country_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_time_asc, or sort_by=video_id_desc)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Limit the number of records returned"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset the number of records returned by the specified value. For example, if you have 100 records and you set offset=10, then the first 10 records will be skipped and the next 90 will be returned."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PlaysResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Play",
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date of the play count."
+                        },
+                        "value": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "The number of plays on the given date."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "AnalyticsNotFound",
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/engagement/viewers": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "Viewers",
+        "description": "The viewers endpoint provides insights on how many unique viewers have watched content. It returns data on how many unique viewers have watched content, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.",
+        "tags": [
+          "Engagement"
+        ],
+        "operationId": "viewers-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`. If no `start_date` filter is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`."
+          },
+          {
+            "name": "filters[start_time_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_time`. If no `start_time` filter is specified, then data returned will date back two weeks ago. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[played_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `played` is greater than the specified value."
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_id`"
+          },
+          {
+            "name": "filters[video_title_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_title`"
+          },
+          {
+            "name": "filters[platform_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform` (e.g., Web, etc.)"
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_id`"
+          },
+          {
+            "name": "filters[subscription_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `subscription_id`"
+          },
+          {
+            "name": "filters[transaction_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `transaction_id`"
+          },
+          {
+            "name": "filters[monetization_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `monetization_type` (e.g., subscription, etc.)"
+          },
+          {
+            "name": "filters[playlist_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_id`"
+          },
+          {
+            "name": "filters[playlist_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_name`"
+          },
+          {
+            "name": "filters[app_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_id`"
+          },
+          {
+            "name": "filters[app_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_name`"
+          },
+          {
+            "name": "filters[app_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_version`"
+          },
+          {
+            "name": "filters[player_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_name`"
+          },
+          {
+            "name": "filters[player_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_version`"
+          },
+          {
+            "name": "filters[content_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `content_type` (e.g., video, audio, etc.)"
+          },
+          {
+            "name": "filters[playout_channel_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_id`"
+          },
+          {
+            "name": "filters[playout_channel_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_name`"
+          },
+          {
+            "name": "filters[playout_destination_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_id`"
+          },
+          {
+            "name": "filters[playout_destination_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_name`"
+          },
+          {
+            "name": "filters[platform_source_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform_source`"
+          },
+          {
+            "name": "filters[external_user_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `external_user_id`"
+          },
+          {
+            "name": "filters[domain_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `domain`"
+          },
+          {
+            "name": "filters[country_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `country` (e.g., US, CA, etc.)"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "default": "day",
+              "enum": [
+                null,
+                "hour",
+                "day",
+                "month"
+              ]
+            },
+            "description": "Group records by time intervals. Accepted values: `hour`, `day`, `month`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "nullable": true,
+                "type": "string",
+                "enum": [
+                  null,
+                  "video_id",
+                  "video_title",
+                  "platform",
+                  "subscription_id",
+                  "transaction_id",
+                  "monetization_type",
+                  "playlist_id",
+                  "playlist_name",
+                  "app_id",
+                  "app_name",
+                  "app_version",
+                  "player_name",
+                  "player_version",
+                  "content_type",
+                  "playout_channel_id",
+                  "playout_channel_name",
+                  "playout_destination_id",
+                  "playout_destination_name",
+                  "platform_source",
+                  "external_user_id",
+                  "domain",
+                  "country"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "day_desc",
+              "enum": [
+                null,
+                "hour_asc",
+                "hour_desc",
+                "day_asc",
+                "day_desc",
+                "month_asc",
+                "month_desc",
+                "video_id_asc",
+                "video_id_desc",
+                "video_title_asc",
+                "video_title_desc",
+                "platform_asc",
+                "platform_desc",
+                "subscription_id_asc",
+                "subscription_id_desc",
+                "transaction_id_asc",
+                "transaction_id_desc",
+                "monetization_type_asc",
+                "monetization_type_desc",
+                "playlist_id_asc",
+                "playlist_id_desc",
+                "playlist_name_asc",
+                "playlist_name_desc",
+                "app_id_asc",
+                "app_id_desc",
+                "app_name_asc",
+                "app_name_desc",
+                "app_version_asc",
+                "app_version_desc",
+                "player_name_asc",
+                "player_name_desc",
+                "player_version_asc",
+                "player_version_desc",
+                "content_type_asc",
+                "content_type_desc",
+                "playout_channel_id_asc",
+                "playout_channel_id_desc",
+                "playout_channel_name_asc",
+                "playout_channel_name_desc",
+                "playout_destination_id_asc",
+                "playout_destination_id_desc",
+                "playout_destination_name_asc",
+                "playout_destination_name_desc",
+                "platform_source_asc",
+                "platform_source_desc",
+                "external_user_id_asc",
+                "external_user_id_desc",
+                "domain_asc",
+                "domain_desc",
+                "country_asc",
+                "country_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_time_asc, or sort_by=video_id_desc)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Limit the number of records returned"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset the number of records returned by the specified value. For example, if you have 100 records and you set offset=10, then the first 10 records will be skipped and the next 90 will be returned."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ViewersResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Viewer",
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date of the viewer count."
+                        },
+                        "value": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "The number of viewers on the given date."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/engagement/hours_watched": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "Hours Watched",
+        "description": "The hours watched endpoint provides insights on the amount of hours contet has been watched. It returns data on how many hours content has been watched, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.",
+        "tags": [
+          "Engagement"
+        ],
+        "operationId": "hours-watched-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`. If no `start_date` filter is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`."
+          },
+          {
+            "name": "filters[start_time_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_time`. If no `start_time` filter is specified, then data returned will date back two weeks ago. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[played_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `played` is greater than the specified value."
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_id`"
+          },
+          {
+            "name": "filters[video_title_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_title`"
+          },
+          {
+            "name": "filters[platform_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform` (e.g., Web, etc.)"
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_id`"
+          },
+          {
+            "name": "filters[subscription_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `subscription_id`"
+          },
+          {
+            "name": "filters[transaction_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `transaction_id`"
+          },
+          {
+            "name": "filters[monetization_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `monetization_type` (e.g., subscription, etc.)"
+          },
+          {
+            "name": "filters[playlist_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_id`"
+          },
+          {
+            "name": "filters[playlist_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_name`"
+          },
+          {
+            "name": "filters[app_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_id`"
+          },
+          {
+            "name": "filters[app_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_name`"
+          },
+          {
+            "name": "filters[app_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_version`"
+          },
+          {
+            "name": "filters[player_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_name`"
+          },
+          {
+            "name": "filters[player_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_version`"
+          },
+          {
+            "name": "filters[content_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `content_type` (e.g., video, audio, etc.)"
+          },
+          {
+            "name": "filters[playout_channel_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_id`"
+          },
+          {
+            "name": "filters[playout_channel_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_name`"
+          },
+          {
+            "name": "filters[playout_destination_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_id`"
+          },
+          {
+            "name": "filters[playout_destination_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_name`"
+          },
+          {
+            "name": "filters[platform_source_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform_source`"
+          },
+          {
+            "name": "filters[external_user_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `external_user_id`"
+          },
+          {
+            "name": "filters[domain_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `domain`"
+          },
+          {
+            "name": "filters[country_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `country` (e.g., US, CA, etc.)"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "default": "day",
+              "enum": [
+                null,
+                "hour",
+                "day",
+                "month"
+              ]
+            },
+            "description": "Group records by time intervals. Accepted values: `hour`, `day`, `month`."
+          },
+          {
+            "name": "unit",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "default": "hour",
+              "enum": [
+                null,
+                "second",
+                "minute",
+                "hour"
+              ]
+            },
+            "description": "The unit of time to use when calculating the 'hours watached' metric. Accepted values: `second`, `minute`, `hour`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "nullable": true,
+                "type": "string",
+                "enum": [
+                  null,
+                  "video_id",
+                  "video_title",
+                  "platform",
+                  "subscription_id",
+                  "transaction_id",
+                  "monetization_type",
+                  "playlist_id",
+                  "playlist_name",
+                  "app_id",
+                  "app_name",
+                  "app_version",
+                  "player_name",
+                  "player_version",
+                  "content_type",
+                  "playout_channel_id",
+                  "playout_channel_name",
+                  "playout_destination_id",
+                  "playout_destination_name",
+                  "platform_source",
+                  "external_user_id",
+                  "domain",
+                  "country"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "day_desc",
+              "enum": [
+                null,
+                "hour_asc",
+                "hour_desc",
+                "day_asc",
+                "day_desc",
+                "month_asc",
+                "month_desc",
+                "video_id_asc",
+                "video_id_desc",
+                "video_title_asc",
+                "video_title_desc",
+                "platform_asc",
+                "platform_desc",
+                "subscription_id_asc",
+                "subscription_id_desc",
+                "transaction_id_asc",
+                "transaction_id_desc",
+                "monetization_type_asc",
+                "monetization_type_desc",
+                "playlist_id_asc",
+                "playlist_id_desc",
+                "playlist_name_asc",
+                "playlist_name_desc",
+                "app_id_asc",
+                "app_id_desc",
+                "app_name_asc",
+                "app_name_desc",
+                "app_version_asc",
+                "app_version_desc",
+                "player_name_asc",
+                "player_name_desc",
+                "player_version_asc",
+                "player_version_desc",
+                "content_type_asc",
+                "content_type_desc",
+                "playout_channel_id_asc",
+                "playout_channel_id_desc",
+                "playout_channel_name_asc",
+                "playout_channel_name_desc",
+                "playout_destination_id_asc",
+                "playout_destination_id_desc",
+                "playout_destination_name_asc",
+                "playout_destination_name_desc",
+                "platform_source_asc",
+                "platform_source_desc",
+                "external_user_id_asc",
+                "external_user_id_desc",
+                "domain_asc",
+                "domain_desc",
+                "country_asc",
+                "country_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_time_asc, or sort_by=video_id_desc)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Limit the number of records returned"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset the number of records returned by the specified value. For example, if you have 100 records and you set offset=10, then the first 10 records will be skipped and the next 90 will be returned."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "HoursWatchedResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "Hour Watched",
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date of the hour watched count."
+                        },
+                        "value": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "The number of hours watched on the given date."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/engagement/view_time": {
+      "get": {
+        "x-server-name": "analytics-api",
+        "summary": "View Time",
+        "description": "The view time endpoint provides insights on the average amount of time content has been watched. It returns data on the average amount of time content has been watched, which can be filtered by various parameters such as date range, content type, and more. This is useful for understanding viewer engagement and content performance.",
+        "tags": [
+          "Engagement"
+        ],
+        "operationId": "view-time-v3",
+        "parameters": [
+          {
+            "name": "filters[start_date_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_date`. If no `start_date` filter is specified, then data returned will date back two weeks ago."
+          },
+          {
+            "name": "filters[start_date_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_date`."
+          },
+          {
+            "name": "filters[start_date_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_date`."
+          },
+          {
+            "name": "filters[start_time_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created after the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_gte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or after the specified `start_time`. If no `start_time` filter is specified, then data returned will date back two weeks ago. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_lte]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on or before the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[start_time_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records created on the specified `start_time`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed."
+          },
+          {
+            "name": "filters[played_gt]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records where `played` is greater than the specified value."
+          },
+          {
+            "name": "filters[video_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_id`"
+          },
+          {
+            "name": "filters[video_title_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `video_title`"
+          },
+          {
+            "name": "filters[platform_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform` (e.g., Web, etc.)"
+          },
+          {
+            "name": "filters[consumer_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `consumer_id`"
+          },
+          {
+            "name": "filters[subscription_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `subscription_id`"
+          },
+          {
+            "name": "filters[transaction_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `transaction_id`"
+          },
+          {
+            "name": "filters[monetization_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `monetization_type` (e.g., subscription, etc.)"
+          },
+          {
+            "name": "filters[playlist_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_id`"
+          },
+          {
+            "name": "filters[playlist_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playlist_name`"
+          },
+          {
+            "name": "filters[app_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_id`"
+          },
+          {
+            "name": "filters[app_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_name`"
+          },
+          {
+            "name": "filters[app_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `app_version`"
+          },
+          {
+            "name": "filters[player_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_name`"
+          },
+          {
+            "name": "filters[player_version_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `player_version`"
+          },
+          {
+            "name": "filters[content_type_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `content_type` (e.g., video, audio, etc.)"
+          },
+          {
+            "name": "filters[playout_channel_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_id`"
+          },
+          {
+            "name": "filters[playout_channel_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_channel_name`"
+          },
+          {
+            "name": "filters[playout_destination_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_id`"
+          },
+          {
+            "name": "filters[playout_destination_name_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `playout_destination_name`"
+          },
+          {
+            "name": "filters[platform_source_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `platform_source`"
+          },
+          {
+            "name": "filters[external_user_id_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `external_user_id`"
+          },
+          {
+            "name": "filters[domain_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `domain`"
+          },
+          {
+            "name": "filters[country_eq]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter records by `country` (e.g., US, CA, etc.)"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "default": "day",
+              "enum": [
+                null,
+                "hour",
+                "day",
+                "month"
+              ]
+            },
+            "description": "Group records by time intervals. Accepted values: `hour`, `day`, `month`."
+          },
+          {
+            "name": "unit",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "default": "hour",
+              "enum": [
+                null,
+                "second",
+                "minute",
+                "hour"
+              ]
+            },
+            "description": "The unit of time to use when calculating the 'view time' metric. Accepted values: `second`, `minute`, `hour`."
+          },
+          {
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "nullable": true,
+                "type": "string",
+                "enum": [
+                  null,
+                  "video_id",
+                  "video_title",
+                  "platform",
+                  "subscription_id",
+                  "transaction_id",
+                  "monetization_type",
+                  "playlist_id",
+                  "playlist_name",
+                  "app_id",
+                  "app_name",
+                  "app_version",
+                  "player_name",
+                  "player_version",
+                  "content_type",
+                  "playout_channel_id",
+                  "playout_channel_name",
+                  "playout_destination_id",
+                  "playout_destination_name",
+                  "platform_source",
+                  "external_user_id",
+                  "domain",
+                  "country"
+                ]
+              }
+            },
+            "description": "Group records by one or more properties of the data returned"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "day_desc",
+              "enum": [
+                null,
+                "hour_asc",
+                "hour_desc",
+                "day_asc",
+                "day_desc",
+                "month_asc",
+                "month_desc",
+                "video_id_asc",
+                "video_id_desc",
+                "video_title_asc",
+                "video_title_desc",
+                "platform_asc",
+                "platform_desc",
+                "subscription_id_asc",
+                "subscription_id_desc",
+                "transaction_id_asc",
+                "transaction_id_desc",
+                "monetization_type_asc",
+                "monetization_type_desc",
+                "playlist_id_asc",
+                "playlist_id_desc",
+                "playlist_name_asc",
+                "playlist_name_desc",
+                "app_id_asc",
+                "app_id_desc",
+                "app_name_asc",
+                "app_name_desc",
+                "app_version_asc",
+                "app_version_desc",
+                "player_name_asc",
+                "player_name_desc",
+                "player_version_asc",
+                "player_version_desc",
+                "content_type_asc",
+                "content_type_desc",
+                "playout_channel_id_asc",
+                "playout_channel_id_desc",
+                "playout_channel_name_asc",
+                "playout_channel_name_desc",
+                "playout_destination_id_asc",
+                "playout_destination_id_desc",
+                "playout_destination_name_asc",
+                "playout_destination_name_desc",
+                "platform_source_asc",
+                "platform_source_desc",
+                "external_user_id_asc",
+                "external_user_id_desc",
+                "domain_asc",
+                "domain_desc",
+                "country_asc",
+                "country_desc"
+              ]
+            },
+            "description": "Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_time_asc, or sort_by=video_id_desc)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Limit the number of records returned"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset the number of records returned by the specified value. For example, if you have 100 records and you set offset=10, then the first 10 records will be skipped and the next 90 will be returned."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "See below for example responses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ViewTimeResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "View Time",
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "The date of the view time count."
+                        },
+                        "value": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "The average amount of time content has been watched on the given date."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Zype Zobjects API
+  version: 1.0.0
+extends: ../openapi/zype-zobjects.json
+x-provenance:
+  generated: '2026-08-28'
+  method: generated
+  source: openapi/zype-zobjects.json, https://docs.zype.com, https://api.zype.com/.well-known/oauth-authorization-server
+  note: Additive only. Nothing here changes an operation, a parameter or a schema — it attaches the contact, licence,
+    external-documentation and provenance metadata Zype omits from every one of its 15 published specs, so the original
+    file is never mutated.
+actions:
+- target: $.info
+  description: Attach the contact and documentation metadata missing from the published spec.
+  update:
+    contact:
+      name: Zype Support
+      url: https://support.zype.com/hc/en-us
+      email: security@zype.com
+    termsOfService: https://www.zype.com/availability-sla-and-support-terms
+    x-security-contact: security@zype.com
+    x-security-policy: https://www.zype.com/security-compliance
+- target: $
+  description: Attach external documentation and API Evangelist catalog provenance.
+  update:
+    externalDocs:
+      description: Zype API reference
+      url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+    x-api-evangelist:
+      provider: Zype
+      aid: zype
+      parent: Backlight
+      harvested_from: ReadMe API registry (dash.readme.com/api/v1/api-registry) via docs.zype.com
+      harvested: '2026-08-28'
+      authorization_server: https://api.zype.com/.well-known/oauth-authorization-server
+      scope_count: 148
+      status_page: https://status.zype.com
+- target: $
+  description: Record the collection-wide pagination contract, which Zype documents in prose only and declares in
+    no spec.
+  update:
+    x-pagination:
+      style: page-number
+      params:
+      - page
+      - per_page
+      default_per_page: 10
+      max_per_page: 100
+      response_envelope: pagination
+      response_fields:
+      - current
+      - previous
+      - next
+      - per_page
+      - pages
+      required: true
+      source: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation

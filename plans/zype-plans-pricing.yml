@@ -3,136 +3,271 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Zype
 providerId: zype
+generated: '2026-08-28'
+method: searched
+source: https://www.zype.com/pricing (HTTP 200)
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags: []
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+modified: '2026-08-28'
+note: REPLACES the generated 2026-05-04 scaffold, which invented Free/Professional/Enterprise tiers and per-minute
+  request limits Zype has never published. Zype publishes seven real, named, priced product plans across three product
+  lines, all quoted "based on annual terms" with a Contact Sales close — there is no self-serve checkout, no free
+  tier and no API-call-metered plan. API access is bundled into the product tier, not sold by request volume, so
+  there is no per-request quota or overage to record anywhere on this page.
+tags:
+- Video
+- Streaming
+- OTT
+- FAST
+- Pricing
+description: Published product pricing for Zype's three product lines — Streaming Platform, Playout and Apps Creator.
+  Prices are list monthly rates on annual terms as shown on zype.com/pricing.
+currency: USD
+billing_period: month
+terms: monthly or annual commitment; quoted prices are the annual-term rate
+self_serve: false
+free_tier: false
+trial: false
+plan_count: 7
 plans:
-  - id: zype-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Zype API surface. Intended for evaluation, prototyping, and low-volume
-      integrations. Real limits and pricing must be reconciled with the provider's published plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Zype
-  - id: zype-pro
-    name: Professional
-    type: paid
-    description: Production tier for Zype. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Zype
-  - id: zype-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Zype. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Zype
+- id: zype-x
+  name: Zype X
+  product_line: Zype Streaming Platform
+  type: paid
+  price: '500.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: Flexible, cost-effective streaming for teams building and scaling fast.
+  elements:
+  - VideoMeta CMS
+  - CRM
+  - Video API
+  - MRSS
+  - CDN
+  - Live and VOD Encoding
+  - Availability and Uptime SLA
+  - Preferred Usage Rates (Encoding, Content Delivery)
+  - Standard Support Tier
+  add_ons:
+  - Apps Creator Mobile & OTT Apps
+  - Playout O&O & FAST Distribution
+- id: zype-premium
+  name: Zype Premium
+  product_line: Zype Streaming Platform
+  type: paid
+  price: '3500.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: Advanced streaming with preferred rates and premium support for scale.
+  elements:
+  - VideoMeta CMS
+  - CRM
+  - Video API
+  - MRSS
+  - CDN
+  - Live and VOD Encoding
+  - Availability and Uptime SLA
+  - Preferred Usage Rates (Encoding, Content Delivery)
+  - Premium Support Tier
+  add_ons:
+  - Apps Creator Mobile & OTT Apps
+  - Playout O&O & FAST Distribution
+- id: playout-standard
+  name: Playout Standard
+  product_line: Zype Playout
+  type: paid
+  price: '1999.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: Reliable playout with core scheduling, encoding, and delivery.
+  elements:
+  - Channel Scheduler UI
+  - Channel API Access
+  - Support for SSAI
+  - Live Event Scheduling
+  - 1 Standard HLS Destination
+  - 1080p Maximum Output Resolution
+  - 30 fps Maximum Framerate
+  - 5 Adaptive Bitrate Renditions
+  - 10 mbps Maximum Bitrate
+  limits:
+  - name: max_output_resolution
+    value: 1080p
+  - name: max_framerate
+    value: 30 fps
+  - name: adaptive_bitrate_renditions
+    value: 5
+  - name: max_bitrate
+    value: 10 mbps
+  - name: included_destinations
+    value: 1
+  add_ons:
+  - Standard Destination Connector
+  - Premium Destination Connector
+  - Advanced Destination Connector
+  - Live Input Connector
+- id: playout-advanced
+  name: Playout Advanced
+  product_line: Zype Playout
+  type: paid
+  price: '3499.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: High-performance playout with enhanced encoding and flexibility.
+  elements:
+  - Channel Scheduler UI
+  - Channel API Access
+  - Support for SSAI
+  - Live Event Scheduling
+  - 1 Standard HLS Destination
+  - 1080p Maximum Output Resolution
+  - 60 fps Maximum Framerate
+  - 5 Adaptive Bitrate Renditions
+  - 20 mbps Maximum Bitrate
+  limits:
+  - name: max_output_resolution
+    value: 1080p
+  - name: max_framerate
+    value: 60 fps
+  - name: adaptive_bitrate_renditions
+    value: 5
+  - name: max_bitrate
+    value: 20 mbps
+  - name: included_destinations
+    value: 1
+  add_ons:
+  - Standard Destination Connector
+  - Premium Destination Connector
+  - Advanced Destination Connector
+  - Live Input Connector
+- id: apps-mobile
+  name: Mobile
+  product_line: Zype Apps Creator
+  type: paid
+  price: '2000.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: Launch streaming apps for iOS and Android devices.
+  elements:
+  - Web Desktop
+  - Web Mobile
+  - 'Mobile/Tablet: Apple iOS'
+  - 'Mobile/Tablet: Android'
+  - 'Mobile/Tablet: Amazon'
+  add_ons:
+  - 'TV: Xbox'
+- id: apps-ctv
+  name: CTV
+  product_line: Zype Apps Creator
+  type: paid
+  price: '2500.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: Build connected TV apps for top platforms.
+  elements:
+  - 'TV: Apple TV'
+  - 'TV: Android TV'
+  - 'TV: Roku'
+  - 'TV: Amazon Fire TV'
+  - 'TV: Samsung'
+  - 'TV: LG'
+  - 'TV: Philips Smart TV'
+  - 'TV: Vizio'
+  add_ons:
+  - 'TV: Xbox'
+- id: apps-universal
+  name: Universal
+  product_line: Zype Apps Creator
+  type: paid
+  price: '3500.00'
+  currency: USD
+  period: month
+  terms: based on annual terms
+  cta: Contact Sales
+  description: All-in-one package for mobile, web, and CTV apps.
+  elements:
+  - Web Desktop
+  - Web Mobile
+  - 'Mobile/Tablet: Apple iOS'
+  - 'Mobile/Tablet: Android'
+  - 'Mobile/Tablet: Amazon'
+  - 'TV: Apple TV'
+  - 'TV: Android TV'
+  - 'TV: Roku'
+  - 'TV: Amazon Fire TV'
+  - 'TV: Samsung'
+  - 'TV: LG'
+  - 'TV: Philips Smart TV'
+  - 'TV: Vizio'
+  add_ons:
+  - 'TV: Xbox'
+add_on_pricing:
+  note: Destination connectors are priced per single destination, per month, per channel; list prices are not published.
+  connectors:
+  - name: Standard Destination Connector
+    protocols:
+    - HLS
+    productized:
+    - Local Now
+    - Plex
+    - Pluto TV
+    - Samsung TV+
+    - Xumo
+    - Website
+    - Mobile Apps
+    price: null
+  - name: Premium Destination Connector
+    protocols:
+    - RTMP
+    - SRT
+    - RTP
+    - RIST
+    - Zixi
+    productized:
+    - Twitch
+    - YouTube
+    - The Roku Channel
+    price: null
+  - name: Advanced Destination Connector
+    protocols: []
+    productized: []
+    price: null
+    note: For destinations requiring the "Advanced" channel type.
+  - name: Live Input Connector
+    price: null
+support_tiers:
+- name: Standard
+  coverage: business hours, 9 AM - 5 PM ET weekdays
+  response_targets:
+    critical: 2 hours
+    high: 6 hours
+    standard: 24 hours
+  channels:
+  - email
+  - Help Center
+  - customer status page
+  escalation: Tier 2 as needed
+- name: Premium
+  coverage: 24x5 plus weekend hours
+  response_targets:
+    critical: as fast as 30 minutes
+  channels:
+  - scheduled phone support
+  - email
+  - Help Center
+  - status page
+  escalation: automatic if tickets remain unresolved
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com

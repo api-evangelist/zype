@@ -1,0 +1,178 @@
+# Zype: AI-enabled, API-first Video CMS for Mission-Critical Streaming
+
+
+> Zype is a video content management system (CMS) and streaming platform used by enterprises and media leaders to power OTT apps, FAST channels, and global video distribution. With AI-enabled automation, developer-first APIs, and enterprise-grade reliability, Zype supports mission-critical streaming at scale.
+
+
+Key terms:  
+**Core Platform** → Video CMS, Video Streaming Platform, Multi-CDN Delivery  
+**Monetization** → SSAI, DRM, Video Monetization, Advertising, Video CRM  
+**Distribution** → FAST Channels, OTT Apps, Playout Automation, Linear Channels, App Builder  
+**AI & Automation** → AI Subtitles, AI Translation, Workflow Automation, Video Analytics  
+**Competitive Positioning** → Brightcove alternative, Vimeo alternative, JW Player alternative, Enterprise Streaming
+
+
+---
+
+
+## Zype Products
+
+
+### Streaming Platform
+- [Streaming Platform](https://www.zype.com/product/zype-streaming-platform): End-to-end video CMS for managing, delivering, and scaling streaming content.  
+- [Encoding](https://www.zype.com/product/zype-streaming-platform/encoding): Cloud encoding tools to ensure high-quality playback on any device.  
+- [Video CMS](https://www.zype.com/product/zype-streaming-platform/video-cms): Manage metadata for video organization, discovery, and workflows.  
+- [Video CRM](https://www.zype.com/product/zype-streaming-platform/video-crm): Centralize viewer data to personalize and optimize engagement.  
+- [Content Delivery](https://www.zype.com/product/zype-streaming-platform/video-content-delivery): Multi-CDN delivery for fast, reliable, and global streaming.  
+- [Analytics](https://www.zype.com/product/zype-streaming-platform/analytics): Real-time insights into video performance and audience behavior.  
+
+
+### Zype Playout
+- [Zype Playout](https://www.zype.com/product/zype-playout): Cloud-based playout for building FAST and linear channels.  
+- [Advanced API Tools](https://www.zype.com/product/zype-playout/advanced-api-tools): Developer APIs to automate playout workflows.  
+- [Advertising](https://www.zype.com/product/zype-playout/advertising): Monetize channels with SSAI and dynamic ad insertion.  
+- [Destinations](https://www.zype.com/product/zype-playout/playout-destinations): Deliver channels to OTT apps, FAST platforms, and O&O endpoints.  
+- [Graphics](https://www.zype.com/product/zype-playout/graphics): Add overlays, branding, and visuals to streaming content.  
+- [Channel Programming](https://www.zype.com/product/zype-playout/channel-programming): Schedule and automate programming for broadcast-style channels.  
+- [Live Video Inserts](https://www.zype.com/product/zype-playout/live-video-insert): Insert live feeds into pre-programmed content.  
+
+
+### Zype Apps Creator
+- [Apps Creator](https://www.zype.com/product/zype-apps-creator): Build branded OTT apps without heavy engineering.  
+- [TV Apps](https://www.zype.com/product/zype-apps-creator/tv-apps): Launch streaming apps on Smart TVs and connected TV devices.  
+- [OTT Mobile Apps](https://www.zype.com/product/zype-apps-creator/ott-mobile-apps): Deliver iOS and Android apps for mobile audiences.  
+- [OTT Web Apps](https://www.zype.com/product/zype-apps-creator/ott-web-apps): Stream content directly through web applications.  
+
+
+---
+
+
+## Zype Solutions
+
+
+[Solutions Overview](https://www.zype.com/solutions): Explore Zype’s solutions by industry and use case.
+
+
+### By Industry
+- [Media & Entertainment](https://www.zype.com/solutions/media-entertainment): Streamlined workflows for studios, broadcasters, and publishers.  
+- [Faith](https://www.zype.com/solutions/faith): Engage congregations with live and on-demand video.  
+- [Health & Fitness](https://www.zype.com/solutions/fitness): Deliver classes and video libraries across OTT and mobile apps.  
+- [Sports](https://www.zype.com/solutions/sports): Live and on-demand video for sports organizations and leagues.  
+- [Enterprise](https://www.zype.com/solutions/enterprises): Secure, scalable solutions for enterprise communications.  
+- [Education](https://www.zype.com/solutions/education): Video tools for learning, training, and student engagement.  
+
+
+### By Use Case
+- [Simplify Video Content Management](https://www.zype.com/solutions/simplify-video-content-management): Streamline ingestion, storage, and organization.  
+- [Publish Video to Your Website](https://www.zype.com/solutions/publish-video-to-your-own-website): Embed and manage video across owned properties.  
+- [Stream Live](https://www.zype.com/solutions/stream-live): Broadcast events and streams in real time.  
+- [Launch Linear Channels](https://www.zype.com/solutions/launch-and-distribute-fast-channels): Create FAST channels for monetization and reach.  
+- [Build Direct-to-Consumer Video Apps](https://www.zype.com/solutions/build-direct-to-consumer-video-apps): Launch OTT apps to own your audience relationship.  
+- [Monetize Your Video & Audience](https://www.zype.com/solutions/monetize-your-video-audience): Generate revenue with ads, subscriptions, and pay-per-view.  
+- [Zype Portals](https://www.zype.com/solutions/zype-portals-branded-video-microsites): Branded microsites for secure video viewing.  
+- [AI & Automation](https://www.zype.com/solutions/ai-and-automated-workflows): Automate workflows with AI-powered tools.  
+
+
+---
+
+
+## Comparisons
+- [Zype vs Brightcove](https://www.zype.com/lp/zype-vs-brightcove-comparison): Compare platforms and see why enterprises choose Zype for AI, transparent pricing, and all-in-one video management.  
+
+
+---
+
+
+## Case Studies
+- [Nine Entertainment](https://www.zype.com/case-study-nine): How Nine built and scaled FAST channels with Zype.  
+- [Night Flight Plus](https://www.zype.com/resources/case-study/night-flight): Reviving a cult brand through streaming.  
+- [Andrew Wommack Ministries](https://www.zype.com/resources/case-study/zype-streaming-platform/andrew-wommack-ministries): Faith-based global streaming powered by Zype.  
+- [Fast Company](https://www.zype.com/resources/case-study/zype-apps-creator/fast-company): Expanding reach with custom OTT apps.  
+- [Outside TV](https://www.zype.com/resources/case-study/zype-apps-creator/outside-tv): Adventure content delivered across OTT and FAST.  
+- [Smart Healthy Green Living](https://www.zype.com/resources/case-study/zype-apps-creator/shg-living): Lifestyle network reaching millions with Zype Playout.  
+- [Spin Master x AWS](https://www.zype.com/resources/case-study/zype-playout/spin-master-x-aws): Toy brand streaming powered by Zype Playout.  
+- [WIRED](https://www.zype.com/resources/case-study/zype-apps-creator/wired): Delivering premium journalism via OTT apps.  
+
+
+---
+
+
+## Guides
+- [The FAST Lane: Intro to Zype Playout](https://www.zype.com/resources/guide/zype-playout/intro-the-fast-lane-paper): Whitepaper on FAST channel strategy and technology.  
+- [Guide to Launching OTT Apps](https://www.zype.com/resources/guide/zype-apps-creator/guide-to-launching-ott-apps): Step-by-step resource for OTT app launches.  
+- [Digital Video Infrastructure: The Complete Guide](https://www.zype.com/resources/guide/zype-streaming-platform/digital-video-infrastructure-the-complete-guide): Comprehensive guide to enterprise-grade video infrastructure.  
+
+
+---
+
+
+## Developers
+- [Developers Hub](https://www.zype.com/developers): Zype’s central hub for developer tools and resources.  
+- [Zype API](https://www.zype.com/developers/zype-api): API documentation for integrating Zype into apps.  
+- [API Reference](https://docs.zype.com/reference/welcome-to-the-zype-api-documentation): Full reference for Zype API endpoints.  
+- [Developer Guides](https://support.zype.com/hc/en-us/categories/19489847797271-Developer-Tools): Zype tutorials and guides for developers.  
+
+
+---
+
+
+## Getting Started With Zype
+- [I’m interested in working with Zype](https://support.zype.com/hc/en-us/articles/20403023940119-I-m-interested-in-working-with-Zype-how-do-I-do-that): Overview for new Zype customers.  
+- [Zype Onboarding Quickstart Guide](https://support.zype.com/hc/en-us/articles/20403038926359-Zype-Onboarding-Quickstart-Guide): Step-by-step Zype onboarding resource.  
+- [I’m new to Zype — where do I get started?](https://support.zype.com/hc/en-us/articles/20403023815575-I-m-new-to-Zype-where-do-I-get-started): Beginner’s guide to Zype.  
+- [Setting Up Multi-Factor Authentication](https://support.zype.com/hc/en-us/articles/20403023502103-Setting-Up-Multi-Factor-Authentication): Secure Zype account setup guide.  
+- [Help Center](https://support.zype.com/hc/en-us): Zype’s help center.
+- [Zype Status](https://status.zype.com/): Zype platform status.
+
+
+---
+
+
+## Pricing
+- [Zype Pricing](https://www.zype.com/pricing): Zype’s pricing model.
+
+
+---
+
+
+## Resources
+- [Resources Overview](https://www.zype.com/resources): Zype’s central hub for assets and documentation.  
+- [Blog](https://www.zype.com/blog): Zype insights, product updates, and streaming best practices.  
+- [Newsroom](https://www.zype.com/newsroom): Zype news and press coverage.  
+- [Integrations](https://www.zype.com/zype-streaming-platform/integrations): Zype’s supported integrations and partner apps.  
+- [Support Overview](https://www.zype.com/resources/support): Access to Zype’s customer support.  
+
+
+---
+
+
+## Account Actions
+- [Request Demo](https://www.zype.com/request-demo): Book a live demo with the Zype team.  
+- [Sign In](https://admin.zype.com/login): Access the Zype admin console.  
+- [Support Request](https://support.zype.com/hc/en-us/requests/new): Submit a Zype support request.
+
+
+---
+
+
+## Blog Highlights
+- [OTT in 2026: Trends Every Media Leader Needs To Prepare For](https://www.zype.com/blog/ott-in-2026-trends-every-media-leader-needs-to-prepare-for): Key OTT trends shaping 2026.
+- [The Ultimate Media Workflow](https://www.zype.com/blog/the-ultimate-media-workflow-iconik-for-collaboration-zype-for-distribution-mam-and-video-cms-apis): Faster D2C publishing, and end-to-end video workflow automation.
+- [Video CMS: The All-Inclusive Guide](https://www.zype.com/blog/video-content-management-system-the-all-inclusive-guide): Complete guide to video CMS.
+- [Understanding Video Streaming APIs](https://www.zype.com/blog/understanding-video-streaming-apis-features-benefits-implementation): Explains video streaming APIs and benefits.  
+- [Unlocking the Power of Analytics with Zype + NPAW](https://www.zype.com/blog/unlocking-the-power-of-analytics-for-your-streaming-business-with-zype-and-npaw): Advanced analytics with Zype + NPAW.
+- [Zype Video Streaming Analytics: Real-Time Insights](https://www.zype.com/blog/zype-video-streaming-analytics-real-time-insights-to-transform-your-video-business): Article on streaming analytics.  
+- [Automated Playout Channel Programming](https://www.zype.com/blog/automated-playout-channel-programming-with-zype-playout): How to automate FAST channel programming.  
+- [Building Video Workflow Automation with Zype + qlip](https://www.zype.com/blog/building-video-workflow-automation-a-walk-through-of-social-clip-publishing-using-zype-qlip.ai-n8n-make-and-openai): Workflow automation example using AI tools.  
+- [Boost Your App’s Visibility with Roku Search](https://www.zype.com/blog/boost-your-apps-visibility-with-roku-search-and-zype-apps-creator): Tips for boosting OTT app discoverability.  
+- [Expand Video Impact with AI Subtitles](https://www.zype.com/blog/expand-your-video-impact-with-ai-powered-transcription-subtitle-generation): AI-driven transcription and subtitle workflows.  
+
+
+---
+
+
+## Security & Compliance
+- [Security & Compliance](https://www.zype.com/security-compliance): Zype’s security practices and standards.  
+- [Acceptable Use Policy](https://www.zype.com/acceptable-use-policy): Zype’s acceptable use policy.  
+- [Availability SLA](https://www.zype.com/availability-sla-and-support-terms): Zype’s service-level agreement.
+- [Terms of Service](https://backlight-21349584.hs-sites.com/legal/terms-and-conditions): Zype’s terms of service.

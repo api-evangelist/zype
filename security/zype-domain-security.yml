@@ -1,23 +1,33 @@
-generated: '2026-07-11'
+generated: '2026-08-28'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.zype.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep  9 05:04:16 2026 GMT
+  cert_expires: Nov  7 05:54:04 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+- host: analytics.zype.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 17 10:46:48 2026 GMT
+  hsts: null
+- host: api.zype.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 29 11:16:06 2026 GMT
+  hsts: null
 domains:
 - domain: zype.com
   dnssec: false
   caa:
-  - 0 issue "amazonaws.com"
-  - 0 issue "amazontrust.com"
   - 0 issue "awstrust.com"
   - 0 issue "certainly.com"
   - 0 issue "digicert.com"
   - 0 issue "globalsign.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog"
   spf: true
   dmarc: true
   dmarc_policy: none

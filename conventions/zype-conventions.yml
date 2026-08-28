@@ -1,0 +1,175 @@
+generated: '2026-08-28'
+method: searched
+source: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation.md, https://api.zype.com/.well-known/oauth-authorization-server,
+  and the 15 files in openapi/
+authentication:
+  styles:
+  - api_key query parameter
+  - app_key query parameter
+  - access_token query parameter
+  - 'Authorization: Bearer (OAuth access token)'
+  - X-API-Key header (Playout Scheduler only)
+  note: 'Zype has four credential classes with different blast radii: Admin key (full access, never ship in an app),
+    Read Only key, Player key (player requests only) and per-app App keys. The core APIs put the key in the QUERY
+    STRING (`?api_key=`), which means credentials land in access logs and referrers; only the Playout Scheduler
+    uses a header (X-API-Key). That split is a real inconsistency for an agent — the same account needs two different
+    credential placements depending on which product it is calling.'
+  docs: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  see: authentication/zype-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: No idempotency key of any kind. The string "idempoten" does not appear in any of the 15 OpenAPI files or
+    anywhere in the published documentation. A retried POST /videos or POST /transactions will create a second record.
+    This is the single most consequential gap for an autonomous agent on the write surface.
+pagination:
+  style: page-number
+  params:
+  - name: page
+    description: The page number of records to return (zero indexed).
+    required: false
+  - name: per_page
+    description: The number of records to return.
+    default: 10
+    maximum: 100
+    required: false
+  response_envelope: pagination
+  response_fields:
+  - current
+  - previous
+  - next
+  - per_page
+  - pages
+  required: true
+  note: Pagination is required for all list requests; default page size 10, hard maximum 100. There is no cursor
+    option, so deep traversal of a large library is O(n) page requests.
+  docs: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+filtering:
+  note: List operations expose rich per-resource query filters (id, q keyword search, active, friendly_title, source_id,
+    on_air, live_event, video_source_type, mature_content, parental_guidelines_rating, and third-party ids such
+    as youtube_id/vimeo_id/hulu_id/crunchyroll_id). Sorting is exposed on some collections via sort/order.
+field_expansion:
+  supported: false
+  note: No expand/include/fields parameter is published. Related records are fetched with separate calls (e.g. GET
+    /playlists/{id}/videos).
+metadata:
+  supported: true
+  mechanism: Zobjects
+  note: 'Zype''s custom-metadata model is first-class rather than a `metadata` bag: Zobject Types define a schema,
+    Zobjects are instances, and videos/playlists are attached to them (PUT /videos/{id}/add_zobjects, PUT /zobjects/{id}/add_videos).'
+request_id_tracing:
+  supported: false
+  note: No request-id / correlation-id header is documented or declared in any response definition.
+versioning:
+  see: lifecycle/zype-lifecycle.yml
+  summary: Per-product path versioning (/v2, /v3, /scheduler/v1) with the core Platform surface unversioned.
+error_envelope:
+  shape: '{"message": "..."}'
+  rfc9457: false
+  see: errors/zype-problem-types.yml
+rate_limit_signaling:
+  documented: false
+  headers: []
+  see: rate-limits/zype-rate-limits.yml
+  note: No X-RateLimit-*, RateLimit-* or Retry-After header appears in any of the 15 specs, and no rate-limit page
+    exists in the docs. One operation declares 429 across the whole surface.
+content_negotiation:
+  default: application/json
+  alternate: text/xml via the Content-Type header
+  note: Zype documents XML as an alternate representation, unusual for a modern REST API and a hint at the platform's
+    age.
+dry_run_mode:
+  supported: false
+  note: No preview/validate/dry-run parameter is published on any write operation.
+reversibility:
+  grade: documented
+  note: Zype ships real reversal operations on its highest-consequence writes, but publishes NO window for any of
+    them. Not one docs page or spec description states how long a cancelled subscription can be reactivated, how
+    long a deleted video is recoverable, or whether a published channel draft can be rolled back after air. Grade
+    is therefore `documented` (reversal path exists) and not `verified` (no stated window). No window is asserted
+    here because none is published.
+  surfaces:
+  - action: Cancel a subscription
+    operationId: cancelSubscription
+    operation: PUT /subscriptions/{id}/cancel
+    reversal:
+      operationId: reactivateSubscription
+      operation: PUT /subscriptions/{id}/reactivate
+      kind: reactivate
+    window: null
+    window_source: null
+    note: Zype deliberately separates cancel (reversible, PUT .../cancel) from delete (deleteSubscription, DELETE
+      /subscriptions/{id}, no reversal). An agent should never call deleteSubscription where cancelSubscription
+      will do. No reactivation window is published.
+  - action: Revert a Playout draft schedule operation
+    operationId: createPlayoutSchedulerOperation
+    operation: POST timeline operations on a channel draft
+    reversal:
+      operationId: revertPlayoutSchedulerOperation
+      operation: Revert a Draft Schedule to the specified operation
+      kind: rollback
+    window: null
+    window_source: null
+    note: 'The Playout Scheduler is the one place Zype models undo explicitly: timeline edits are recorded as operations,
+      and revertPlayoutSchedulerOperation rewinds a draft to a chosen point while revertAllPlayoutSchedulerOperations
+      discards the whole edit set. This only reverses the DRAFT — see publishPlayoutSchedulerChannelDraft below.'
+  - action: Revert all Playout draft operations
+    operationId: revertAllPlayoutSchedulerOperations
+    reversal:
+      operationId: revertAllPlayoutSchedulerOperations
+      kind: rollback
+    window: null
+    window_source: null
+    note: Discards every uncommitted operation on a channel draft.
+  - action: Publish a channel draft to air
+    operationId: publishPlayoutSchedulerChannelDraft
+    reversal: null
+    window: null
+    window_source: null
+    note: IRREVERSIBLE via the API. Publishing promotes the draft to the published version and there is no unpublish/revert-published
+      operation — getPlayoutSchedulerChannelPublished is read-only. The only recovery is to edit the draft again
+      and republish. This is the highest-consequence unrecoverable write in the whole Zype surface and it is not
+      flagged as such in the docs.
+  - action: Stop an on-air channel
+    operationId: stopLiveChannel
+    reversal: null
+    window: null
+    window_source: null
+    note: No matching start operation is published on the Playout Scheduler channel resource — stopping is one-way
+      from the API's point of view.
+  - action: Stop a live encoder / live event
+    operationId: stopEncoder
+    reversal:
+      operationId: startEncoder
+      kind: restart
+    window: null
+    window_source: null
+    note: 'Live V3 encoders are symmetric: startEncoder / stopEncoder, and live events have startLiveEvent / stopLiveEvent.
+      Restarting is possible but the stream gap is not recoverable.'
+  - action: Archive a live event
+    operationId: archiveLiveEvent
+    reversal: null
+    window: null
+    window_source: null
+    note: No unarchive operation is published.
+  - action: Delete a video
+    operationId: deleteVideo
+    reversal: null
+    window: null
+    window_source: null
+    note: No restore/undelete operation exists on any Zype resource. Every DELETE in all 15 specs is terminal as
+      far as the published contract is concerned. Videos also carry an `active` boolean and list filters accept
+      active=true|false|all, so DEACTIVATING via updateVideo is the reversible alternative to deletion — but Zype
+      nowhere tells a caller that.
+  - action: Delete any other resource (playlist, category, plan, zobject, ad tag, channel, profile, entitlement)
+    operationId: null
+    reversal: null
+    window: null
+    window_source: null
+    note: Uniformly irreversible in the published contract.
+  summary: Reversal exists for subscriptions (cancel/reactivate), Playout draft edits (operation revert), and live
+    encoders/events (start/stop). Everything else — every DELETE, and publishing a channel to air — is one-way with
+    no published recovery path and no stated window anywhere.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

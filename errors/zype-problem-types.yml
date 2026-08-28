@@ -1,0 +1,72 @@
+generated: '2026-08-28'
+method: searched
+source: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation.md (Errors section) + 4xx/5xx responses
+  across the 15 files in openapi/
+format: vendor
+media_type: application/json
+rfc9457: false
+note: Zype does NOT use RFC 9457 problem+json. Every one of the 383 documented 4xx/5xx responses across all 15 specs
+  declares application/json, and the documented envelope is a single `message` string. There is no machine-readable
+  error code, no type URI, and no per-error catalogue anywhere on docs.zype.com — an agent cannot branch on anything
+  but the HTTP status.
+envelope:
+  fields:
+  - name: message
+    type: string
+    description: A human-readable message giving more details about the error.
+  source: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+status_distribution_in_specs:
+  '404': 183
+  '422': 174
+  '403': 17
+  '400': 7
+  '401': 2
+problem_types:
+- status: 400
+  title: Bad Request
+  occurrences_in_specs: 7
+  remediation: Correct the malformed request before retrying. Documented only on a handful of Playout Scheduler
+    and Live V3 operations; not described in the docs error section.
+- status: 401
+  title: Unauthorized
+  occurrences_in_specs: 2
+  description: The request could not be processed because no API key was provided, or the API key provided is invalid.
+  remediation: Supply a valid Admin, Read Only, Player or App key as api_key/app_key, or a valid OAuth access_token.
+    Note the specs declare 401 on only 2 of 317 operations even though every operation requires a key — the status
+    is real, its documentation in the contract is not.
+  source: docs + openapi
+- status: 403
+  title: Forbidden
+  occurrences_in_specs: 17
+  remediation: The credential is valid but lacks rights for this resource — most often a Read Only or Player key
+    used on a write operation. Retry with an Admin key or a token carrying the matching scope.
+- status: 404
+  title: Not Found
+  occurrences_in_specs: 183
+  description: The request could not be processed because the resource you are operating on could not be found.
+  remediation: Verify the resource id. Zype ids are 24-character hex ObjectIds; a 404 is also returned when the
+    resource exists on another site/channel than the one the key belongs to.
+  source: docs + openapi
+- status: 422
+  title: Unprocessable Entity
+  occurrences_in_specs: 174
+  description: The request could not be processed due to a validation rule.
+  remediation: Read the `message` string — it is the only machine-visible detail. Zype publishes no enumerated validation
+    codes.
+  source: docs + openapi
+- status: 500
+  title: Server Error
+  occurrences_in_specs: 0
+  description: The request could not be processed due to an error on Zype's servers.
+  remediation: Retry with backoff and check https://status.zype.com. Documented in prose but declared on ZERO operations
+    in any of the 15 OpenAPI files.
+  source: docs only
+gaps:
+- No RFC 9457 / problem+json.
+- No enumerated application error codes or decline codes.
+- 500 is documented in prose but absent from every spec.
+- 401 appears on 2 of 317 operations despite being universal.
+- No documented rate-limit error (429) anywhere in docs or specs.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

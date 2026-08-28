@@ -1,0 +1,420 @@
+generated: '2026-08-28'
+method: probed
+source: https://api.zype.com/.well-known/oauth-authorization-server (HTTP 200, RFC 8414 Authorization Server Metadata)
+docs: https://docs.zype.com/reference/oauth
+note: The 148 scopes below are read verbatim from the scopes_supported array of Zype's RFC 8414 metadata document.
+  The published OpenAPI files declare only apiKey and http bearer securitySchemes and carry no oauth2 flows object,
+  so the scope list exists ONLY at the well-known endpoint — deriving it from the specs alone would have produced
+  nothing. Descriptions are ours, expanded from the resource.action naming convention Zype uses; they are not provider
+  prose.
+authorization_endpoint: https://api.zype.com/oauth/authorize
+token_endpoint: https://api.zype.com/oauth/token
+introspection_endpoint: https://api.zype.com/oauth/introspect
+revocation_endpoint: https://api.zype.com/oauth/revoke
+grant_types_supported:
+- authorization_code
+- client_credentials
+- password
+- refresh_token
+code_challenge_methods_supported:
+- S256
+token_endpoint_auth_methods_supported:
+- client_secret_basic
+- client_secret_post
+- none
+scope_count: 148
+second_issuer:
+  issuer: https://login.zype.com
+  note: login.zype.com serves an identical metadata document scoped to consumer (end-viewer) authentication; api.zype.com
+    serves the admin/platform side.
+groups:
+- name: videos
+  scope_count: 5
+- name: video_sources
+  scope_count: 4
+- name: video_imports
+  scope_count: 3
+- name: segments
+  scope_count: 4
+- name: subtitles
+  scope_count: 4
+- name: transcriptions
+  scope_count: 3
+- name: subtitle_playlists
+  scope_count: 2
+- name: playlists
+  scope_count: 4
+- name: playlist_items
+  scope_count: 4
+- name: series
+  scope_count: 4
+- name: seasons
+  scope_count: 4
+- name: episodes
+  scope_count: 4
+- name: categories
+  scope_count: 4
+- name: zobjects
+  scope_count: 4
+- name: zobject_types
+  scope_count: 4
+- name: prompt_contexts
+  scope_count: 4
+- name: content_rules
+  scope_count: 4
+- name: uploads
+  scope_count: 2
+- name: devices
+  scope_count: 2
+- name: live
+  scope_count: 9
+- name: playout
+  scope_count: 1
+- name: program_guides
+  scope_count: 4
+- name: live_events
+  scope_count: 4
+- name: apps
+  scope_count: 2
+- name: tve
+  scope_count: 1
+- name: consumers
+  scope_count: 8
+- name: plans
+  scope_count: 4
+- name: revenue_models
+  scope_count: 1
+- name: subscriptions
+  scope_count: 4
+- name: passes
+  scope_count: 4
+- name: ad_tags
+  scope_count: 4
+- name: ad_timings
+  scope_count: 4
+- name: redemption_codes
+  scope_count: 5
+- name: consumer_profile
+  scope_count: 1
+- name: consumer_entitlements
+  scope_count: 1
+- name: video_favorites
+  scope_count: 3
+- name: video_ratings
+  scope_count: 2
+- name: analytics
+  scope_count: 2
+- name: billing
+  scope_count: 4
+- name: account
+  scope_count: 1
+- name: transactions
+  scope_count: 4
+- name: usage
+  scope_count: 1
+- name: settings
+  scope_count: 2
+- name: analytics_bulk_export_jobs
+  scope_count: 2
+- name: user
+  scope_count: 1
+scopes:
+- name: videos.read
+  description: Read videos.
+- name: videos.create
+  description: Create videos.
+- name: videos.update
+  description: Update videos.
+- name: videos.delete
+  description: Delete videos.
+- name: videos.encode
+  description: Trigger encoding for videos.
+- name: video_sources.read
+  description: Read video sources.
+- name: video_sources.create
+  description: Create video sources.
+- name: video_sources.update
+  description: Update video sources.
+- name: video_sources.delete
+  description: Delete video sources.
+- name: video_imports.read
+  description: Read video imports.
+- name: video_imports.create
+  description: Create video imports.
+- name: video_imports.update
+  description: Update video imports.
+- name: segments.read
+  description: Read segments.
+- name: segments.create
+  description: Create segments.
+- name: segments.update
+  description: Update segments.
+- name: segments.delete
+  description: Delete segments.
+- name: subtitles.read
+  description: Read subtitles.
+- name: subtitles.create
+  description: Create subtitles.
+- name: subtitles.update
+  description: Update subtitles.
+- name: subtitles.delete
+  description: Delete subtitles.
+- name: transcriptions.read
+  description: Read transcriptions.
+- name: transcriptions.create
+  description: Create transcriptions.
+- name: transcriptions.update
+  description: Update transcriptions.
+- name: subtitle_playlists.create
+  description: Create subtitle playlists.
+- name: subtitle_playlists.delete
+  description: Delete subtitle playlists.
+- name: playlists.read
+  description: Read playlists.
+- name: playlists.create
+  description: Create playlists.
+- name: playlists.update
+  description: Update playlists.
+- name: playlists.delete
+  description: Delete playlists.
+- name: playlist_items.read
+  description: Read playlist items.
+- name: playlist_items.create
+  description: Create playlist items.
+- name: playlist_items.update
+  description: Update playlist items.
+- name: playlist_items.delete
+  description: Delete playlist items.
+- name: series.read
+  description: Read series.
+- name: series.create
+  description: Create series.
+- name: series.update
+  description: Update series.
+- name: series.delete
+  description: Delete series.
+- name: seasons.read
+  description: Read seasons.
+- name: seasons.create
+  description: Create seasons.
+- name: seasons.update
+  description: Update seasons.
+- name: seasons.delete
+  description: Delete seasons.
+- name: episodes.read
+  description: Read episodes.
+- name: episodes.create
+  description: Create episodes.
+- name: episodes.update
+  description: Update episodes.
+- name: episodes.delete
+  description: Delete episodes.
+- name: categories.read
+  description: Read categories.
+- name: categories.create
+  description: Create categories.
+- name: categories.update
+  description: Update categories.
+- name: categories.delete
+  description: Delete categories.
+- name: zobjects.read
+  description: Read zobjects.
+- name: zobjects.create
+  description: Create zobjects.
+- name: zobjects.update
+  description: Update zobjects.
+- name: zobjects.delete
+  description: Delete zobjects.
+- name: zobject_types.read
+  description: Read zobject types.
+- name: zobject_types.create
+  description: Create zobject types.
+- name: zobject_types.update
+  description: Update zobject types.
+- name: zobject_types.delete
+  description: Delete zobject types.
+- name: prompt_contexts.read
+  description: Read prompt contexts.
+- name: prompt_contexts.create
+  description: Create prompt contexts.
+- name: prompt_contexts.update
+  description: Update prompt contexts.
+- name: prompt_contexts.delete
+  description: Delete prompt contexts.
+- name: content_rules.read
+  description: Read content rules.
+- name: content_rules.create
+  description: Create content rules.
+- name: content_rules.update
+  description: Update content rules.
+- name: content_rules.delete
+  description: Delete content rules.
+- name: uploads.read
+  description: Read uploads.
+- name: uploads.create
+  description: Create uploads.
+- name: devices.read
+  description: Read devices.
+- name: devices.pair
+  description: Pair devices.
+- name: live.channels.read
+  description: Read live channels.
+- name: live.channels.create
+  description: Create live channels.
+- name: live.channels.update
+  description: Update live channels.
+- name: live.channels.delete
+  description: Delete live channels.
+- name: live.channels.start
+  description: Start live channels.
+- name: live.channels.stop
+  description: Stop live channels.
+- name: live.inputs.create
+  description: Create live inputs.
+- name: live.inputs.update
+  description: Update live inputs.
+- name: live.inputs.delete
+  description: Delete live inputs.
+- name: playout.read
+  description: Read playout.
+- name: program_guides.read
+  description: Read program guides.
+- name: program_guides.create
+  description: Create program guides.
+- name: program_guides.update
+  description: Update program guides.
+- name: program_guides.delete
+  description: Delete program guides.
+- name: live_events.read
+  description: Read live events.
+- name: live_events.create
+  description: Create live events.
+- name: live_events.update
+  description: Update live events.
+- name: live_events.delete
+  description: Delete live events.
+- name: apps.read
+  description: Read apps.
+- name: apps.update
+  description: Update apps.
+- name: tve.authenticate
+  description: Authenticate against tve.
+- name: consumers.read
+  description: Read consumers.
+- name: consumers.create
+  description: Create consumers.
+- name: consumers.update
+  description: Update consumers.
+- name: consumers.delete
+  description: Delete consumers.
+- name: consumers.billing.read
+  description: Read consumers billing.
+- name: consumers.billing.create
+  description: Create consumers billing.
+- name: consumers.billing.update
+  description: Update consumers billing.
+- name: consumers.billing.delete
+  description: Delete consumers billing.
+- name: plans.read
+  description: Read plans.
+- name: plans.create
+  description: Create plans.
+- name: plans.update
+  description: Update plans.
+- name: plans.delete
+  description: Delete plans.
+- name: revenue_models.read
+  description: Read revenue models.
+- name: subscriptions.read
+  description: Read subscriptions.
+- name: subscriptions.create
+  description: Create subscriptions.
+- name: subscriptions.update
+  description: Update subscriptions.
+- name: subscriptions.delete
+  description: Delete subscriptions.
+- name: passes.read
+  description: Read passes.
+- name: passes.create
+  description: Create passes.
+- name: passes.update
+  description: Update passes.
+- name: passes.delete
+  description: Delete passes.
+- name: ad_tags.read
+  description: Read ad tags.
+- name: ad_tags.create
+  description: Create ad tags.
+- name: ad_tags.update
+  description: Update ad tags.
+- name: ad_tags.delete
+  description: Delete ad tags.
+- name: ad_timings.read
+  description: Read ad timings.
+- name: ad_timings.create
+  description: Create ad timings.
+- name: ad_timings.update
+  description: Update ad timings.
+- name: ad_timings.delete
+  description: Delete ad timings.
+- name: redemption_codes.read
+  description: Read redemption codes.
+- name: redemption_codes.create
+  description: Create redemption codes.
+- name: redemption_codes.update
+  description: Update redemption codes.
+- name: redemption_codes.delete
+  description: Delete redemption codes.
+- name: consumer_profile.read
+  description: Read consumer profile.
+- name: consumer_entitlements.read
+  description: Read consumer entitlements.
+- name: video_favorites.read
+  description: Read video favorites.
+- name: video_favorites.create
+  description: Create video favorites.
+- name: video_favorites.delete
+  description: Delete video favorites.
+- name: video_ratings.read
+  description: Read video ratings.
+- name: video_ratings.create
+  description: Create video ratings.
+- name: redemption_codes.redeem
+  description: Redeem redemption codes.
+- name: analytics.read
+  description: Read analytics.
+- name: analytics.export
+  description: Export analytics.
+- name: billing.read
+  description: Read billing.
+- name: billing.create
+  description: Create billing.
+- name: billing.update
+  description: Update billing.
+- name: billing.delete
+  description: Delete billing.
+- name: account.cancel
+  description: Cancel account.
+- name: transactions.read
+  description: Read transactions.
+- name: transactions.create
+  description: Create transactions.
+- name: transactions.update
+  description: Update transactions.
+- name: transactions.delete
+  description: Delete transactions.
+- name: usage.read
+  description: Read usage.
+- name: settings.read
+  description: Read settings.
+- name: settings.update
+  description: Update settings.
+- name: analytics_bulk_export_jobs.read
+  description: Read analytics bulk export jobs.
+- name: analytics_bulk_export_jobs.create
+  description: Create analytics bulk export jobs.
+- name: user
+  description: Identify the authenticated user.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

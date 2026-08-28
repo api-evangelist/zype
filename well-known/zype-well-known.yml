@@ -1,0 +1,51 @@
+generated: '2026-08-28'
+method: probed
+source: live GET probes of /.well-known/* on every Zype host named in apis.yml and openapi servers[]
+note: api.zype.com and login.zype.com both serve a real RFC 8414 OAuth 2.0 Authorization Server Metadata document
+  listing 148 scopes, PKCE S256, and four grant types. No security.txt, openid-configuration, api-catalog or ai-plugin.json
+  is served on any host. www.zype.com is a HubSpot CMS site whose 404 page returns HTTP 404 with an HTML body.
+hosts:
+- host: api.zype.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/zype-oauth-authorization-server.json
+    content_type: application/json
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: login.zype.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/zype-login-oauth-authorization-server.json
+    content_type: application/json
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+- host: www.zype.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

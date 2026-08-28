@@ -1,0 +1,270 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Consumer Authentication",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://login.zype.com"
+    }
+  ],
+  "paths": {
+    "/oauth/token": {
+      "post": {
+        "summary": "Retrieving an Access Token",
+        "description": "The password grant flow allows you to pass in a user\u2019s username (email address) and password to get an access token in return.",
+        "tags": [
+          "Oauth"
+        ],
+        "operationId": "retrieveAccessToken",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "TokenRequest",
+                "type": "object",
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "username",
+                  "grant_type"
+                ],
+                "properties": {
+                  "client_id": {
+                    "type": "string",
+                    "description": "The client ID for your Zype application"
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "The client secret for your Zype application"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "The username (email) of the consumer. *Note: Password is required if username is used to authenticate.*"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the consumer. *Note: Required if using username to authenticate.*"
+                  },
+                  "linked_device_id": {
+                    "type": "string",
+                    "description": "The linked device ID of the consumer. *Note: Pin is required if linked device ID is used to authenticate.*"
+                  },
+                  "pin": {
+                    "type": "string",
+                    "description": "The pin for the linked device. *Note: Required if using linked device ID to authenticate.*"
+                  },
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "password",
+                      "refresh_token"
+                    ],
+                    "description": "Use `password` to initially authenticate and `refresh_token` to refresh the consumer's access token."
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "Use this token if you wish to extend the access time the consumer has without having to re-authenticate."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "TokenResponse",
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "description": "Token used to grant access for a consumer",
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "description": "Set by Zype - will be 'bearer'",
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "description": "Time (in seconds) when token is set to expire",
+                      "type": "number"
+                    },
+                    "refresh_token": {
+                      "description": "Token to use to refresh access_token",
+                      "type": "string"
+                    },
+                    "scope": {
+                      "description": "The type of access this token provides",
+                      "type": "string"
+                    },
+                    "grant_type": {
+                      "description": "Use `refresh_token`. Required for access token refresh.",
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "07-17T14:58:20.109-04:00",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Token Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Token Error Response",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "error_description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1oauth~1token/post/responses/400/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/token/info": {
+      "get": {
+        "summary": "Retrieving Access Token Status",
+        "description": "",
+        "tags": [
+          "Oauth"
+        ],
+        "operationId": "retrieveAccessTokenStatus",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "description": "The access token created via Oauth",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "TokenInfoResponse",
+                  "type": "object",
+                  "properties": {
+                    "resource_owner_id": {
+                      "type": "string",
+                      "description": "ID of the consumer"
+                    },
+                    "scopes": {
+                      "type": "array",
+                      "description": "Will be deprecated 06/2023, use `scope` instead."
+                    },
+                    "scope": {
+                      "type": "array"
+                    },
+                    "expires_in_seconds": {
+                      "description": "Will be deprecated 06/2023, use `expires_in`",
+                      "type": "integer"
+                    },
+                    "expires_in": {
+                      "type": "integer"
+                    },
+                    "application": {
+                      "type": "object",
+                      "properties": {
+                        "uid": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1oauth~1token/post/responses/400/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth/revoke": {
+      "post": {
+        "summary": "Revoke Access Token",
+        "description": "This requests revokes an access token, removing the session from the active logins list.",
+        "tags": [
+          "Oauth"
+        ],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "TokenRevokeRequest",
+                "type": "object",
+                "required": [
+                  "client_id",
+                  "client_secret",
+                  "token"
+                ],
+                "properties": {
+                  "client_id": {
+                    "type": "string"
+                  },
+                  "client_secret": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The endpoint always returs 200"
+          }
+        }
+      }
+    }
+  }
+}

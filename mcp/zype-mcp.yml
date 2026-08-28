@@ -1,0 +1,146 @@
+generated: '2026-08-28'
+method: searched
+source: https://github.com/zype/zype-mcp-client (README, Apache-2.0, last pushed 2026-02-21) and https://registry.npmjs.org/@zype-com/mcp
+name: Zype MCP Client
+description: First-party Model Context Protocol server that exposes the Zype video platform (videos, transcriptions,
+  playlists, categories, subtitles, analytics, monetization, zobjects and the player) to MCP-speaking AI assistants.
+  Distributed as an npm package run over stdio; Zype publishes no hosted/remote MCP endpoint.
+status: published
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: npx -y @zype-com/mcp
+  package: https://www.npmjs.com/package/@zype-com/mcp
+  auth: api-key
+  verified: searched
+note: 'mode is local-stdio, not remote: every configuration example Zype publishes (Cursor, Claude Desktop, Gemini
+  CLI) is a `command: npx` stdio block, and no https MCP endpoint appears anywhere in the repo, the npm package
+  metadata, docs.zype.com, or either llms.txt. An agent cannot reach this server without a human installing it first.
+  No endpoint URL was guessed or probed into existence.'
+authentication:
+  env:
+  - name: ZYPE_API_KEY
+    required: true
+    description: Zype Admin API Key, from Zype Dashboard -> Settings -> API Keys
+  - name: ZYPE_MCP_MODE
+    required: false
+    default: safe
+    description: 'Access mode: readonly, safe, or full'
+  note: Uses the Zype Admin API Key directly. It does not use the OAuth authorization server at api.zype.com, so
+    none of the 148 published scopes constrain it — the safety boundary is the ZYPE_MCP_MODE env var, not a token
+    scope.
+access_modes:
+- mode: readonly
+  description: Only read operations allowed.
+- mode: safe
+  description: 'Read + write allowed. Destructive operations require confirm: true. Zype''s recommended default.'
+- mode: full
+  description: All operations allowed without confirmation.
+clients_documented:
+- Cursor
+- Claude Desktop
+- Gemini CLI
+tool_count: 76
+tools:
+- category: Videos
+  names:
+  - list_videos
+  - get_video
+  - create_video
+  - update_video
+  - delete_video
+  - download_video
+- category: Transcriptions
+  names:
+  - list_transcriptions
+  - get_transcription
+  - transcribe_video
+  - translate_video
+  - list_translation_languages
+- category: Playlists
+  names:
+  - list_playlists
+  - get_playlist
+  - create_playlist
+  - update_playlist
+  - delete_playlist
+  - list_playlist_videos
+  - add_videos_to_playlist
+  - remove_videos_from_playlist
+- category: Categories
+  names:
+  - list_categories
+  - get_category
+  - create_category
+  - update_category
+  - delete_category
+- category: Subtitles
+  names:
+  - list_subtitles
+  - get_subtitle
+  - create_subtitle
+  - update_subtitle
+  - create_subtitle_playlist
+  - delete_subtitle_playlist
+  - delete_subtitle
+- category: Analytics
+  names:
+  - get_plays
+  - get_viewers
+  - get_hours_watched
+  - get_view_time
+  - list_stream_hours
+  - list_player_requests
+  - list_new_subscriptions
+  - list_subscription_revenue
+- category: Monetization
+  names:
+  - list_subscriptions
+  - get_subscription
+  - create_subscription
+  - cancel_subscription
+  - list_plans
+  - get_plan
+  - create_plan
+  - update_plan
+  - delete_plan
+  - list_transactions
+  - get_transaction
+  - list_redemption_codes
+  - get_redemption_code
+  - list_ad_tags
+  - get_ad_tag
+  - create_ad_tag
+  - update_ad_tag
+  - delete_ad_tag
+  - list_revenue_models
+  - get_revenue_model
+- category: Zobjects
+  names:
+  - list_zobject_types
+  - get_zobject_type
+  - create_zobject_type
+  - update_zobject_type
+  - delete_zobject_type
+  - list_zobjects
+  - get_zobject
+  - create_zobject
+  - update_zobject
+  - delete_zobject
+  - add_videos_to_zobject
+  - remove_videos_from_zobject
+  - get_zobject_videos
+  - add_playlists_to_zobject
+  - remove_playlists_from_zobject
+  - get_zobject_playlists
+- category: Player
+  names:
+  - get_player
+input_schemas: not captured — the server ships as a local stdio package and was not executed, so tools/list was
+  never called. Tool names and categories above are verbatim from the provider README; per-tool inputSchema requires
+  running the package with a live Zype Admin API Key.
+license: Apache-2.0
+repository: https://github.com/zype/zype-mcp-client
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

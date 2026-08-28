@@ -1,0 +1,569 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Content rule groups",
+    "version": "1.0.0",
+    "description": "Site-scoped **content rule groups** and the read-only **global content rule groups** catalog.\n\nReadMe maps `info.title` to the API **category** and each operation's **first** `tags` entry to a **page** under that category, then `summary` lines as endpoint subpages. After upload you should see this OpenAPI file powering the Content rule groups section.\n"
+  },
+  "servers": [
+    {
+      "url": "https://api.zype.com/"
+    }
+  ],
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Content rule groups",
+      "description": "CRUD for custom groupings on the current site (e.g. country lists)."
+    },
+    {
+      "name": "Global content rule groups",
+      "description": "Read-only platform catalog shared across all sites."
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "OAuth access token",
+        "description": "OAuth access token of the consumer"
+      }
+    }
+  },
+  "paths": {
+    "/v3/content_rule_groups": {
+      "get": {
+        "tags": [
+          "Content rule groups"
+        ],
+        "summary": "List content rule groups",
+        "description": "Retrieve custom content rule groups (e.g. country groupings) for the current site.",
+        "operationId": "listContentRuleGroups",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of content rule groups, ordered by name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ContentRuleGroupsResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/paths/~1v3~1content_rule_groups/post/responses/201/content/application~1json/schema/properties/response"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "NotFound",
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Content rule groups"
+        ],
+        "summary": "Create content rule group",
+        "description": "Create a custom content rule group for the current site.",
+        "operationId": "createContentRuleGroup",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "ContentRuleGroupRequest",
+                "type": "object",
+                "required": [
+                  "content_rule_group"
+                ],
+                "properties": {
+                  "content_rule_group": {
+                    "title": "ContentRuleGroupProperties",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "group_type": {
+                        "type": "string",
+                        "description": "Optional. One of `country`, `state`, `city`, `zip_code`, `dma_code`, or `ip_address`. Defaults to `country` when omitted."
+                      },
+                      "countries": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "states": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "cities": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "zip_codes": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "dma_codes": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "ip_addresses": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "ip_ranges": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "start": {
+                              "type": "string"
+                            },
+                            "end": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ContentRuleGroupResponse",
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "title": "ContentRuleGroup",
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "countries": {
+                          "type": "array",
+                          "description": "ISO 3166-1 alpha-2 country codes (uppercase). Empty strings are stripped and values are normalized on save. Required payload when `group_type` is `country`.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "states": {
+                          "type": "array",
+                          "description": "US state codes (uppercase) when targeting states. Required payload when `group_type` is `state` (US-only semantics match content rules).",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "cities": {
+                          "type": "array",
+                          "description": "City names as stored for matching. Required payload when `group_type` is `city`.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "zip_codes": {
+                          "type": "array",
+                          "description": "ZIP/postal codes (normalized uppercase). Required payload when `group_type` is `zip_code`.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "dma_codes": {
+                          "type": "array",
+                          "description": "DMA codes. Required payload when `group_type` is `dma_code`.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "ip_addresses": {
+                          "type": "array",
+                          "description": "Single hosts or CIDR blocks for `group_type` `ip_address`. At least one entry in `ip_addresses` or `ip_ranges` is required for IP groups.",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "ip_ranges": {
+                          "type": "array",
+                          "description": "Inclusive start\u2013end pairs for `group_type` `ip_address`. Bounds must be literal host addresses (not CIDR).",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "start": {
+                                "type": "string"
+                              },
+                              "end": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "group_type": {
+                          "type": "string",
+                          "description": "One of `country`, `state`, `city`, `zip_code`, `dma_code`, or `ip_address`. Site-persisted groups default to `country`. Global catalog entries use `country`.",
+                          "default": "country"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Unprocessable Entity",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/content_rule_groups/{id}": {
+      "get": {
+        "tags": [
+          "Content rule groups"
+        ],
+        "summary": "View content rule group",
+        "description": "Retrieve a single content rule group from the current site.",
+        "operationId": "getContentRuleGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the content rule group."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return content rule group.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content rule group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Content rule groups"
+        ],
+        "summary": "Update content rule group",
+        "description": "Update a content rule group for the current site.",
+        "operationId": "updateContentRuleGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the content rule group."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/paths/~1v3~1content_rule_groups/post/requestBody/content/application~1json/schema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated content rule group.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content rule group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Content rule groups"
+        ],
+        "summary": "Delete content rule group",
+        "description": "Delete a content rule group from the current site.",
+        "operationId": "deleteContentRuleGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the content rule group."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Content rule group deleted successfully."
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Content rule group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/post/responses/422/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/global_content_rule_groups": {
+      "get": {
+        "tags": [
+          "Global content rule groups"
+        ],
+        "summary": "List global content rule groups",
+        "description": "Retrieve the platform global content rule group catalog.\n",
+        "operationId": "listGlobalContentRuleGroups",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response will contain an array of global content rule groups, ordered by name (case-insensitive).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/200/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/global_content_rule_groups/{id}": {
+      "get": {
+        "tags": [
+          "Global content rule groups"
+        ],
+        "summary": "View global content rule group",
+        "description": "Retrieve a single global content rule group by id from the platform catalog.\nRead-only. Same response shape as custom content rule groups.\n",
+        "operationId": "getGlobalContentRuleGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the global content rule group (from the catalog)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return global content rule group.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/post/responses/201/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Global content rule group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
