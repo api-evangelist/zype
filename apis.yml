@@ -8,6 +8,17 @@ description: Zype is an API-first video content management and streaming platfor
   TV. Zype publishes fifteen OpenAPI 3.0.1 definitions covering 317 operations, an RFC 8414 OAuth authorization
   server advertising 148 scopes, and a first-party MCP server. Zype is a Backlight business.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: sales
