@@ -48,6 +48,22 @@ tags:
 - Monetization
 - Live Streaming
 - Analytics
+- Media and Entertainment
+- DRM
+- Advertising
+- Encoding
+- EPG
+tags_raw:
+- Video
+- Streaming
+- OTT
+- Video CMS
+- FAST
+- Linear TV
+- Playout
+- Monetization
+- Live Streaming
+- Analytics
 - Media & Entertainment
 - DRM
 - Advertising
@@ -202,6 +218,12 @@ apis:
   humanURL: https://docs.zype.com/reference/subscriptions
   baseURL: https://api.zype.com/
   tags:
+  - Monetization
+  - Subscription
+  - Advertising
+  - VAST
+  - Payments
+  tags_raw:
   - Monetization
   - Subscriptions
   - Advertising
@@ -403,6 +425,9 @@ apis:
   humanURL: https://docs.zype.com/reference/oauth
   baseURL: https://login.zype.com
   tags:
+  - Authentication
+  - Identity
+  tags_raw:
   - OAuth
   - Authentication
   - Identity
