@@ -34,7 +34,7 @@ accessModel:
   note: Corrected from "freemium". Zype publishes seven named, priced plans on zype.com/pricing (from $500/mo on
     annual terms) and every one closes with Contact Sales. There is no free tier, no trial and no self-serve checkout.
     Documentation and the OpenAPI definitions are fully public; only the keys are gated.
-position: Consumer
+position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/zype.png
 tags:
