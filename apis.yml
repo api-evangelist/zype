@@ -80,6 +80,36 @@ parent:
     ftrack and Wildmoka. Zype keeps its own domain, docs, status page and API surface, which is why it is profiled
     here rather than under backlight.
 common:
+- type: Overlay
+  url: overlays/zype-platform-overlay.yaml
+- type: Overlay
+  url: overlays/zype-playout-scheduler-overlay.yaml
+- type: Overlay
+  url: overlays/zype-monetization-overlay.yaml
+- type: Overlay
+  url: overlays/zype-consumers-overlay.yaml
+- type: Overlay
+  url: overlays/zype-live-3-overlay.yaml
+- type: Overlay
+  url: overlays/zype-zobjects-overlay.yaml
+- type: Overlay
+  url: overlays/zype-analytics-v3-overlay.yaml
+- type: Overlay
+  url: overlays/zype-analytics-overlay.yaml
+- type: Overlay
+  url: overlays/zype-content-regions-overlay.yaml
+- type: Overlay
+  url: overlays/zype-content-rule-groups-overlay.yaml
+- type: Overlay
+  url: overlays/zype-content-rules-overlay.yaml
+- type: Overlay
+  url: overlays/zype-tve-overlay.yaml
+- type: Overlay
+  url: overlays/zype-login-overlay.yaml
+- type: Overlay
+  url: overlays/zype-player-overlay.yaml
+- type: Overlay
+  url: overlays/zype-uploads-overlay.yaml
 - type: Website
   url: https://www.zype.com/
 - type: DeveloperPortal
@@ -163,317 +193,4161 @@ common:
 - type: PointerVerification
   url: well-known/zype-pointer-verification.yml
 apis:
-- aid: zype:platform
-  name: Zype Platform API
-  description: 'The core Zype content API: videos, playlists, categories, subtitles and subtitle playlists, transcriptions
-    and translations, AI metadata suggestions, segments, program guides, video imports and sources, devices, GeoIP,
-    admin users and legacy live encoders. 88 operations.'
+- aid: zype:zype-ad-tags-api
+  name: Zype Ad Tags API
+  description: The Ad Tags API from Zype — 2 operation(s) for ad tags.
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
-  - Video
-  - Content Management
-  - Metadata
-  - Transcription
-  - Playlists
+  - Ad Tags
   properties:
   - type: OpenAPI
-    url: openapi/zype-platform.json
-  - type: Overlay
-    url: overlays/zype-platform-overlay.yaml
+    url: openapi/zype-ad-tags-api-openapi.yml
   - type: Documentation
     url: https://docs.zype.com/reference/videos
   - type: APIReference
     url: https://docs.zype.com/reference/videos
-- aid: zype:playout-scheduler
-  name: Zype Playout Scheduler API
-  description: 'Cloud playout for FAST and linear channels: channels, HLS/UDP/RTMP delivery profiles, destinations
-    and connectors, draft and published schedule versions, revertible timeline operations, assets (blocks, ads,
-    bumpers, videos, playlists, graphics, live streams), ad timings, recurrence rules, and EPG export in XMLTV,
-    JSON rundown and Vizio/TCL/Wurl/Roku formats. 82 operations. This is the only Zype API that authenticates with
-    an X-API-Key header rather than a query parameter.'
-  humanURL: https://docs.zype.com/reference/channels
-  baseURL: https://api.zype.com/
-  tags:
-  - FAST
-  - Linear TV
-  - Playout
-  - Scheduling
-  - EPG
-  - XMLTV
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-playout-scheduler.json
-  - type: Overlay
-    url: overlays/zype-playout-scheduler-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/channels
   - type: APIReference
     url: https://docs.zype.com/reference/channels
-- aid: zype:monetization
-  name: Zype Monetization API
-  description: Subscriptions with a reversible cancel/reactivate pair, plans and tiered plan-to-playlist binding,
-    transactions carrying Stripe/Braintree/Recurly references, redemption codes with bulk minting and redemption,
-    IAB VAST/VMAP ad tags, revenue models and video favorites. 36 operations.
-  humanURL: https://docs.zype.com/reference/subscriptions
-  baseURL: https://api.zype.com/
-  tags:
-  - Monetization
-  - Subscription
-  - Advertising
-  - VAST
-  - Payments
-  tags_raw:
-  - Monetization
-  - Subscriptions
-  - Advertising
-  - VAST
-  - Payments
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-monetization.json
-  - type: Overlay
-    url: overlays/zype-monetization-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/subscriptions
   - type: APIReference
     url: https://docs.zype.com/reference/subscriptions
-- aid: zype:consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-adobe-api
+  name: Zype Adobe API
+  description: The Adobe API from Zype — 6 operation(s) for adobe.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Adobe
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-adobe-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-apps-api
+  name: Zype Apps API
+  description: The Apps API from Zype — 1 operation(s) for apps.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Apps
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-apps-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-assets-api
+  name: Zype Assets API
+  description: The Assets API from Zype — 16 operation(s) for assets.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-assets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-categories-api
+  name: Zype Categories API
+  description: The Categories API from Zype — 2 operation(s) for categories.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-categories-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-channels-api
+  name: Zype Channels API
+  description: The Channels API from Zype — 4 operation(s) for channels.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Channels
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-channels-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-consumers-api
   name: Zype Consumers API
-  description: 'The end-viewer surface: consumer records, password reset flows, parental access codes, device pin
-    linking, and video, playlist and subscription entitlements. 24 operations.'
-  humanURL: https://docs.zype.com/reference/consumers
+  description: The Consumers API from Zype — 6 operation(s) for consumers.
+  humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
   - Consumers
-  - Entitlements
-  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-consumers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-content-rule-groups-api
+  name: Zype Content rule groups API
+  description: CRUD for custom groupings on the current site (e.g. country lists).
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Content rule groups
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-content-rule-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-content-rule-profiles-api
+  name: Zype Content Rule Profiles API
+  description: The Content Rule Profiles API from Zype — 4 operation(s) for content rule profiles.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Content Rule Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-content-rule-profiles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-custom-regions-api
+  name: Zype Custom Regions API
+  description: CRUD for custom country groupings on the current site.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Custom Regions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-custom-regions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-destinations-api
+  name: Zype Destinations API
+  description: The Destinations API from Zype — 4 operation(s) for destinations.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Destinations
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-destinations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-device-categories-api
+  name: Zype Device Categories API
+  description: The Device Categories API from Zype — 2 operation(s) for device categories.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Device Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-device-categories-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-device-linking-api
+  name: Zype Device Linking API
+  description: The Device Linking API from Zype — 4 operation(s) for device linking.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
   - Device Linking
   properties:
   - type: OpenAPI
-    url: openapi/zype-consumers.json
-  - type: Overlay
-    url: overlays/zype-consumers-overlay.yaml
+    url: openapi/zype-device-linking-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
   - type: Documentation
     url: https://docs.zype.com/reference/consumers
   - type: APIReference
     url: https://docs.zype.com/reference/consumers
-- aid: zype:live-3
-  name: Zype Live API (V3)
-  description: 'Live streaming V3: encoder lifecycle including start, stop and sync, and live events with start,
-    stop and archive. 16 operations. Supersedes the legacy /live/encoders surface still carried in the Platform
-    spec.'
-  humanURL: https://docs.zype.com/reference/live-encoders
-  baseURL: https://api.zype.com
-  tags:
-  - Live Streaming
-  - Encoding
-  - Broadcast
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-live-3.json
-  - type: Overlay
-    url: overlays/zype-live-3-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/live-encoders
   - type: APIReference
     url: https://docs.zype.com/reference/live-encoders
-- aid: zype:zobjects
-  name: Zype Zobjects API
-  description: 'Zype''s custom-metadata model: Zobject Types define a schema (actor, director, team, season) and
-    Zobjects are instances, attachable to videos and playlists in both directions. 16 operations.'
-  humanURL: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-devices-api
+  name: Zype Devices API
+  description: The Devices API from Zype — 2 operation(s) for devices.
+  humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
-  - Metadata
-  - Taxonomy
-  - Content Management
+  - Devices
   properties:
   - type: OpenAPI
-    url: openapi/zype-zobjects.json
-  - type: Overlay
-    url: overlays/zype-zobjects-overlay.yaml
+    url: openapi/zype-devices-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
   - type: Documentation
     url: https://docs.zype.com/reference/zobjects
   - type: APIReference
     url: https://docs.zype.com/reference/zobjects
-- aid: zype:analytics-v3
-  name: Zype Analytics API (V3)
-  description: 'Current analytics surface across three families: engagement (plays, viewers, hours watched, view
-    time), revenue (new subscriptions, subscription events, subscription revenue, new transactions) and platform
-    dynamics (consumers, metrics, player requests, stream hours, playout hours). 13 operations.'
-  humanURL: https://docs.zype.com/reference/platform-dynamics
-  baseURL: https://analytics.zype.com
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-draft-versions-api
+  name: Zype Draft Versions API
+  description: The Draft Versions API from Zype — 4 operation(s) for draft versions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
   tags:
-  - Analytics
-  - Reporting
+  - Draft Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-draft-versions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-encoders-api
+  name: Zype Encoders API
+  description: The Encoders API from Zype — 6 operation(s) for encoders.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Encoders
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-encoders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-engagement-api
+  name: Zype Engagement API
+  description: The Engagement API from Zype — 5 operation(s) for engagement.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
   - Engagement
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-engagement-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-epg-api
+  name: Zype EPG API
+  description: The EPG API from Zype — 6 operation(s) for epg.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - EPG
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-epg-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-geoip-api
+  name: Zype Geo IP API
+  description: The GeoIP API from Zype — 1 operation(s) for geoip.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - GeoIP
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-geoip-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-global-content-regions-api
+  name: Zype Global Content Regions API
+  description: Read-only platform catalog shared across all sites.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Global Content Regions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-global-content-regions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-global-content-rule-groups-api
+  name: Zype Global content rule groups API
+  description: Read-only platform catalog shared across all sites.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Global content rule groups
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-global-content-rule-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-hls-profiles-api
+  name: Zype HLS Profiles API
+  description: The HLS Profiles API from Zype — 3 operation(s) for hls profiles.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - HLS Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-hls-profiles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-live-encoders-api
+  name: Zype Live Encoders API
+  description: The Live Encoders API from Zype — 5 operation(s) for live encoders.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Live Encoders
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-live-encoders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-live-events-api
+  name: Zype Live Events API
+  description: The Live Events API from Zype — 5 operation(s) for live events.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Live Events
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-live-events-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-new-subscriptions-api
+  name: Zype New Subscriptions API
+  description: The New Subscriptions API from Zype — 1 operation(s) for new subscriptions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - New Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-new-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-new-transactions-api
+  name: Zype New Transactions API
+  description: The New Transactions API from Zype — 1 operation(s) for new transactions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - New Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-new-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-plans-api
+  name: Zype Plans API
+  description: The Plans API from Zype — 4 operation(s) for plans.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Plans
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-plans-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-platform-dynamics-api
+  name: Zype Platform Dynamics API
+  description: The Platform Dynamics API from Zype — 5 operation(s) for platform dynamics.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Platform Dynamics
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-platform-dynamics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-player-requests-api
+  name: Zype Player Requests API
+  description: The Player Requests API from Zype — 1 operation(s) for player requests.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Player Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-player-requests-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-players-api
+  name: Zype Players API
+  description: The Players API from Zype — 1 operation(s) for players.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Players
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-players-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-playlist-carousel-embed-api
+  name: Zype Playlist Carousel Embed API
+  description: The Playlist Carousel Embed API from Zype — 1 operation(s) for playlist carousel embed.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Playlist Carousel Embed
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-playlist-carousel-embed-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-playlist-entitlements-api
+  name: Zype Playlist Entitlements API
+  description: The Playlist Entitlements API from Zype — 2 operation(s) for playlist entitlements.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Playlist Entitlements
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-playlist-entitlements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-playlists-api
+  name: Zype Playlists API
+  description: The Playlists API from Zype — 7 operation(s) for playlists.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Playlists
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-playlists-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-program-guides-api
+  name: Zype Program Guides API
+  description: The Program Guides API from Zype — 3 operation(s) for program guides.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Program Guides
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-program-guides-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-published-versions-api
+  name: Zype Published Versions API
+  description: The Published Versions API from Zype — 1 operation(s) for published versions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Published Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-published-versions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-recurrence-rules-api
+  name: Zype Recurrence Rules API
+  description: The Recurrence Rules API from Zype — 2 operation(s) for recurrence rules.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Recurrence Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-recurrence-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-redemption-codes-api
+  name: Zype Redemption Codes API
+  description: The Redemption Codes API from Zype — 4 operation(s) for redemption codes.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Redemption Codes
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-redemption-codes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-revenue-api
+  name: Zype Revenue API
+  description: The Revenue API from Zype — 4 operation(s) for revenue.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
   - Revenue
   properties:
   - type: OpenAPI
-    url: openapi/zype-analytics-v3.json
-  - type: Overlay
-    url: overlays/zype-analytics-v3-overlay.yaml
+    url: openapi/zype-revenue-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
   - type: Documentation
     url: https://docs.zype.com/reference/platform-dynamics
   - type: APIReference
     url: https://docs.zype.com/reference/platform-dynamics
-- aid: zype:analytics
-  name: Zype Analytics API (V2)
-  description: Legacy V2 analytics surface — stream hours, player requests, engagement, site counts, consumers,
-    subscriptions, subscription events, subscription revenue and transactions. 9 operations. Superseded by Analytics
-    V3 with no published deprecation notice or sunset date. No dedicated reference category is published for V2
-    on docs.zype.com — the spec is still served from the ReadMe API registry but its docs pages have been removed,
-    which is the clearest deprecation signal Zype gives.
-  humanURL: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
-  baseURL: https://analytics.zype.com
-  tags:
-  - Analytics
-  - Reporting
-  - Legacy
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-analytics.json
-  - type: Overlay
-    url: overlays/zype-analytics-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
   - type: APIReference
     url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
-- aid: zype:content-regions
-  name: Zype Custom Regions API
-  description: Site-scoped custom regions and global content regions, the geographic building blocks used by content
-    rules. 7 operations.
-  humanURL: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
-  baseURL: https://api.zype.com/
-  tags:
-  - Geo
-  - Content Rules
-  - Rights Management
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-content-regions.json
-  - type: Overlay
-    url: overlays/zype-content-regions-overlay.yaml
-  - type: Documentation
-    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
-  - type: APIReference
-    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
-- aid: zype:content-rule-groups
-  name: Zype Content Rule Groups API
-  description: Site-scoped and global content rule groups — reusable bundles of rules applied to content availability.
-    7 operations.
-  humanURL: https://docs.zype.com/reference/content-rule-groups
-  baseURL: https://api.zype.com/
-  tags:
-  - Content Rules
-  - Rights Management
-  - Geo
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-content-rule-groups.json
-  - type: Overlay
-    url: overlays/zype-content-rule-groups-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/content-rule-groups
   - type: APIReference
     url: https://docs.zype.com/reference/content-rule-groups
-- aid: zype:content-rules
-  name: Zype Content Rule Profiles API
-  description: Content rule profiles plus the country/state/city lookups they are built from — geo-blocking and
-    availability windows. 7 operations.
-  humanURL: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-revenue-models-api
+  name: Zype Revenue Models API
+  description: The Revenue Models API from Zype — 2 operation(s) for revenue models.
+  humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
-  - Content Rules
-  - Geo
-  - Rights Management
+  - Revenue Models
   properties:
   - type: OpenAPI
-    url: openapi/zype-content-rules.json
-  - type: Overlay
-    url: overlays/zype-content-rules-overlay.yaml
+    url: openapi/zype-revenue-models-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
   - type: Documentation
     url: https://docs.zype.com/reference/content-rule-profiles
   - type: APIReference
     url: https://docs.zype.com/reference/content-rule-profiles
-- aid: zype:tve
-  name: Zype TVE API
-  description: 'TV Everywhere / MVPD authentication implemented against the Adobe Primetime device-session flow:
-    register a device session, create a Zype consumer, validate a session token, retrieve preauthorized resources,
-    obtain a short media token and destroy the session. 6 operations.'
-  humanURL: https://docs.zype.com/reference/adobe
-  baseURL: https://tve.zype.com/
-  tags:
-  - TV Everywhere
-  - MVPD
-  - Authentication
-  - Adobe Primetime
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-tve.json
-  - type: Overlay
-    url: overlays/zype-tve-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/adobe
   - type: APIReference
     url: https://docs.zype.com/reference/adobe
-- aid: zype:login
-  name: Zype Consumer Authentication API
-  description: 'Consumer-facing OAuth 2.0: retrieve an access token, read token status and revoke a token. 3 operations.
-    login.zype.com serves its own RFC 8414 authorization server metadata document alongside the one on api.zype.com.'
-  humanURL: https://docs.zype.com/reference/oauth
-  baseURL: https://login.zype.com
-  tags:
-  - Authentication
-  - Identity
-  tags_raw:
-  - OAuth
-  - Authentication
-  - Identity
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-login.json
-  - type: Overlay
-    url: overlays/zype-login-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/oauth
   - type: APIReference
     url: https://docs.zype.com/reference/oauth
-- aid: zype:player
-  name: Zype Player API
-  description: Retrieves the embeddable player for a video in html, js or json form — the json form returns metadata
-    plus the Widevine, FairPlay and PlayReady DRM objects and m3u8 references — and the playlist carousel embed.
-    2 operations.
-  humanURL: https://docs.zype.com/reference/players
-  baseURL: https://player.zype.com
-  tags:
-  - Player
-  - Embed
-  - DRM
-  - HLS
-  properties:
-  - type: OpenAPI
-    url: openapi/zype-player.json
-  - type: Overlay
-    url: overlays/zype-player-overlay.yaml
   - type: Documentation
     url: https://docs.zype.com/reference/players
   - type: APIReference
     url: https://docs.zype.com/reference/players
-- aid: zype:uploads
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-rtmp-profiles-api
+  name: Zype RTMP Profiles API
+  description: The RTMP Profiles API from Zype — 3 operation(s) for rtmp profiles.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - RTMP Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-rtmp-profiles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-segments-api
+  name: Zype Segments API
+  description: The Segments API from Zype — 2 operation(s) for segments.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Segments
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-segments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-site-counts-api
+  name: Zype Site Counts API
+  description: The Site Counts API from Zype — 1 operation(s) for site counts.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Site Counts
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-site-counts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-stream-hours-api
+  name: Zype Stream Hours API
+  description: The Stream Hours API from Zype — 1 operation(s) for stream hours.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Stream Hours
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-stream-hours-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-subscription-entitlements-api
+  name: Zype Subscription Entitlements API
+  description: >-
+    The Subscription Entitlements API from Zype — 1 operation(s) for subscription entitlements.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Subscription Entitlements
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-subscription-entitlements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-subscription-events-api
+  name: Zype Subscription Events API
+  description: The Subscription Events API from Zype — 1 operation(s) for subscription events.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Subscription Events
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-subscription-events-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-subscription-revenue-api
+  name: Zype Subscription Revenue API
+  description: The Subscription Revenue API from Zype — 1 operation(s) for subscription revenue.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Subscription Revenue
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-subscription-revenue-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-subscriptions-api
+  name: Zype Subscriptions API
+  description: The Subscriptions API from Zype — 4 operation(s) for subscriptions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-subtitle-playlists-api
+  name: Zype Subtitle Playlists API
+  description: The Subtitle Playlists API from Zype — 2 operation(s) for subtitle playlists.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Subtitle Playlists
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-subtitle-playlists-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-subtitles-api
+  name: Zype Subtitles API
+  description: The Subtitles API from Zype — 2 operation(s) for subtitles.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Subtitles
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-subtitles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-timeline-operations-api
+  name: Zype Timeline Operations API
+  description: The Timeline Operations API from Zype — 3 operation(s) for timeline operations.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Timeline Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-timeline-operations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-transactions-api
+  name: Zype Transactions API
+  description: The Transactions API from Zype — 2 operation(s) for transactions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-transcriptions-api
+  name: Zype Transcriptions API
+  description: The Transcriptions API from Zype — 5 operation(s) for transcriptions.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Transcriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-transcriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-udp-profiles-api
+  name: Zype UDP Profiles API
+  description: The UDP Profiles API from Zype — 3 operation(s) for udp profiles.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - UDP Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-udp-profiles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-uploads-api
   name: Zype Uploads API
-  description: Creates an upload for direct ingest of a source file into the Zype library. 1 operation.
-  humanURL: https://docs.zype.com/reference/uploads
-  baseURL: https://uploads.zype.com/
+  description: The Uploads API from Zype — 3 operation(s) for uploads.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
   tags:
   - Uploads
-  - Ingest
   properties:
   - type: OpenAPI
-    url: openapi/zype-uploads.json
-  - type: Overlay
-    url: overlays/zype-uploads-overlay.yaml
+    url: openapi/zype-uploads-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-users-api
+  name: Zype Users API
+  description: The Users API from Zype — 3 operation(s) for users.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-video-entitlements-api
+  name: Zype Video Entitlements API
+  description: The Video Entitlements API from Zype — 3 operation(s) for video entitlements.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Video Entitlements
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-video-entitlements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-video-favorites-api
+  name: Zype Video Favorites API
+  description: The Video Favorites API from Zype — 2 operation(s) for video favorites.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Video Favorites
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-video-favorites-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-video-imports-api
+  name: Zype Video Imports API
+  description: The Video Imports API from Zype — 3 operation(s) for video imports.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Video Imports
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-video-imports-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-video-sources-api
+  name: Zype Video Sources API
+  description: The Video Sources API from Zype — 2 operation(s) for video sources.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Video Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-video-sources-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-videos-api
+  name: Zype Videos API
+  description: The Videos API from Zype — 16 operation(s) for videos.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Videos
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-videos-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-zobject-types-api
+  name: Zype Zobject Types API
+  description: The Zobject Types API from Zype — 2 operation(s) for zobject types.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Zobject Types
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-zobject-types-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-zobjects-api
+  name: Zype Zobjects API
+  description: The Zobjects API from Zype — 8 operation(s) for zobjects.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - Zobjects
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-zobjects-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
+  - type: Documentation
+    url: https://docs.zype.com/reference/uploads
+  - type: APIReference
+    url: https://docs.zype.com/reference/uploads
+- aid: zype:zype-o-auth-api
+  name: Zype O Auth API
+  description: The O Auth API from Zype — 3 operation(s) for o auth.
+  humanURL: https://docs.zype.com/reference/videos
+  baseURL: https://api.zype.com/
+  tags:
+  - O Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/zype-o-auth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.zype.com/reference/videos
+  - type: APIReference
+    url: https://docs.zype.com/reference/videos
+  - type: Documentation
+    url: https://docs.zype.com/reference/channels
+  - type: APIReference
+    url: https://docs.zype.com/reference/channels
+  - type: Documentation
+    url: https://docs.zype.com/reference/subscriptions
+  - type: APIReference
+    url: https://docs.zype.com/reference/subscriptions
+  - type: Documentation
+    url: https://docs.zype.com/reference/consumers
+  - type: APIReference
+    url: https://docs.zype.com/reference/consumers
+  - type: Documentation
+    url: https://docs.zype.com/reference/live-encoders
+  - type: APIReference
+    url: https://docs.zype.com/reference/live-encoders
+  - type: Documentation
+    url: https://docs.zype.com/reference/zobjects
+  - type: APIReference
+    url: https://docs.zype.com/reference/zobjects
+  - type: Documentation
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: APIReference
+    url: https://docs.zype.com/reference/platform-dynamics
+  - type: Documentation
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: APIReference
+    url: https://docs.zype.com/reference/welcome-to-the-zype-api-documentation
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-groups
+  - type: Documentation
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: APIReference
+    url: https://docs.zype.com/reference/content-rule-profiles
+  - type: Documentation
+    url: https://docs.zype.com/reference/adobe
+  - type: APIReference
+    url: https://docs.zype.com/reference/adobe
+  - type: Documentation
+    url: https://docs.zype.com/reference/oauth
+  - type: APIReference
+    url: https://docs.zype.com/reference/oauth
+  - type: Documentation
+    url: https://docs.zype.com/reference/players
+  - type: APIReference
+    url: https://docs.zype.com/reference/players
   - type: Documentation
     url: https://docs.zype.com/reference/uploads
   - type: APIReference
