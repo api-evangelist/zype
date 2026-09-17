@@ -4286,16 +4286,16 @@ apis:
     url: https://docs.zype.com/reference/uploads
   - type: APIReference
     url: https://docs.zype.com/reference/uploads
-- aid: zype:zype-o-auth-api
-  name: Zype O Auth API
-  description: The O Auth API from Zype — 3 operation(s) for o auth.
+- aid: zype:zype-oauth-api
+  name: Zype OAUTH API
+  description: The Oauth API from Zype — 3 operation(s) for oauth.
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
-  - O Auth
+  - Oauth
   properties:
   - type: OpenAPI
-    url: openapi/zype-o-auth-api-openapi.yml
+    url: openapi/zype-oauth-api-openapi.yml
   - type: Documentation
     url: https://docs.zype.com/reference/videos
   - type: APIReference
