@@ -331,6 +331,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Application
+  tags_raw:
   - Apps
   properties:
   - type: OpenAPI
@@ -859,6 +861,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Destination
+  tags_raw:
   - Destinations
   properties:
   - type: OpenAPI
@@ -2113,6 +2117,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Player
+  tags_raw:
   - Players
   properties:
   - type: OpenAPI
@@ -3236,6 +3242,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -3500,6 +3508,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
@@ -3764,6 +3774,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -4094,6 +4106,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Video
+  tags_raw:
   - Videos
   properties:
   - type: OpenAPI
@@ -4292,6 +4306,8 @@ apis:
   humanURL: https://docs.zype.com/reference/videos
   baseURL: https://api.zype.com/
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
