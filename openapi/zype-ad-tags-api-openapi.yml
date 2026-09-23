@@ -1,0 +1,287 @@
+openapi: 3.2.0
+info:
+  title: Monetization Ad Tags API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Ad Tags
+paths:
+  /ad_tags:
+    get:
+      summary: List Ad Tags
+      description: ''
+      tags:
+      - Ad Tags
+      operationId: listAdTags
+      parameters:
+      - name: id
+        $ref: '#/paths/~1plans/get/parameters/0'
+      - name: created_at
+        $ref: '#/paths/~1plans/get/parameters/1'
+      - name: q
+        $ref: '#/paths/~1plans/get/parameters/2'
+      - name: order
+        $ref: '#/paths/~1plans/get/parameters/3'
+      - name: sort
+        $ref: '#/paths/~1plans/get/parameters/4'
+      - name: page
+        $ref: '#/paths/~1plans/get/parameters/5'
+      - name: per_page
+        $ref: '#/paths/~1plans/get/parameters/6'
+      - name: active
+        in: query
+        required: false
+        description: Filter by active, inactive, or all.  If excluded, query will default to 'true'
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - 'true'
+          - 'false'
+          - all
+      - name: name
+        in: query
+        schema:
+          type: string
+        description: Filter by name
+      - name: disabled
+        in: query
+        schema:
+          type: string
+        description: Filter by disabled
+      - name: scope
+        in: query
+        schema:
+          type: string
+        description: 'Filter by assigned scope: Options are ''library'' or ''video'''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: AdTagsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1ad_tags/post/responses/201/content/application~1json/schema/properties/response'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Ad Tags
+      description: ''
+      tags:
+      - Ad Tags
+      operationId: createAdTag
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: AdTagRequest
+              type: object
+              required:
+              - ad_tag
+              properties:
+                ad_tag:
+                  title: AdTagProperties
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    active:
+                      description: Indicates if an AdTag should be applied to videos
+                      type: string
+                    device_id:
+                      description: ID of device to display AdTag on
+                      type: string
+                    device_category_id:
+                      description: ID of the category the device belongs to
+                      type: string
+                    disabled:
+                      description: Indicates if an AdTag is disabled
+                      type: boolean
+                    interval_count:
+                      description: How many times a video or videos in a collection will play before a single user gets an ad
+                      type: string
+                    revenue_partner_id:
+                      type: string
+                    scope:
+                      description: Indicates if an interval_count applies to single video (‘video’) or a collection of videos (‘library’).
+                      type: string
+                    tag:
+                      description: URL of the AdTag
+                      type: string
+                    vmap:
+                      description: Indicates if AdTag is a VMAP.
+                      type: boolean
+                    _type:
+                      description: One of “AdTag::Vast” or “AdTag::Googima”
+                      type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: AdTagResponse
+                type: object
+                properties:
+                  response:
+                    title: AdTag
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      site_id:
+                        type: string
+                      name:
+                        type: string
+                      active:
+                        type: string
+                      network_key:
+                        type: string
+                      device_category_id:
+                        type: string
+                      device_id:
+                        type: string
+                      disabled:
+                        description: ''
+                        type: boolean
+                      interval_count:
+                        type: string
+                      interval_seconds:
+                        type: string
+                      revenue_partner_id:
+                        type: string
+                      scope:
+                        type: string
+                      tag:
+                        type: string
+                      vmap:
+                        type: string
+                      _type:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+  /ad_tags/{id}:
+    get:
+      summary: View Ad Tag
+      description: ''
+      tags:
+      - Ad Tags
+      operationId: getAdTag
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the AdTag
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ad_tags/post/responses/201/content/application~1json/schema'
+        '404':
+          description: AdTag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Ad Tag
+      description: ''
+      tags:
+      - Ad Tags
+      operationId: updateAdTag
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the ad tag
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1ad_tags/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ad_tags/post/responses/201/content/application~1json/schema'
+        '404':
+          description: AdTag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Ad Tag
+      description: ''
+      tags:
+      - Ad Tags
+      operationId: deleteAdTag
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the ad tag
+      responses:
+        '204':
+          description: AdTag successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1ad_tags/post/responses/201/content/application~1json/schema'
+        '404':
+          description: AdTag not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

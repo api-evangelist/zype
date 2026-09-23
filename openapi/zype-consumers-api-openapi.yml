@@ -1,0 +1,677 @@
+openapi: 3.2.0
+info:
+  title: Zype Consumers API
+  version: 1.0.0
+  description: 'Operations tagged Consumers across 2 of this provider''s published API definitions: zype-analytics.json, zype-consumers.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://analytics.zype.com
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Consumers
+paths:
+  /v2/consumers:
+    get:
+      x-server-name: analytics-api
+      summary: List Consumers
+      description: This endpoint will return consumer analytics data for your property.
+      tags:
+      - Consumers
+      operationId: analytics-consumers
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+          - week
+          - month
+          - year
+        description: 'Shortcut method to group records by time intervals. Accepted values: `day`, `week`, `month`, `year`.'
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - consumer_id_asc
+          - consumer_id_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - name_asc
+          - name_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: ConsumersResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: ConsumerAnalytics
+                      type: object
+                      properties:
+                        consumer_id:
+                          type: string
+                        consumer_email:
+                          type: string
+                        name:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                title: AnalyticsNotFound
+                type: object
+                properties:
+                  errors:
+                    type: string
+    servers:
+    - url: https://analytics.zype.com
+  /consumers:
+    get:
+      summary: List Consumers
+      tags:
+      - Consumers
+      operationId: listConsumers
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by ID
+
+          Example: `id=5992f328ce593000ef000008`'
+      - name: created_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `created_at.gte`)'
+      - name: updated_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by updated at date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `updated_at.gte`)'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by keyword
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Filter by ascending or descending order
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort on the specified field
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      - name: braintree_id
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer's Braintree ID
+      - name: recurly_code
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer's Recurly Code
+      - name: stripe_id
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer's Stripe ID
+      - name: email
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer's email
+      - name: password_token
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer's password token
+      - name: rss_token
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer's RSS token
+      - name: pass_count
+        in: query
+        schema:
+          type: integer
+        description: 'Filter consumers by the number of pass plans that have been purchased or redeemed.
+
+          *Note*: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: pass_count.gte = 1)'
+      - name: playlist_count
+        in: query
+        schema:
+          type: integer
+        description: 'Filter consumers by the number of playlists they are entitled to watch via purchase or pass plan.
+
+          *Note*: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: playlist_count.gte = 1)'
+      - name: remember_token
+        in: query
+        schema:
+          type: string
+        description: The password token to use during remember login workflows
+      - name: sign_in_count
+        in: query
+        schema:
+          type: integer
+        description: 'Filter consumers by the number of times they have signed in.
+
+          *Note*: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: sign_in_count.gte)'
+      - name: last_sign_in_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by last_sign_in_at using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `last_sign_in_at.gte`)'
+      - name: current_sign_in_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by current_sign_in_at using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `current_sign_in_at.gte`)'
+      - name: terms
+        in: query
+        schema:
+          type: boolean
+        description: Boolean field to indicate if the consumer has agreed to terms and conditions
+      - name: updates
+        in: query
+        schema:
+          type: boolean
+        description: Boolean field to indicate if the consumer has agreed to receive updates
+      - name: video_count
+        in: query
+        schema:
+          type: integer
+        description: 'Filter records by video count
+
+          *Note*: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: video_count.gte = 3)'
+      - name: transaction_count
+        in: query
+        schema:
+          type: integer
+        description: 'Filter consumers by their number of transactions.
+
+          *Note*: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: transaction.gte = 3)'
+      - name: payment_provider
+        in: query
+        description: Filter records by payment provider.
+        schema:
+          type: string
+          enum:
+          - stripe
+          - braintree
+          - recurly
+          - redemption
+          - third_party
+          - amazon_fire
+          - google_play
+          - itunes
+          - samsung
+          - tizen
+          - roku
+      - name: custom
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter records by custom attribues + Example: custom[weight]=100'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: ConsumersResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1consumers/post/responses/201/content/application~1json/schema/properties/response'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                title: Unprocessable Entity
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Create Consumers
+      tags:
+      - Consumers
+      operationId: createConsumer
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ConsumerRequest
+              type: object
+              properties:
+                consumer:
+                  required:
+                  - email
+                  type: object
+                  title: ConsumerProperties
+                  properties:
+                    birthday:
+                      type: string
+                    braintree_id:
+                      description: Unique ID assigned to the consumer in Braintree
+                      type: string
+                    custom:
+                      type: string
+                      description: 'Custom attributes for the consumer (Example: `consumer[custom][weight]=100`)'
+                    email:
+                      type: string
+                    name:
+                      description: Consumer full name
+                      type: string
+                    parental_access_code:
+                      description: The four digit code to use for gating of age restricted content in apps.
+                      type: string
+                    parental_access_rating:
+                      type: string
+                    password:
+                      type: string
+                      description: The password for the consumer. The password is used for consumer authentication
+                    password_confirmation:
+                      type: string
+                      description: password_confirmation must match password
+                    password_token:
+                      description: The password token to use during password reset workflows
+                      type: string
+                    recurly_code:
+                      description: Unique ID ('Code' in Recurly) assigned to the consumer in Recurly
+                      type: string
+                    remember_token:
+                      description: The password token to use during remember login workflows
+                      type: string
+                    rss_token:
+                      description: Unique token to identify a customer accessing your RSS feed
+                      type: string
+                    sex:
+                      type: string
+                    stripe_id:
+                      description: Unique ID assigned to the consumer in Stripe
+                      type: string
+                    super_watcher:
+                      description: Boolean field to indicate that a consumer is exempt from content rules
+                      type: boolean
+                    terms:
+                      description: If consumer has agreed to the terms and services
+                      type: boolean
+                    updates:
+                      description: If the consumer has agreed to receive updates
+                      type: boolean
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: ConsumerResponse
+                type: object
+                properties:
+                  response:
+                    title: Consumer
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      amazon_user_id:
+                        description: Unique ID to identify a consumer by Amazon Fire
+                        type: string
+                      birthday:
+                        type: string
+                      braintree_id:
+                        type: string
+                      created_at:
+                        type: string
+                      current_sign_in_at:
+                        type: string
+                      current_sign_in_ip:
+                        type: string
+                      days_trialed:
+                        type: number
+                      email:
+                        type: string
+                      has_trialed:
+                        type: boolean
+                      last_sign_in_at:
+                        type: string
+                      last_sign_in_ip:
+                        type: string
+                      linked_devices:
+                        description: IDs of Devices a user uses to watch your videos
+                        type: object
+                      name:
+                        type: string
+                      parental_access_code:
+                        description: The four digit code to use for gating of age restricted content in apps.
+                        type: string
+                      parental_access_rating:
+                        type: string
+                      pass_count:
+                        description: Number of passes a consumer has
+                        type: number
+                      password_token:
+                        type: string
+                      playist_count:
+                        type: number
+                      recurly_code:
+                        type: string
+                      remember_token:
+                        type: string
+                      rss_token:
+                        type: string
+                      sex:
+                        type: string
+                      sign_in_count:
+                        type: number
+                      site_id:
+                        type: string
+                      stripe_id:
+                        type: string
+                      subscription_count:
+                        description: Number of subscriptions a consumer has
+                        type: number
+                      terms:
+                        type: boolean
+                      transaction_count:
+                        description: Number of transactions a consumer has
+                        type: number
+                      updated_at:
+                        type: string
+                      updates:
+                        type: boolean
+                      video_count:
+                        description: Number of videos a consumer has access to
+                        type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    servers:
+    - url: https://api.zype.com/
+  /consumers/{id}:
+    get:
+      summary: View Consumer
+      tags:
+      - Consumers
+      operationId: getConsumer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Consumer ID
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Consumer
+      tags:
+      - Consumers
+      operationId: updateConsumer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Consumer ID
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1consumers/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Consumer
+      tags:
+      - Consumers
+      operationId: deleteConsumer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Consumer ID
+      responses:
+        '204':
+          description: Consumer deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    servers:
+    - url: https://api.zype.com/
+  /consumers/{id}/reset_parental_access_code:
+    put:
+      summary: Reset Consumer Parental Access Code
+      description: Consumer Parental Access code will be reset, and email is sent to the consumer initiating a reset parental access code flow.
+      tags:
+      - Consumers
+      operationId: resetConsumerParentalAccessCode
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    servers:
+    - url: https://api.zype.com/
+  /consumers/forgot_password:
+    put:
+      summary: Initiate Consumer Forgot Password Flow - Consumer receives forgot password email
+      tags:
+      - Consumers
+      operationId: resetPasswordFlow
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ForgotPasswordRequest
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
+                  description: the email address of the user who will receive a password reset email.
+      responses:
+        '200':
+          description: The password reset flow has been initiated for the submitted email
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    servers:
+    - url: https://api.zype.com/
+  /consumers/reset_password:
+    put:
+      summary: Reset Consumer's Password Flow
+      tags:
+      - Consumers
+      operationId: updatePassword
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ResetConsumerPasswordRequest
+              type: object
+              required:
+              - password
+              - password_token
+              properties:
+                password:
+                  description: Consumer's New password
+                  type: string
+                password_token:
+                  description: Password Token generated when hitting PUT consumers/forgot_password
+                  type: string
+      responses:
+        '200':
+          description: The password has been updated succesfully
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    servers:
+    - url: https://api.zype.com/
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer
+x-refined-from:
+- zype-analytics.json
+- zype-consumers.json

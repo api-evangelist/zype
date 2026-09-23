@@ -1,0 +1,256 @@
+openapi: 3.2.0
+info:
+  title: Platform Users API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Users
+paths:
+  /site/users:
+    get:
+      summary: List Admin Users
+      description: Retrieve a list of administrative users on your property.
+      operationId: listUsers
+      tags:
+      - Users
+      parameters:
+      - name: id
+        $ref: '#/paths/~1devices/get/parameters/1'
+      - name: created_at
+        $ref: '#/paths/~1devices/get/parameters/2'
+      - name: q
+        $ref: '#/paths/~1devices/get/parameters/3'
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter records by email address
+
+          Example: `user[email]=matis@yahoo.com`'
+      responses:
+        '200':
+          description: Response will be an array of admin users
+          content:
+            application/json:
+              schema:
+                title: UsersResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1site~1users/post/responses/200/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create User
+      description: Add an admin user to your property
+      operationId: createUser
+      tags:
+      - Users
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: UserRequest
+              type: object
+              required:
+              - user
+              properties:
+                user:
+                  type: object
+                  title: UserProperties
+                  properties:
+                    first_name:
+                      type: string
+                      description: The first name of the admin user
+                    last_name:
+                      type: string
+                      description: The last name of the admin user
+                    email:
+                      type: string
+                      description: The email address of the admin user
+                    role:
+                      type: string
+                      description: Admin role type assigned to user -- must be either 'admin', 'finance_manager', or 'content_manager'. Default is 'admin' if omitted.
+      responses:
+        '200':
+          description: User object is returned.
+          content:
+            application/json:
+              schema:
+                title: UserResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: User
+                    properties:
+                      _id:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+                      phone_number:
+                        type: string
+                      role_ids:
+                        type: array
+                      notifications_enabled:
+                        type: boolean
+                      sign_in_count:
+                        type: number
+                      last_sign_in_at:
+                        type: string
+                      current_sign_in_at:
+                        type: string
+                      last_sign_in_ip:
+                        type: string
+                      current_sign_in_ip:
+                        type: string
+                      time_zone:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /site/users/{id}:
+    get:
+      summary: View User
+      description: Retrieve a single admin user from your site
+      operationId: getUser
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of user
+      responses:
+        '200':
+          description: Return user
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1site~1users/post/responses/200/content/application~1json/schema'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+    put:
+      description: Update a single user on your property
+      summary: Update user
+      tags:
+      - Users
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of user
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1site~1users/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Update user
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1site~1users/post/responses/200/content/application~1json/schema'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /site/users/{id}/remove:
+    put:
+      summary: Remove an admin user from your property
+      description: Admin users are global, and can have access to multiple zype properties. This method does not delete the user, it only removes it from your property.
+      tags:
+      - Users
+      operationId: removeUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ''
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1site~1users/post/responses/200/content/application~1json/schema'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

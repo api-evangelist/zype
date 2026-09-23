@@ -1,0 +1,63 @@
+openapi: 3.2.0
+info:
+  title: Platform Geo IP API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: GeoIP
+paths:
+  /geoip:
+    get:
+      summary: View GeoIP
+      description: Retrieve the GeoIP object for a specific IP Address
+      tags:
+      - GeoIP
+      operationId: getGeoIP
+      parameters:
+      - name: ip_address
+        in: query
+        schema:
+          type: string
+        description: Defaults to the IP of the API caller if not provided
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: GeoIpResponse
+                type: object
+                properties:
+                  response:
+                    title: GeoIp
+                    type: object
+                    properties:
+                      request:
+                        type: string
+                      ip:
+                        type: string
+                      country_code:
+                        type: string
+                      country_code2:
+                        type: string
+                      country_code3:
+                        type: string
+                      country_name:
+                        type: string
+                      continent_code:
+                        type: string
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,547 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V2) Player Requests API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Player Requests
+paths:
+  /v2/player_requests:
+    get:
+      x-server-name: analytics-api
+      summary: List Player Requests
+      description: This endpoint will return Player Request analytics data for your property.
+      tags:
+      - Player Requests
+      operationId: player-requests
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `id`
+      - name: filters[browser_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `browser`
+      - name: filters[browser_version_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `browser_version`
+      - name: filters[os_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `os`
+      - name: filters[os_version_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `os_version`
+      - name: filters[player_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `player_name`
+      - name: filters[video_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `video_id`
+      - name: filters[device_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `device_name`
+      - name: filters[revenue_model_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `revenue_model_name`
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `consumer_id`
+      - name: filters[name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified consumer `name`
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `consumer_email`
+      - name: filters[country_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AX
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BL
+          - BM
+          - BN
+          - BO
+          - BQ
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CU
+          - CV
+          - CW
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IR
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KP
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MF
+          - MG
+          - MH
+          - MK
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SD
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - SS
+          - ST
+          - SV
+          - SX
+          - SY
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - YE
+          - YT
+          - ZA
+          - ZM
+          - ZW
+        description: Filter records with specified `country`
+      - name: filters[domain_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `domain`
+      - name: filters[tracking_code_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `tracking_code`
+      - name: filters[tracking_partner_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `tracking_partner`
+      - name: filters[video_title_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `video_title`
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+        description: 'Shortcut method to group records by time intervals. Accepted values: `day`.'
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - browser
+            - browser_version
+            - os
+            - os_version
+            - player_name
+            - video_id
+            - device_name
+            - revenue_model_name
+            - consumer_id
+            - name
+            - consumer_email
+            - country
+            - domain
+            - tracking_code
+            - tracking_partner
+            - video_title
+            - start_date
+        description: 'Group records by one or more properties of the data returned -- accepted values are: `browser`, `browser_version`, `os`, `os_version`, `player_name`, `video_id`, `device_name`, `revenue_model_name`, `consumer_id`, `name`, `consumer_email`, `country`, `domain`, `tracking_code`, `tracking_partner`, `video_title`, `start_date`'
+      - name: counts
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        description: Return count of records per grouping. Using counts = ["*"] for generic count of all records in grouping, response will include `request_count`.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        description: Limit the number of records returned
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - id_asc
+          - id_desc
+          - browser_asc
+          - browser_desc
+          - browser_version_asc
+          - browser_version_desc
+          - os_asc
+          - os_desc
+          - os_version_asc
+          - os_version_desc
+          - player_name_asc
+          - player_name_desc
+          - video_id_asc
+          - video_id_desc
+          - device_name_asc
+          - device_name_desc
+          - revenue_model_name_asc
+          - revenue_model_name_desc
+          - consumer_id_asc
+          - consumer_id_desc
+          - name_asc
+          - name_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - country_asc
+          - country_desc
+          - domain_asc
+          - domain_desc
+          - tracking_code_asc
+          - tracking_code_desc
+          - tracking_partner_asc
+          - tracking_partner_desc
+          - video_title_asc
+          - video_title_desc
+          - start_date_asc
+          - start_date_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: PlayerRequestsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: PlayerRequest
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        browser:
+                          type: string
+                        browser_version:
+                          type: string
+                        os:
+                          type: string
+                        os_version:
+                          type: string
+                        player_name:
+                          type: string
+                        video_id:
+                          type: string
+                        device_name:
+                          type: string
+                        revenue_model_name:
+                          type: string
+                        consumer_id:
+                          type: string
+                        name:
+                          type: string
+                        consumer_email:
+                          type: string
+                        country:
+                          type: string
+                        domain:
+                          type: string
+                        tracking_code:
+                          type: string
+                        tracking_partner:
+                          type: string
+                        video_title:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v2~1consumers/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,197 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V2) New Transactions API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: New Transactions
+paths:
+  /v2/transactons:
+    get:
+      x-server-name: analytics-api
+      summary: List New Transactions
+      description: This endpoint will return new transaction analytics data for your property.
+      tags:
+      - New Transactions
+      operationId: new-transactions
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[amount_percent_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is greater than the specified value.
+      - name: filters[amount_gte]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is greater than or equal to the specified value.
+      - name: filters[amount_lt]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is less than the specified value`.
+      - name: filters[amount_lte]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is less than or equal to the specified value.
+      - name: filters[amount_eq]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is equal to the specified value`.
+      - name: filters[purchase_type_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - purchase
+          - rental
+          - pass
+        description: Filter records by transaction type. Accepted values are `purchase`, `rental`, and `pass`.
+      - name: filters[currency_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `currency`.
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `consumer_email`.
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `consumer_id`.
+      - name: filters[consumer_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by consumer `name`.
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - åconsumer_id
+            - name
+            - amount
+            - start_date
+            - consumer_email
+            - transaction_type
+            - transaction_id
+        description: 'Group by an array of properties. Accepted properties are: `consumer_id`, `name`, `amount`, `start_date`, `consumer_email`, `transaction_type`, `transaction_id`'
+      - name: counts
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        description: Return count of records per grouping. Using counts = ["*"] for generic count of all records in grouping, response will include `request_count`.
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - start_date_asc
+          - start_date_desc
+          - amount_asc
+          - amount_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - currency_asc
+          - currency_desc
+          - name_asc
+          - name_desc
+          - transaction_type_asc
+          - transaction_type_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: TransactionsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: TransactionAnalytics
+                      type: object
+                      properties:
+                        transaction_id:
+                          type: string
+                        transaction_type:
+                          type: string
+                        consumer_id:
+                          type: string
+                        currency:
+                          type: string
+                        consumer_email:
+                          type: string
+                        name:
+                          type: string
+                        amount:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v2~1consumers/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

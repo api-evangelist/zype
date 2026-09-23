@@ -1,0 +1,276 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Timeline Operations API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Timeline Operations
+paths:
+  /scheduler/v1/channels/{id}/draft/operations:
+    get:
+      summary: List Operations
+      description: ''
+      tags:
+      - Timeline Operations
+      operationId: getPlayoutSchedulerOperations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: Operation List response
+          content:
+            application/json:
+              schema:
+                title: OperationsResponse
+                type: object
+                properties:
+                  operations:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1operations/post/responses/201/content/application~1json/schema/properties/operation'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Operation
+      description: ''
+      operationId: createPlayoutSchedulerOperation
+      tags:
+      - Timeline Operations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      x-codegen-request-body-name: operation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: trackItemOperationRequest
+              properties:
+                operation:
+                  type: object
+                  title: TrackItemOperationProperties
+                  required:
+                  - type
+                  - trackName
+                  - author
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                      - pushTrackItem
+                      - updateTrackItem
+                      - removeTrackItem
+                      - groupItems
+                      - ungroupItem
+                    trackName:
+                      type: string
+                      enum:
+                      - baseTrack
+                      - priorityTrack
+                    author:
+                      type: object
+                      description: User information for audit purposes
+                      required:
+                      - userId
+                      - email
+                      - name
+                      properties:
+                        userId:
+                          type: string
+                          description: User id of the user performing the operation
+                        email:
+                          type: string
+                          description: Email of the user performing the operation
+                        name:
+                          type: string
+                          description: Name of the user performing the operation
+                    name:
+                      type: string
+                      description: Name of the operation (only for audit purposes)
+                    values:
+                      type: object
+                      properties:
+                        trackItem:
+                          description: Only for Push and Update operations
+                          $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1items~1%7BitemId%7D~1graphics/get/responses/200/content/application~1json/schema/properties/graphics/items'
+                        trackItemIds:
+                          type: array
+                          description: IDs of the track items to be grouped into a block (Only for Group operation)
+                          items:
+                            type: string
+                        trackItemId:
+                          type: string
+                          description: The ID of the track item to be removed or ungrouped (Only for Remove and Ungroup operations)
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: OperationResponse
+                type: object
+                properties:
+                  operation:
+                    type: object
+                    title: Operation
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      parameters:
+                        type: object
+                      previousScheduleSet:
+                        $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1operations/post/responses/201/content/application~1json/schema/properties/operation/properties/newScheduleSet'
+                      newScheduleSet:
+                        type: object
+                        title: Schedule Set
+                        properties:
+                          baseTrack:
+                            type: object
+                            properties:
+                              items:
+                                type: array
+                                items:
+                                  $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1items~1%7BitemId%7D~1graphics/get/responses/200/content/application~1json/schema/properties/graphics/items'
+                          priorityTrack:
+                            type: object
+                            properties:
+                              items:
+                                type: array
+                                items:
+                                  $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1items~1%7BitemId%7D~1graphics/get/responses/200/content/application~1json/schema/properties/graphics/items'
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Revert all operations
+      description: ''
+      tags:
+      - Timeline Operations
+      operationId: revertAllPlayoutSchedulerOperations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: Operations reverted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/draft/operations/{operationId}:
+    get:
+      summary: View Operation
+      description: ''
+      tags:
+      - Timeline Operations
+      operationId: getPlayoutSchedulerOperation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the Channel
+      - name: operationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the Operation
+      responses:
+        '200':
+          description: Return an operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1operations/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Operation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/draft/operations/{operationId}/revert:
+    post:
+      summary: Revert a Draft Schedule to the specified operation
+      description: ''
+      tags:
+      - Timeline Operations
+      operationId: revertPlayoutSchedulerOperation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: operationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the Operation to revert to
+      responses:
+        '200':
+          description: Returns the Channel With Draft and Schedule
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Operation not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

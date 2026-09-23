@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Platform Subtitles API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Subtitles
+paths:
+  /videos/{video_id}/subtitles:
+    get:
+      tags:
+      - Subtitles
+      summary: List Subtitles
+      operationId: listSubtitles
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: SubtitlesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1subtitles/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+    post:
+      tags:
+      - Subtitles
+      summary: Create Subtitle
+      operationId: createSubtitle
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: SubtitleRequest
+              type: object
+              required:
+              - subtitle
+              properties:
+                subtitle:
+                  title: subtitleProperties
+                  required:
+                  - language
+                  - extension_type
+                  - file
+                  type: object
+                  properties:
+                    active:
+                      type: boolean
+                      description: Indicates if the subtitle should be used
+                    language:
+                      type: string
+                      description: 'Language of the subtitle in ISO 639-1 (ej: `en` for english)'
+                    extension_type:
+                      type: string
+                      description: 'Original file extension of the subtitle (allowed formats: srt, vtt)'
+                    file:
+                      type: string
+                      description: Base64 encoded subtitle
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: SubtitleResponse
+                type: object
+                properties:
+                  response:
+                    title: Subtitle
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      active:
+                        type: boolean
+                      extension_type:
+                        type: string
+                      file_content_type:
+                        type: string
+                      file_file_name:
+                        type: string
+                      file_file_size:
+                        type: integer
+                        format: int32
+                      file_fingerprint:
+                        type: string
+                      file_updated_at:
+                        type: string
+                      language:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{video_id}/subtitles/{id}:
+    get:
+      tags:
+      - Subtitles
+      summary: View Subtitle
+      operationId: getSubtitle
+      parameters:
+      - name: id
+        in: path
+        description: ID of the subtitle
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1subtitles/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Subtitle Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+    put:
+      tags:
+      - Subtitles
+      summary: Update Subtitle
+      operationId: updateSubtitle
+      parameters:
+      - name: id
+        in: path
+        description: ID of the subtitle
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1subtitles/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1subtitles/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Subtitle Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,456 @@
+openapi: 3.2.0
+info:
+  title: Monetization Plans API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Plans
+paths:
+  /plans:
+    get:
+      summary: List Plans
+      description: ''
+      tags:
+      - Plans
+      operationId: listPlans
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by ID
+
+          Example: `id=5992f328ce593000ef000008`'
+      - name: created_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `created_at.gte`)'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by keyword
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Filter by ascending or descending order
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort on the specified field
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: PlansResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1plans/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    title: Pagination
+                    type: object
+                    properties:
+                      current:
+                        type: number
+                        format: int32
+                        description: The current page of results
+                      previous:
+                        type:
+                        - number
+                        - 'null'
+                        format: int32
+                        description: the previous page of results
+                      next:
+                        type:
+                        - number
+                        - 'null'
+                        format: int32
+                        description: the next page of results
+                      per_page:
+                        type: number
+                        format: int32
+                        description: the number of results returned per page
+                      pages:
+                        type: number
+                        format: int32
+                        description: the total number of pages available, using per_page
+                    example:
+                      current: 1
+                      previous: null
+                      next: 2
+                      per_page: 10
+                      pages: 20
+    post:
+      summary: Create Plan
+      description: ''
+      operationId: createPlan
+      tags:
+      - Plans
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: PlanRequest
+              type: object
+              required:
+              - plan
+              properties:
+                plan:
+                  required:
+                  - name
+                  - amount
+                  - interval_count
+                  - currency
+                  - interval
+                  - entitlement_type
+                  type: object
+                  title: PlanProperties
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    amount:
+                      type: integer
+                      format: double
+                      description: The amount to charge to subscribe to this Plan
+                    currency:
+                      type: string
+                    interval:
+                      type: string
+                      description: The unit of time a subscriptions should last before the next charge cycle (`month`, `year`, `lifetime`)
+                    interval_count:
+                      type: integer
+                      description: How many intervals a subscription should last before the next charge cycle
+                    trial_period_days:
+                      type: integer
+                      description: How many trial days to provide for the subscription (only for Stripe, Braintree or Recurly Plans)
+                    active:
+                      type: boolean
+                      description: Indicates if the plan is active
+                    stripe_id:
+                      type: string
+                      description: The Stripe Plan ID to use for this Plan - **Required for Stripe Plans**
+                    braintree_id:
+                      type: string
+                      description: The Braintree Plan ID to use for this Plan - **Required for Braintree Plans**
+                    recurly_code:
+                      type: string
+                      description: The Braintree Plan Code to use for this Plan - **Required for Recurly Plans**
+                    amazon_id:
+                      type: string
+                      description: The Amazon Plan ID to use for this Plan - **Required for Amazon Plans**
+                    third_party_id:
+                      type: string
+                      description: An ID from a third-party payment gateway to use for this Plan
+                    entitlement_type:
+                      type: string
+                      description: 'The entitlement type for this Plan, used to change configure a plan as global or tiered (`global`, `tiered`) - Default: `global`'
+                    playlist_ids:
+                      type: string
+                      description: 'A list of Playlist IDs to associate with a Tiered Plan - **Required for `entitlement_type: tiered`**'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: PlanResponse
+                type: object
+                properties:
+                  response:
+                    title: Plan
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      active:
+                        type: string
+                      amount:
+                        type: string
+                      created_at:
+                        type: string
+                      currency:
+                        type: string
+                      description:
+                        type: string
+                      interval:
+                        type: string
+                      interval_count:
+                        type: integer
+                      name:
+                        type: string
+                      stripe_id:
+                        type: string
+                      braintree_id:
+                        type: string
+                      recurly_code:
+                        type: string
+                      amazon_id:
+                        type: string
+                      third_party_id:
+                        type: string
+                      stripe_public_key:
+                        type: string
+                      trial_period_days:
+                        type: string
+                      updated_at:
+                        type: string
+                      playlist_ids:
+                        type: array
+                      entitlement_type:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                title: Unprocessable Entity
+                type: object
+                properties:
+                  message:
+                    type: string
+  /plans/{id}:
+    get:
+      summary: View Plan
+      description: ''
+      tags:
+      - Plans
+      operationId: getPlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the record
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                title: NotFound
+                type: object
+                required:
+                - message
+                properties:
+                  message:
+                    type: string
+    put:
+      summary: Update Plan
+      description: ''
+      tags:
+      - Plans
+      operationId: updatePlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of plan
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1plans/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Plan
+      description: ''
+      tags:
+      - Plans
+      operationId: deletePlan
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of plan
+      responses:
+        '204':
+          description: Plan deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Plan could not be deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+  /plans/{id}/add_playlists:
+    put:
+      summary: Add Playlists to a Tiered Subscription Plan
+      description: 'This operation is only used for Tiered Subscription Plans (i.e., plans that have entitle_type=tiered). This operation is used to determine which videos belonging to playlists in your library should be accessible to each Tiered Subscription Plan.
+
+        Once you add a playlist to a Tiered Plan, any child playlists (and videos belonging to those child playlists) will also inherit the subscription requirements from that Tiered Plan.
+
+        Note: This operation will only add the specified Playlists to the Tiered Plan, it won’t remove any of the existing Playlists associated to it.
+
+        Note: If a video is currently monetized with a purchase, rental, or pass plan, and your property does NOT support multiple monetization, then adding that video to a playlist within a tiered subscription will disable the existing purchase, rental, or pass plan paywall and switch the paywall monetization on the video to the tiered subscription plan.'
+      tags:
+      - Plans
+      operationId: addPlaylists
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the plan
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: PlanPlaylistIdsRequest
+              type: object
+              required:
+              - playlist_ids
+              properties:
+                playlist_ids:
+                  type: array
+                  items:
+                    type: string
+                    description: List of Playlist IDs to add/remove from the Tiered Subscription Plan.
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+  /plans/{id}/remove_playlists:
+    put:
+      summary: Remove Playlists from a Subscription Plan
+      description: 'Note: This operation will only remove the specified Playlists to the Plan, if they exist.'
+      tags:
+      - Plans
+      operationId: removePlaylists
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the plan
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1plans~1%7Bid%7D~1add_playlists/put/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Plan not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

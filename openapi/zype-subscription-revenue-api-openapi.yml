@@ -1,0 +1,92 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V2) Subscription Revenue API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Subscription Revenue
+paths:
+  /v2/subscription_revenue:
+    get:
+      x-server-name: analytics-api
+      summary: List Subscription Revenue
+      description: 'This endpoint will return subscription revenue data for your property, optionally grouped by day, for the date range supplied in filters[start_date] and filters[end_date]. The aggregate or daily data will be rendered as:
+
+        "2021-03-01": { currency_code1: amount1, currency_code2: amount2 }
+
+        where currency_code is a standard ISO 4217 code (USD, CAD, etc), and amount is a number representing the quantity of the given currency.'
+      tags:
+      - Subscription Revenue
+      operationId: subscriptionrevenue
+      parameters:
+      - name: filters[start_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date]=2021-03-09)
+        required: true
+      - name: filters[end_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `end_date`.
+        required: true
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+        description: Group records by day
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SubscriptionRevenueResponse
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      currencies:
+                        type: array
+                        items:
+                          type: string
+                          description: Currency Codes represented in Subscription Revenue
+                      revenue:
+                        type: object
+                        additionalProperties: true
+                        properties:
+                          date:
+                            title: SubscriptionRevenueByDate
+                            type: object
+                            additionalProperties: true
+                            properties:
+                              currency_code:
+                                type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v2~1consumers/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

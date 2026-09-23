@@ -1,0 +1,85 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V2) Subscription Events API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Subscription Events
+paths:
+  /v2/subscription_events:
+    get:
+      x-server-name: analytics-api
+      summary: List Subscription Events
+      description: This endpoint will counts of subscription creations, trials started, pauses, and cancellations for your property
+      tags:
+      - Subscription Events
+      operationId: subscriptionevents
+      parameters:
+      - name: filters[start_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date]=2021-03-09)
+        required: true
+      - name: filters[end_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `end_date`.
+        required: true
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+        description: Group records by day
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SubscriptionEventsResponse
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: true
+                    properties:
+                      date:
+                        title: SubscriptionEventsByDate
+                        type: object
+                        properties:
+                          active_created_count:
+                            type: number
+                          trial_created_count:
+                            type: number
+                          cancelled_count:
+                            type: number
+                          paused_count:
+                            type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v2~1consumers/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

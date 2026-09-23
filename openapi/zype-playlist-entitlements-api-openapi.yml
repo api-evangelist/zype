@@ -1,0 +1,252 @@
+openapi: 3.2.0
+info:
+  title: Consumers Playlist Entitlements API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Playlist Entitlements
+paths:
+  /consumers/{consumer_id}/playlists:
+    get:
+      summary: List Playlist Entitlements
+      description: ''
+      tags:
+      - Playlist Entitlements
+      operationId: listPlaylistEntitlements
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose playlist entitlements will be retrieved
+      responses:
+        '200':
+          description: Response will contain an array of playlist entitlements
+          content:
+            application/json:
+              schema:
+                title: PlaylistEntitlementsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+    post:
+      summary: Create a Playlist Entitlement
+      description: ''
+      tags:
+      - Playlist Entitlements
+      operationId: createPlaylistEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ''
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: PlaylistEntitlementRequest
+              type: object
+              properties:
+                entitlement:
+                  required:
+                  - playlist_id
+                  type: object
+                  title: PlaylistEntitlementProperties
+                  properties:
+                    playlist_id:
+                      type: string
+                      description: ID of the playlist you wish the consumer to have access to
+                    transaction_id:
+                      type: string
+                      description: ID of the transaction that happened to allow the consumer to have access to the video
+                    transaction_type:
+                      type: string
+                      description: 'Type of transaction (Example: purchase)'
+                    expires_at:
+                      type: string
+                      description: When the entitlement expires
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: PlaylistEntitlementResponse
+                type: object
+                properties:
+                  response:
+                    title: PlaylistEntitlement
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      consumer_id:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      expires_at:
+                        type: string
+                      transaction_id:
+                        type: string
+                      transaction_type:
+                        type: string
+                      playlist_title:
+                        type: string
+                      playlist_id:
+                        type: string
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+  /consumers/{consumer_id}/playlists/{id}:
+    get:
+      summary: View Playlist Entitlement
+      description: ''
+      tags:
+      - Playlist Entitlements
+      operationId: getPlaylistEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the playlist entitlement
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Entitlement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Playlist Entitlement
+      description: ''
+      tags:
+      - Playlist Entitlements
+      operationId: updatePlaylistEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the playlist entitlement
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Entitlement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Playlist Entitlement
+      description: ''
+      tags:
+      - Playlist Entitlements
+      operationId: deletePlaylistEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the playlist entitlement
+      responses:
+        '204':
+          description: Entitlement successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Entitlement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

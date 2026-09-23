@@ -1,0 +1,1551 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Assets API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Assets
+paths:
+  /scheduler/v2/assets/blocks:
+    get:
+      summary: List Blocks
+      description: ''
+      operationId: getPlayoutSchedulerBlocksV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by ID
+
+          Example: `id=5992f328ce593000ef000008`'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Sort ascending or descending order
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort on the specified field
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      - name: dynamic
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: If true, returns only dynamic blocks
+      responses:
+        '200':
+          description: Blocks response
+          content:
+            application/json:
+              schema:
+                title: PlayoutBlocksResponse
+                type: object
+                properties:
+                  siteId:
+                    type: string
+                  blocks:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/post/responses/201/content/application~1json/schema'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Block
+      description: ''
+      operationId: createPlayoutSchedulerBlockV2
+      tags:
+      - Assets
+      x-codegen-request-body-name: block
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: BlockRequest
+              type: object
+              required:
+              - block
+              properties:
+                block:
+                  type: object
+                  title: BlockProperties
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    draft:
+                      type: boolean
+                      description: If true, duration must be present and items list will be empty
+                    dynamic:
+                      type: boolean
+                      description: If true, duration must be present and items list will be filled when pushed into the timeline based on the given criteria
+                    originalConfig:
+                      description: Applies only to Dynamic Blocks
+                      type: object
+                      properties:
+                        orderBy:
+                          type: string
+                          enum:
+                          - createdAt
+                          - publishedAt
+                          - season
+                          - title
+                          description: Specifies the field used to sort assets when populating the item list.
+                        reuseAssets:
+                          type: boolean
+                          description: If true, and no 'reuseContentConfig' is specified, assets will be reused with the same filling rules but in the inverted sort order.
+                        sortOrder:
+                          type: string
+                          enum:
+                          - ASC
+                          - DESC
+                          description: 'Defines the order of sorting: ascending (ASC) or descending (DESC).'
+                        startFrom:
+                          type: string
+                          description: Specifies the starting point for the asset list. Can be a date, season number, or in hours if relativeStartFrom is enabled.
+                        relativeStartFrom:
+                          type: boolean
+                          description: If true, the starting point is relative to the current time.
+                        fitToContent:
+                          type: boolean
+                          description: If true, adjusts the block's duration to fit the content.
+                    contentFillingRules:
+                      type: array
+                      description: A list of rules with different criteria used to fill dynamic block items
+                      items:
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - category
+                            - episode
+                            - season
+                            - series
+                          value:
+                            type: string
+                    adRule:
+                      type: object
+                      description: Required only for dynamic blocks
+                      properties:
+                        assetId:
+                          type: string
+                          description: The id if the ad inserted
+                        preRolls:
+                          type: boolean
+                          description: If enabled, the selected asset will be inserted before every video in the block
+                        midRolls:
+                          type: boolean
+                          description: If enabled, the selected asset will be inserted as a mid-roll ad, honouring videos' ad timings
+                        postRolls:
+                          type: boolean
+                          description: If enabled, the selected asset will be inserted after every video in the block
+                    reuseContentConfig:
+                      type: object
+                      description: Optional. Applies only to Dynamic Blocks with reuseAssets as 'true'.
+                      properties:
+                        orderBy:
+                          type: string
+                          enum:
+                          - createdAt
+                          - publishedAt
+                          - season
+                          - title
+                          description: Specifies the field used to sort assets when populating the item list.
+                        sortOrder:
+                          type: string
+                          enum:
+                          - ASC
+                          - DESC
+                          description: 'Defines the order of sorting: ascending (ASC) or descending (DESC).'
+                        startFrom:
+                          type: string
+                          description: Specifies the starting point for the asset list. Can be a date, season number, or in hours if relativeStartFrom is enabled.
+                        relativeStartFrom:
+                          type: boolean
+                          description: If true, the starting point is relative to the current time.
+                    reuseFillingRules:
+                      type: array
+                      description: A list of rules with different criteria used to fill a dynamic block re use items
+                      items:
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - category
+                            - episode
+                            - season
+                            - series
+                          value:
+                            type: string
+                    items:
+                      type: array
+                      items:
+                        properties:
+                          assetType:
+                            type: string
+                          assetId:
+                            type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Block
+                properties:
+                  id:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  duration:
+                    type: number
+                  draft:
+                    type: boolean
+                  items:
+                    type: object
+                    properties:
+                      assetType:
+                        type: string
+                      assetId:
+                        type: string
+                  adRule:
+                    type: object
+                    properties:
+                      assetId:
+                        type: string
+                        description: The id if the ad inserted
+                      preRolls:
+                        type: boolean
+                        description: If enabled, the selected asset will be inserted before every video in the block
+                      midRolls:
+                        type: boolean
+                        description: If enabled, the selected asset will be inserted as a mid-roll ad, honouring videos' ad timings
+                      postRolls:
+                        type: boolean
+                        description: If enabled, the selected asset will be inserted after every video in the block
+                  originalConfig:
+                    description: Applies only to Dynamic Blocks
+                    type: object
+                    properties:
+                      orderBy:
+                        type: string
+                        enum:
+                        - createdAt
+                        - publishedAt
+                        - season
+                        - title
+                        description: Specifies the field used to sort assets when populating the item list.
+                      reuseAssets:
+                        type: boolean
+                        description: If true, assets will be reused with the same filling rules but in the inverted sort order.
+                      sortOrder:
+                        type: string
+                        enum:
+                        - ASC
+                        - DESC
+                        description: 'Defines the order of sorting: ascending (ASC) or descending (DESC).'
+                      startFrom:
+                        type: string
+                        description: Specifies the starting point for the asset list. Can be a date, season number, or in hours if relativeStartFrom is enabled.
+                      relativeStartFrom:
+                        type: boolean
+                        description: If true, the starting point is relative to the current time.
+                      fitToContent:
+                        type: boolean
+                        description: If true, adjusts the block's duration to fit the content.
+                  contentFillingRules:
+                    type: array
+                    description: A list of rules with different criteria used to fill dynamic block items
+                    items:
+                      properties:
+                        type:
+                          type: string
+                        value:
+                          type: string
+                  reuseContentConfig:
+                    type: object
+                    description: Optional. Applies only to Dynamic Blocks with reuseAssets as 'true'.
+                    properties:
+                      orderBy:
+                        type: string
+                        enum:
+                        - createdAt
+                        - publishedAt
+                        - season
+                        - title
+                        description: Specifies the field used to sort assets when populating the item list.
+                      sortOrder:
+                        type: string
+                        enum:
+                        - ASC
+                        - DESC
+                        description: 'Defines the order of sorting: ascending (ASC) or descending (DESC).'
+                      startFrom:
+                        type: string
+                        description: Specifies the starting point for the asset list. Can be a date, season number, or in hours if relativeStartFrom is enabled.
+                      relativeStartFrom:
+                        type: boolean
+                        description: If true, the starting point is relative to the current time.
+                  reuseFillingRules:
+                    type: array
+                    description: A list of rules with different criteria used to fill a dynamic block re use items
+                    items:
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                          - category
+                          - episode
+                          - season
+                          - series
+                        value:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/blocks/{id}:
+    get:
+      summary: View Block
+      description: ''
+      tags:
+      - Assets
+      operationId: getPlayoutSchedulerBlockV2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of block
+      responses:
+        '200':
+          description: Return a block
+          content:
+            application/json:
+              schema:
+                title: PlayoutBlockResponse
+                type: object
+                properties:
+                  block:
+                    $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Block not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Block
+      description: ''
+      tags:
+      - Assets
+      operationId: updateBlockV2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of block
+      x-codegen-request-body-name: block
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1blocks~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Block not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Block
+      description: ''
+      tags:
+      - Assets
+      operationId: deleteBlockV2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of block
+      responses:
+        '204':
+          description: Block deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Block not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/ads:
+    get:
+      summary: List Ads
+      description: Retrieve a list of ads from your library
+      operationId: listAdsV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/0'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/2'
+      - name: sort
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      responses:
+        '200':
+          description: Returns Ads
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assets:
+                    type: object
+                    title: Asset
+                    properties:
+                      id:
+                        type: string
+                      externalId:
+                        type: string
+                      siteId:
+                        type: string
+                      assetType:
+                        type: string
+                        enum:
+                        - video
+                        - ad
+                        - bumper
+                        - slate
+                      createdAt:
+                        type: string
+                        format: date
+                      updatedAt:
+                        type: string
+                        format: date
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      duration:
+                        type: number
+                      hasEmbeddedCc:
+                        type: boolean
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/ads/{id}:
+    get:
+      summary: View Ad
+      description: Retrieve a single ad from your library
+      operationId: getAdV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video
+      responses:
+        '200':
+          description: Return video
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  asset:
+                    $ref: '#/paths/~1scheduler~1v2~1assets~1ads/get/responses/200/content/application~1json/schema/properties/assets'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/bumpers:
+    get:
+      summary: List Bumpers
+      description: Retrieve a list of ads from your library
+      operationId: listBumpersV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/0'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/2'
+      - name: sort
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      responses:
+        '200':
+          description: Returns Bumpers
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1ads/get/responses/200/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/bumpers/{id}:
+    get:
+      summary: View Bumper
+      description: Retrieve a single bumper from your library
+      operationId: getBumperV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video
+      responses:
+        '200':
+          description: Return video
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1ads~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/videos:
+    get:
+      summary: List Videos
+      description: Retrieve a list of videos from your library
+      operationId: listVideosV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/0'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/2'
+      - name: sort
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      responses:
+        '200':
+          description: Returns Videos
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1ads/get/responses/200/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/videos/{id}:
+    get:
+      summary: View Video
+      description: Retrieve a single video from your library
+      operationId: getPlayoutVideoV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video
+      responses:
+        '200':
+          description: Return video
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1ads~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/playlists:
+    get:
+      summary: List Playlists
+      description: Retrieve a list of playlists from your library
+      operationId: listPlayoutPlaylistsV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/0'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/2'
+      - name: sort
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      responses:
+        '200':
+          description: Playlist response
+          content:
+            application/json:
+              schema:
+                title: PlayoutPlaylistsResponse
+                type: object
+                properties:
+                  siteId:
+                    type: string
+                  playlists:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/post/responses/201/content/application~1json/schema'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/playlists/{id}:
+    get:
+      summary: View Playlist
+      description: Retrieve a single playlist from your library
+      operationId: getPlayoutPlaylistV2
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      responses:
+        '200':
+          description: Return a playlist
+          content:
+            application/json:
+              schema:
+                title: PlayoutPlaylistResponse
+                type: object
+                properties:
+                  playlist:
+                    $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/ad_timings:
+    get:
+      summary: List Ad Timings
+      description: ''
+      operationId: getPlayoutSchedulerAdTimings
+      tags:
+      - Assets
+      parameters:
+      - name: assetId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: CMS ID of the asset
+      responses:
+        '200':
+          description: Ad timings response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  adTimings:
+                    $ref: '#/paths/~1scheduler~1v2~1assets~1ad_timings/post/responses/201/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Ad Timing
+      description: ''
+      operationId: createPlayoutSchedulerAdTiming
+      tags:
+      - Assets
+      x-codegen-request-body-name: adTiming
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: AdTimingRequest
+              type: object
+              required:
+              - adTiming
+              properties:
+                adTiming:
+                  type: object
+                  title: AdTimingProperties
+                  required:
+                  - assetExternalId
+                  - time
+                  properties:
+                    assetExternalId:
+                      type: string
+                    time:
+                      type: number
+                    duration:
+                      type: number
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Ad Timing
+                properties:
+                  id:
+                    type: string
+                  externalAssetId:
+                    type: string
+                  siteId:
+                    type: string
+                  disabled:
+                    type: boolean
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+                  time:
+                    type: string
+                  externalId:
+                    type: string
+                  duration:
+                    type: number
+                  assetId:
+                    type: string
+                  overwritten:
+                    type: boolean
+                  originalTime:
+                    type: number
+                  originalDuration:
+                    type: number
+                  placementId:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - overwrite
+                    - push-out
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Ad Timings
+      description: Resets all ad timings associated with the asset (deletes the ones created in Playout and resets the ones coming from CMS)
+      tags:
+      - Assets
+      operationId: deletePlayoutSchedulerAdTimings
+      parameters:
+      - name: assetId
+        in: query
+        required: true
+        schema:
+          type: string
+        description: CMS ID of the asset
+      responses:
+        '204':
+          description: Ad Timing deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Ad timing not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/ad_timings/{id}:
+    put:
+      summary: Update Ad Timing
+      description: ''
+      tags:
+      - Assets
+      operationId: updatePlayoutSchedulerAdTiming
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of the ad timing
+      x-codegen-request-body-name: adTiming
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1scheduler~1v2~1assets~1ad_timings/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1ad_timings/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Ad timing not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Ad Timing
+      description: ''
+      tags:
+      - Assets
+      operationId: deletePlayoutSchedulerAdTiming
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of the ad timing
+      responses:
+        '204':
+          description: Ad Timing deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Ad timing not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/{channelId}/live_streams:
+    get:
+      summary: List Live Assets
+      description: ''
+      operationId: getPlayoutSchedulerLiveAssets
+      tags:
+      - Assets
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Channel id
+      - name: id
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/0'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/2'
+      - name: sort
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      responses:
+        '200':
+          description: Live stream assets response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  liveStreamAssets:
+                    $ref: '#/paths/~1scheduler~1v2~1assets~1%7BchannelId%7D~1live_streams/post/responses/201/content/application~1json/schema'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Live Asset
+      description: ''
+      operationId: createPlayoutSchedulerLiveAsset
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Channel id
+      tags:
+      - Assets
+      x-codegen-request-body-name: liveStreamAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: LiveAssetRequest
+              type: object
+              required:
+              - liveStreamAsset
+              properties:
+                liveStreamAsset:
+                  type: object
+                  title: AdTimingProperties
+                  required:
+                  - title
+                  - duration
+                  - liveInputSourceId
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    duration:
+                      type: number
+                    liveInputSourceId:
+                      type: string
+                    thumbnailUrl:
+                      type: string
+                      description: URL of the thumbnails associated to the live stream
+                    parentalRatingSource:
+                      type: string
+                      description: Parental Rating Source
+                      enum:
+                      - USA_PR
+                      - MPAA
+                      - CHVRS
+                      - CPR
+                      - RTC
+                      - BBFC
+                    parentalRating:
+                      type: string
+                      description: 'This value will depend on the Parental Rating Source.
+
+                        MPAA: ‘g‘, ‘pg‘, ‘pg13‘, ‘pg-13‘, ‘r‘, ‘nc17‘, ‘nc-17‘, ‘ur‘
+
+                        USA_PR: ‘tv-y‘, ‘tvy‘, ‘tv-y7‘, ‘tvy7‘, ‘tv-g‘, ‘tvg‘, ‘tv-pg‘, ‘tvpg‘, ‘tv-14‘, ‘tv14‘, ‘tv-ma‘, ‘tvma‘
+
+                        CHVRS: ‘g‘, ‘pg‘, ‘14-a‘, ‘14a‘, ‘18-a‘, ‘18a‘, ‘r‘, ‘e‘
+
+                        CPR: ‘14+‘, ‘18+‘, ‘c‘, ‘c8‘, ‘c-8‘, ‘g‘, ‘pg‘, ‘e‘
+
+                        RTC: ‘aa‘, ‘a‘, ‘b‘, ‘b15‘, ‘b-15‘, ‘c‘, ‘d‘
+
+                        BBFC: ‘u‘, ‘pg‘, ‘12-a‘, ‘12a‘, ‘12‘, ‘15‘, ‘18‘, ‘R-18‘, ‘R18‘
+
+                        '
+                      enum:
+                      - g
+                      - pg
+                      - pg13
+                      - pg-13
+                      - r
+                      - nc17
+                      - nc-17
+                      - ur
+                      - tv-y
+                      - tvy
+                      - tv-y7
+                      - tvy7
+                      - tv-g
+                      - tvg
+                      - tv-pg
+                      - tvpg
+                      - tv-14
+                      - tv14
+                      - tv-ma
+                      - tvma
+                      - g
+                      - pg
+                      - 14-a
+                      - 14a
+                      - 18-a
+                      - 18a
+                      - r
+                      - e
+                      - 14+
+                      - 18+
+                      - c
+                      - c8
+                      - c-8
+                      - g
+                      - pg
+                      - e
+                      - aa
+                      - a
+                      - b
+                      - b15
+                      - b-15
+                      - c
+                      - d
+                      - u
+                      - pg
+                      - 12-a
+                      - 12a
+                      - '12'
+                      - '15'
+                      - '18'
+                      - R-18
+                      - R18
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Asset
+                properties:
+                  id:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  duration:
+                    type: number
+                  liveInputSourceId:
+                    type: string
+                  thumbnailUrl:
+                    type: string
+                  parentalRatingSource:
+                    type: string
+                  parentalRating:
+                    type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/{channelId}/live_streams/{id}:
+    put:
+      summary: Update Live Asset
+      description: ''
+      tags:
+      - Assets
+      operationId: updatePlayoutSchedulerLiveAsset
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Channel id
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of the live asset
+      x-codegen-request-body-name: liveStreamAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1scheduler~1v2~1assets~1%7BchannelId%7D~1live_streams/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1%7BchannelId%7D~1live_streams/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Live Asset
+      description: ''
+      tags:
+      - Assets
+      operationId: deletePlayoutSchedulerLiveAsset
+      parameters:
+      - name: channelId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Channel id
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of the live asset
+      responses:
+        '204':
+          description: Live asset deleted
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Live asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/assets/graphics:
+    get:
+      summary: List Graphics
+      description: Get graphics in your library
+      operationId: getGraphics
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/0'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filters by description, title, id
+      - name: order
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/2'
+      - name: sort
+        $ref: '#/paths/~1scheduler~1v2~1assets~1blocks/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/0'
+      - name: perPage
+        $ref: '#/paths/~1scheduler~1v1~1types/get/parameters/1'
+      responses:
+        '200':
+          description: Graphics response
+          content:
+            application/json:
+              schema:
+                title: GraphicsResponse
+                type: object
+                properties:
+                  assets:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/responses/201/content/application~1json/schema/properties/destinationType'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Graphic
+      description: Add a new graphic to your library
+      operationId: createGraphic
+      tags:
+      - Assets
+      x-codegen-request-body-name: graphic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: GraphicRequest
+              type: object
+              required:
+              - graphic
+              properties:
+                graphic:
+                  type: object
+                  title: GraphicProperties
+                  required:
+                  - title
+                  properties:
+                    title:
+                      type: string
+                    duration:
+                      type: number
+                      default: 60
+                      description: Duration of the graphic in seconds (including fade in and fade out)
+                    fadeIn:
+                      type: number
+                      default: 0
+                      description: Duration of the fade in effect, in seconds
+                    fadeOn:
+                      type: number
+                      default: 0
+                      description: Duration of the fade out effect, in seconds
+                    opacity:
+                      type: number
+                      default: 100
+                      description: Opacity of image where 0 is transparent and 100 is fully opaque. Default is 100.
+                    staticOverlay:
+                      type: object
+                      description: Image overlay placement settings
+                      required:
+                      - uploadId
+                      properties:
+                        uploadId:
+                          description: Upload id so use as the image overlay
+                          type: string
+                        yPosition:
+                          description: Y-axis position of the upload in the stream. 0 is the min value, in px
+                          type: number
+                          default: 5
+                        xPosition:
+                          description: X-axis position of the upload in the stream. 0 is the min value, in px
+                          type: number
+                          default: 5
+                        scale:
+                          description: Allows to scale down the image. Between 0 and 100
+                          default: 100
+                          type: number
+                    textOverlay:
+                      type: object
+                      description: Text overlay placement settings
+                      required:
+                      - text
+                      properties:
+                        text:
+                          description: Text to display. To include dynamic params, wrap the param name in {{}} and add it to the dynamicParams list
+                          type: string
+                        fontSize:
+                          description: Font size of the text
+                          type: number
+                          default: 12
+                        color:
+                          description: 3-(RGB), 4-(ARGB), 6-(RRGGBB) or 8-digit (AARRGGBB) hexadecimal values. The "A" in a 4- or 8-digit hex value represents the color's alpha transparency.
+                          type: number
+                          default: 5
+                        font:
+                          description: Text font
+                          default: Arial Narrow
+                          type: string
+                        yPosition:
+                          description: Y-axis position of the text in the stream. 0 is the min value, in px
+                          type: number
+                          default: 0
+                        xPosition:
+                          description: X-axis position of the text in the stream. 0 is the min value, in px
+                          type: number
+                          default: 0
+                        width:
+                          description: Width of the text area
+                          type: number
+                        leading:
+                          description: Controls the leading (or line spacing) in the text
+                          type: number
+                        tracking:
+                          description: Controls the tracking (or letter spacing) in the text
+                          type: number
+                        dynamicParams:
+                          description: A list of the dynamic replacements included in the text
+                          type: array
+                          items:
+                            type: object
+                            required:
+                            - name
+                            - sources
+                            - field
+                            properties:
+                              name:
+                                description: Name of the param within {{}} in the text
+                                type: string
+                              order:
+                                description: Item order to use as data source (previous, current, next)
+                                type: string
+                                enum:
+                                - previous
+                                - current
+                                - next
+                              sources:
+                                description: 'A list of possible data sources, where the data will be picked in the following order: channel > block > playlist > video'
+                                type: array
+                                enum:
+                                - channel
+                                - block
+                                - playlist
+                                - video
+                              field:
+                                description: The field name of the source. Could be a predefined custom attribute, title or description
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: GraphicResponse
+                type: object
+                properties:
+                  destinationType:
+                    title: GraphicAsset
+                    type: object
+                    required:
+                    - graphic
+                    properties:
+                      asset:
+                        type: object
+                        title: GraphicProperties
+                        properties:
+                          id:
+                            type: string
+                          title:
+                            type: string
+                          duration:
+                            type: number
+                            description: Duration of the graphic in seconds (including fade in and fade out)
+                          fadeIn:
+                            type: number
+                            description: Duration of the fade in effect, in seconds
+                          fadeOn:
+                            type: number
+                            description: Duration of the fade out effect, in seconds
+                          opacity:
+                            type: number
+                            description: Opacity of image where 0 is transparent and 100 is fully opaque. Default is 100.
+                          staticOverlay:
+                            $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/requestBody/content/application~1json/schema/properties/graphic/properties/staticOverlay'
+                          textOverlay:
+                            $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/requestBody/content/application~1json/schema/properties/graphic/properties/textOverlay'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/assets/graphics/{id}:
+    get:
+      summary: View Graphic
+      description: Retrieve a single graphic from your library
+      operationId: getGraphic
+      tags:
+      - Assets
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video
+      responses:
+        '200':
+          description: Return graphic
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Graphic not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Graphic
+      description: Update a graphic asset in your library
+      tags:
+      - Assets
+      operationId: updateGraphic
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of graphic
+      x-codegen-request-body-name: graphic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Graphic not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Graphic
+      description: Delete a graphic from your library
+      tags:
+      - Assets
+      operationId: deleteGraphic
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of graphic
+      responses:
+        '204':
+          description: Graphic deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Graphic not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

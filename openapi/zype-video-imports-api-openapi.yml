@@ -1,0 +1,284 @@
+openapi: 3.2.0
+info:
+  title: Platform Video Imports API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Video Imports
+paths:
+  /video_imports:
+    get:
+      summary: List Video Imports
+      description: ''
+      tags:
+      - Video Imports
+      operationId: listVideoImports
+      parameters:
+      - name: id
+        $ref: '#/paths/~1devices/get/parameters/1'
+      - name: created_at
+        $ref: '#/paths/~1devices/get/parameters/2'
+      - name: q
+        $ref: '#/paths/~1devices/get/parameters/3'
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: "Filter by title\nExamples:\n  + hulu\n  + youtube\n  + crunchyroll"
+      - name: active
+        in: query
+        required: false
+        schema:
+          type: string
+        description: "Filter by active or inactive or all records\nExamples:\n  + true\n  + false\n  + all"
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: "Filter by status of import\nExamples:\n  + created\n  + ready"
+      - name: video_source_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by ID of VideoSource
+      - name: response_fields
+        $ref: '#/paths/~1videos/get/parameters/28'
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: VideoImportsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1video_imports/post/responses/200/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+    post:
+      summary: Create Video Import
+      description: Import a video from a 3rd party source url
+      operationId: createVideoImport
+      tags:
+      - Video Imports
+      parameters: []
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: VideoImportRequest
+              type: object
+              required:
+              - video_import
+              properties:
+                video_import:
+                  title: VideoImportProperties
+                  type: object
+                  required:
+                  - source_url
+                  - title
+                  properties:
+                    auto_activate:
+                      type: boolean
+                      description: 'Indicate if the video should be set to "active" after import to library - default: true'
+                    auto_add:
+                      type: boolean
+                      description: 'Indicate if the video should be added to your library upon import - default: true'
+                    auto_transcribe:
+                      type: boolean
+                      description: 'Indicate if the video should be transcribed - default: false. If the value isn''t present, the site auto transcribe flag will be used instead'
+                    auto_translate:
+                      type: boolean
+                      description: 'Indicate if the video should be translated using the site''s translation languages - default: false. If the value isn''t present, the site default configuration will be used instead'
+                    description:
+                      description: Full length description of the video
+                      type: string
+                    episode:
+                      description: Episode number
+                      type: number
+                    season:
+                      description: Season number
+                      type: number
+                    source_url:
+                      description: URL of the video to import
+                      type: string
+                    title:
+                      type: string
+                    to_zype_hosted:
+                      type: boolean
+                      description: 'Indicate if the video should be transcoded upon import - default: true'
+                    source_id:
+                      type: string
+                      description: Optional identifier to relate this video to other platforms.
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: VideoImportResponse
+                type: object
+                properties:
+                  response:
+                    title: VideoImport
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      deleted_at:
+                        type: string
+                      description:
+                        type: string
+                      duration:
+                        type: number
+                        format: double
+                      episode:
+                        type: number
+                        format: double
+                      expires_at:
+                        type: string
+                      keywords:
+                        type: array
+                        items:
+                          type: string
+                      published_at:
+                        type: string
+                      season:
+                        type: number
+                        format: double
+                      site_id:
+                        type: string
+                      source_id:
+                        type: string
+                      source_url:
+                        type: string
+                      starts_at:
+                        type: string
+                      status:
+                        type: string
+                      thumbnails:
+                        type: array
+                      title:
+                        type: string
+                      updated_at:
+                        type: string
+                      upload_id:
+                        type: string
+                      video_id:
+                        type: string
+                      video_source_id:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /video_imports/{id}/add_video:
+    put:
+      summary: Attach a Video to a Video Import
+      description: Attach a video import as a Source to a video in the library
+      tags:
+      - Video Imports
+      operationId: addVideoToImport
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of the video import to merge with the video_id
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: VideoImportAddVideoRequest
+              type: object
+              required:
+              - video_id
+              properties:
+                video_id:
+                  type: string
+                  description: ID of the video to merge with the VideoImport
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1video_imports/post/responses/200/content/application~1json/schema'
+        '404':
+          description: VideoImport not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /video_imports/{id}:
+    get:
+      summary: View Video Import
+      description: ''
+      tags:
+      - Video Imports
+      operationId: getVideoImport
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of segment
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1video_imports/post/responses/200/content/application~1json/schema'
+        '404':
+          description: VideoImport not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

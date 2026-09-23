@@ -1,0 +1,815 @@
+openapi: 3.2.0
+info:
+  title: Platform Playlists API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Playlists
+paths:
+  /playlists:
+    get:
+      summary: List Playlists
+      description: ''
+      operationId: listPlaylists
+      tags:
+      - Playlists
+      parameters:
+      - name: id
+        $ref: '#/paths/~1devices/get/parameters/1'
+      - name: q
+        $ref: '#/paths/~1devices/get/parameters/3'
+      - name: active
+        $ref: '#/paths/~1videos/get/parameters/2'
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by title
+      - name: friendly_title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by friendly title
+      - name: video_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter playlists that have the video_id
+
+          Example: `video_id=5992f328ce593000ef000001` Matches all playlists having the video.'
+      - name: created_at
+        $ref: '#/paths/~1devices/get/parameters/2'
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        description: 'Filter records that match all category values listed.
+
+          Example: `category[genre][]=comedy&category[language][]=english` Matches all playlists having ALL of the category name/value pairs listed.'
+      - name: category_or
+        in: query
+        required: false
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        description: 'Filter records that match any category values listed.
+
+          Example: `category_or[genre][]=comedy&category_or[language][]=english` Matches all playlists that have ANY of the category name/value pairs listed.'
+      - name: category_and
+        in: query
+        required: false
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        description: 'Filter records that match all category values listed.
+
+          Example: `category[genre][]=comedy&category[language][]=english` Matches all playlists having ALL of the category name/value pairs listed.'
+      - name: zobject_id
+        in: query
+        description: Filter records that match any of the Zobject IDs listed
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: zobject_id_or
+        in: query
+        description: Filter records that match any of the Zobject IDs listed
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: zobject_id_and
+        in: query
+        description: Filter records that match all of the Zobject IDs listed
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: zobject_details
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/5'
+      - name: zobject_types
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/6'
+      - name: zobject_fields
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/7'
+      - name: response_fields
+        $ref: '#/paths/~1videos/get/parameters/28'
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: Response will contain an array of Playlists
+          content:
+            application/json:
+              schema:
+                title: PlaylistsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1playlists/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Playlist
+      description: Create a new Playlist
+      operationId: createPlaylist
+      tags:
+      - Playlists
+      parameters: []
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: PlaylistRequest
+              type: object
+              required:
+              - playlist
+              properties:
+                playlist:
+                  title: PlaylistProperties
+                  type: object
+                  properties:
+                    active:
+                      type: boolean
+                      description: Indicates if the playlist is active
+                    auto_remove_video_entitlements:
+                      type: boolean
+                      description: Automatically remove a customer's entitlement to view a video if it is removed from the playlist
+                    auto_update_video_entitlements:
+                      type: boolean
+                      description: Automatically update a customer's entitlement to view a video if it is added to the playlist
+                    categories:
+                      type: array
+                      items:
+                        title: PlaylistCategoryProperties
+                        type: object
+                        properties:
+                          category_id:
+                            description: ID of the main Category you wish to add to the video
+                            example: 5955293d805cd90024000000
+                            type: string
+                          value:
+                            description: List of values you wish to add to the category. Must exist in the main Category first
+                            type: array
+                            items:
+                              type: string
+                          exclude_values:
+                            description: List of values you wish to exclude from the playlist. Must exist in the main Category first
+                            type: array
+                            items:
+                              type: string
+                          _destroy:
+                            description: True if you want to remove it from the object
+                            type: boolean
+                      description: ''
+                    content_rule_profile_id:
+                      type: string
+                      description: ID of the content rule profile assigned to the playlist.
+                    custom_thumbnail_url:
+                      type: string
+                      description: URL where your custom thumbnail is stored. Thumbnail will be processed asynchronously, and available in API response upon completion.
+                    description:
+                      type: string
+                    friendly_title:
+                      type: string
+                      description: The URL friendly title of the playlist
+                    images_attributes:
+                      type: array
+                      items:
+                        title: Image
+                        type: object
+                        properties:
+                          _id:
+                            description: ID of the image. Used to update an existing image. When it's not specified, a new image will be created.
+                            example: 59921049ce593000ef000002
+                            type: string
+                          caption:
+                            description: Caption of the image
+                            example: Image Caption
+                            type: string
+                          title:
+                            description: Title of the image
+                            example: Image Title
+                            type: string
+                          updated_at:
+                            description: Timestamp the image was updated
+                            example: 8/14/2017 9:04:11 PM
+                            type: string
+                          attachment:
+                            description: URL where the image is hosted
+                            example: https://image-host.com
+                            type: string
+                          _destroy:
+                            description: True if you want to remove the image
+                            type: boolean
+                      description: ''
+                    internal_title:
+                      type: string
+                      description: The internal title of the playlist
+                    keywords:
+                      type: array
+                      items:
+                        type: string
+                      description: Keywords for the playlist
+                    match_type:
+                      type: string
+                      enum:
+                      - any
+                      - all
+                      description: Used to specify matching categories to a playlist by ALL category values or ANY category values
+                    parent_id:
+                      type: string
+                      description: The parent playlist ID. If this value is null, the playlist is a root playlist and can be used as the primary playlist within an app where all your other playlists and videos are nested under
+                    playlist_type:
+                      type: string
+                      enum:
+                      - manual
+                      - category
+                      description: Determine if videos will automatically be added to this playlist based off the category values assigned to them. If you would like this feature, set to 'category', otherwise, set to 'manual' to disable. If enabled, you may not manually add videos to this playlist
+                    priority:
+                      type: number
+                      description: The priority of the playlist related with its siblings. Playlists are ordered ascending by priority value
+                    purchase_price:
+                      type: number
+                      description: Amount to purchase the playlist bundle
+                    purchase_required:
+                      type: boolean
+                      description: Indicates if playlist must be purchased
+                    rental_duration:
+                      type: number
+                      description: Number of days a playlist bundle can be rented
+                    rental_price:
+                      type: number
+                      description: Price to rent the playlist bundle
+                    rental_required:
+                      type: boolean
+                      description: Indicates if the playlist bundle must be rented
+                    sort_options:
+                      type: array
+                      items:
+                        type: object
+                        title: SortOption
+                        properties:
+                          sort_by:
+                            description: 'What value to sort the associated playlist by
+
+                              Must be one of: + created_at + published_at + title'
+                            type: string
+                          direction:
+                            description: Which direction to sort the associated playlist by
+                            example: desc
+                            type: string
+                            enum:
+                            - asc
+                            - desc
+                          sort_by_type:
+                            description: 'What datatype to sort the associated playlist by
+
+                              Must be one of: + date + datetime + string + integer + array + boolean'
+                            example: string
+                            type: string
+                      description: Playlist smart ordering allows you to change the order of its videos by sort options. The videos added or updated into a playlist with sort options are sorted automatically following that sort option
+                    thumbnail_layout:
+                      type: string
+                      enum:
+                      - landscape
+                      - poster
+                      - square
+                      description: Orientation of the playlist thumbnail
+                    title:
+                      type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: PlaylistResponse
+                type: object
+                properties:
+                  response:
+                    title: Playlist
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      active:
+                        type: boolean
+                      auto_remove_video_entitlements:
+                        type: boolean
+                      auto_update_video_entitlements:
+                        type: boolean
+                      categories:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      content_rule_profile_id:
+                        type: string
+                        description: ID of the content rule profile assigned to the playlist.
+                      created_at:
+                        type: string
+                      deleted_at:
+                        type: string
+                      description:
+                        type: string
+                      discovery_url:
+                        type: string
+                        description: URL where your playlist can be discovered
+                      friendly_title:
+                        type: string
+                      images:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      internal_title:
+                        type: string
+                      keywords:
+                        type: array
+                        items:
+                          type: string
+                        description: ''
+                      match_type:
+                        type: string
+                      parent_id:
+                        type: string
+                      playlist_item_count:
+                        type: number
+                        description: Number of videos in a playlist
+                      playlist_type:
+                        type: string
+                      priority:
+                        type: number
+                      purchase_price:
+                        type: number
+                      purchase_required:
+                        type: boolean
+                      rental_duration:
+                        type: number
+                      rental_price:
+                        type: number
+                      rental_required:
+                        type: boolean
+                      site_id:
+                        type: string
+                      sort_options:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      thumbnail_layout:
+                        type: string
+                      thumbnails:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      title:
+                        type: string
+                      updated_at:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /playlists/{id}:
+    get:
+      summary: View Playlist
+      description: ''
+      tags:
+      - Playlists
+      operationId: getPlaylist
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      - name: zobject_details
+        in: query
+        description: Setting to `true` will display the full Zobject details, including any custom attributes.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Return a single playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1playlists/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Playlist Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Playlist
+      description: ''
+      tags:
+      - Playlists
+      operationId: updatePlaylist
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1playlists/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Update Playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1playlists/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Playlist
+      description: ''
+      tags:
+      - Playlists
+      operationId: deletePlaylist
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      responses:
+        '204':
+          description: Video deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1playlists/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+  /playlists/{id}/videos:
+    get:
+      summary: List Playlist Videos
+      description: Retrieve a list of playlists from your library
+      tags:
+      - Playlists
+      operationId: listPlaylistVideos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort on the specified field
+      - name: source_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by source identifier
+      - name: zobject_details
+        in: query
+        description: Setting to `true` will display the full Zobject details, including any custom attributes, for each video record returned in your query.
+        required: false
+        schema:
+          type: boolean
+      - name: zobject_types
+        in: query
+        description: 'Filter zobject details by Zobject type. Example: zobject_types=episode,season'
+        required: false
+        schema:
+          type: string
+      - name: zobject_fields
+        in: query
+        description: 'Filter returned zobject fields. Example: zobject_fields=title,description'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Return videos for a specific playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /playlists/{id}/videos/relative:
+    get:
+      summary: List Relative Playlist Videos
+      description: Returns a windowed set of videos from a playlist relative to the anchor video
+      tags:
+      - Playlists
+      operationId: listPlaylistVideosRelative
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      - name: anchor_video_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The selected video ID.
+      - name: after
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 3
+        description: How many items to return after the anchor video.
+      - name: before
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+        description: How many items to return before the anchor video.
+      - name: include_anchor
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: Whether to include the anchor video in the results.
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort order of the playlist videos. Defaults to the playlist's sort order.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Order of the playlist videos. Defaults to the playlist's order.
+      - name: zobject_details
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/5'
+      - name: zobject_types
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/6'
+      - name: zobject_fields
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/7'
+      responses:
+        '200':
+          description: Return videos for a specific playlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /playlists/{id}/add_videos:
+    put:
+      summary: Add Videos
+      description: Add videos to a manual playlist
+      tags:
+      - Playlists
+      operationId: addVideosToPlaylist
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: PlaylistVideosRequest
+              type: object
+              required:
+              - video_id
+              properties:
+                video_id:
+                  description: An Array of Video Ids
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Response will contain an array of videos
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /playlists/{id}/remove_videos:
+    put:
+      summary: Remove Videos
+      description: Remove videos in a playlist
+      tags:
+      - Playlists
+      operationId: removeVideosFromPlaylist
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1playlists~1%7Bid%7D~1add_videos/put/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Response will contain an array of videos
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Playlist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /playlists/relationships:
+    get:
+      summary: View Relationships
+      description: Returns a list of playlists and its relationships
+      tags:
+      - Playlists
+      parameters:
+      - name: parent_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Returns only the playlists relationships under a parent playlist
+
+          Example: `parent_id=5992f328ce593000dff000001`'
+      operationId: viewPlaylistRelationships
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: PlaylistRelationshipsResponse
+                type: object
+                properties:
+                  playlists:
+                    type: array
+                    items:
+                      title: PlaylistRelationship
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        priority:
+                          type: integer
+                        playlists:
+                          type: array
+                          items:
+                            type: object
+                      example:
+                        id: 586124bfa54d7535cb001fc2
+                        title: Playlist A
+                        priority: 1
+                        playlists:
+                        - id: 486124bfa54d7535cb001b31
+                          title: Playlist B
+                          priority: 2
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

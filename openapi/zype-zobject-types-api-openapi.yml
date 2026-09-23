@@ -1,0 +1,253 @@
+openapi: 3.2.0
+info:
+  title: Zobjects Zobject Types API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Zobject Types
+paths:
+  /zobject_types:
+    get:
+      summary: List Zobject Types
+      description: ''
+      tags:
+      - Zobject Types
+      operationId: listZobjectTypes
+      parameters:
+      - name: id
+        $ref: '#/paths/~1zobjects/get/parameters/1'
+      - name: q
+        $ref: '#/paths/~1zobjects/get/parameters/3'
+      - name: response_fields
+        $ref: '#/paths/~1zobjects/get/parameters/4'
+      - name: order
+        $ref: '#/paths/~1zobjects/get/parameters/5'
+      - name: sort
+        $ref: '#/paths/~1zobjects/get/parameters/6'
+      - name: page
+        $ref: '#/paths/~1zobjects/get/parameters/7'
+      - name: per_page
+        $ref: '#/paths/~1zobjects/get/parameters/8'
+      responses:
+        '200':
+          description: Response will contain an array of Zobject Types
+          content:
+            application/json:
+              schema:
+                title: ZobjectTypesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1zobject_types/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1zobjects/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobjects/post/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Zobject Type
+      description: ''
+      tags:
+      - Zobject Types
+      operationId: createZobjectType
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ZobjectTypeRequest
+              type: object
+              properties:
+                zobject_type:
+                  title: ZobjectTypeProperties
+                  type: object
+                  properties:
+                    zobject_count:
+                      description: Number of Zobjects created with this Zobject Type
+                      type: string
+                    description:
+                      description: Description of the Zobject Type
+                      type: string
+                    title:
+                      description: Title of the Zobject Type (must be unique)
+                      example: Type Title
+                      type: string
+                    videos_enabled:
+                      description: Indicates whether videos can be associated with instances of the Zobject Type
+                      type: boolean
+                    playlists_enabled:
+                      description: Indicates whether playlists can be associated with instances of the Zobject Type
+                      type: boolean
+                    zobject_attributes_attributes:
+                      type: array
+                      description: An indexed collection specifying the custom attributes for the zobject type
+                      items:
+                        type: object
+                        properties:
+                          field_name:
+                            type: string
+                            description: Name of the zobject type custom attribute
+                          field_type:
+                            type: string
+                            description: 'Type of the zobject type custom attribute. Example: integer'
+                          description:
+                            type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: ZobjectTypeResponse
+                type: object
+                properties:
+                  response:
+                    title: ZobjectType
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      site_id:
+                        type: string
+                      updated_at:
+                        type: string
+                      zobject_count:
+                        description: Number of Zobjects created with this Zobject Type
+                        type: string
+                      description:
+                        description: Description of the Zobject Type
+                        type: string
+                      title:
+                        description: Title of the Zobject Type (must be unique)
+                        example: Type Title
+                        type: string
+                      videos_enabled:
+                        description: Indicates whether videos can be associated with instances of the Zobject Type
+                        type: boolean
+                      playlists_enabled:
+                        description: Indicates whether playlists can be associated with instances of the Zobject Type
+                        type: boolean
+                      zobject_attributes_attributes:
+                        type: array
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobjects/post/responses/422/content/application~1json/schema'
+  /zobject_types/{id}:
+    get:
+      summary: Retrieve Zobject Type
+      description: ''
+      tags:
+      - Zobject Types
+      operationId: getZobjectType
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the record
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobject_types/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Zobject Type not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Zobject Type
+      description: ''
+      tags:
+      - Zobject Types
+      operationId: updateZobjectType
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the record
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1zobject_types/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobject_types/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Zobject Type not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobjects/post/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Zobject Type
+      description: ''
+      tags:
+      - Zobject Types
+      operationId: deleteZobjectType
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the record
+      responses:
+        '204':
+          description: ZobjectType was successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobject_types/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Zobject Type not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1zobjects~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  title: Consumers Subscription Entitlements API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Subscription Entitlements
+paths:
+  /consumers/{consumer_id}/subscription_entitlements:
+    get:
+      summary: List Subscription Entitlements
+      description: ''
+      tags:
+      - Subscription Entitlements
+      operationId: listSubscriptionEntitlements
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose subscription entitlements will be retrieved
+      - name: entitlement_type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - global
+          - tiered
+        description: "Filter by entitlement type. Leaving empty will return all subscription entitlements.\n+ Accepted values:\n    + `global`\n    + `tiered`"
+      responses:
+        '200':
+          description: Response will contain an array of playlist entitlements
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/get/responses/200/content/application~1json/schema'
+        '400':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

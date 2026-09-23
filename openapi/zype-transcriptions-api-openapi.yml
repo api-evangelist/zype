@@ -1,0 +1,248 @@
+openapi: 3.2.0
+info:
+  title: Platform Transcriptions API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Transcriptions
+paths:
+  /videos/{id}/transcriptions:
+    get:
+      tags:
+      - Transcriptions
+      summary: List Transcriptions
+      operationId: listTranscriptions
+      parameters:
+      - name: id
+        in: path
+        description: Id of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: TranscriptionsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      title: Transcription
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        language:
+                          type: string
+                        status:
+                          type: string
+                        translation:
+                          description: Indicates whether the transcription is a translation or not
+                          type: boolean
+                        segments:
+                          type: object
+                          properties:
+                            items:
+                              type: array
+                              items:
+                                type: object
+                                title: TranscriptionSegment
+                                properties:
+                                  order:
+                                    description: The index of the segment within the transcription text
+                                    type: number
+                                  start:
+                                    description: The start time in seconds of the segment, relative to video start (0)
+                                    type: number
+                                  end:
+                                    description: The end time in seconds of the segment, relative to video start (0)
+                                    type: number
+                                  text:
+                                    description: The text within the segment timeframe
+                                    type: string
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/transcriptions/{transcription_id}:
+    get:
+      tags:
+      - Transcriptions
+      summary: View Transcription
+      description: Retrieve a single transcription or translation
+      operationId: getTranslation
+      parameters:
+      - name: id
+        in: path
+        description: Id of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: transcription_id
+        in: path
+        description: Id of the transcription
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Return transcription
+          content:
+            application/json:
+              schema:
+                title: TranscriptionResponse
+                type: object
+                properties:
+                  response:
+                    $ref: '#/paths/~1videos~1%7Bid%7D~1transcriptions/get/responses/200/content/application~1json/schema/properties/response/items'
+        '404':
+          description: Video or transcription not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/transcriptions/transcribe:
+    post:
+      tags:
+      - Transcriptions
+      summary: Transcribe video
+      operationId: transcribeVideo
+      parameters:
+      - name: id
+        in: path
+        description: Id of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: TranscribeResponse
+                type: object
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/transcriptions/translate:
+    post:
+      tags:
+      - Transcriptions
+      summary: Translate video
+      operationId: translateVideo
+      parameters:
+      - name: id
+        in: path
+        description: Id of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: TranslateRequest
+              required:
+              - language
+              type: object
+              properties:
+                language:
+                  type: string
+                  description: Target language of the translation
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: TranscribeResponse
+                type: object
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/transcriptions/translation_languages:
+    get:
+      tags:
+      - Transcriptions
+      summary: List translation languages
+      description: List possible translation languages
+      operationId: listLanguages
+      parameters:
+      - name: id
+        in: path
+        description: Id of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: LanguagesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      title: Language
+                      type: string
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

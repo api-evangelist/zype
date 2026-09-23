@@ -1,0 +1,1454 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V3) Platform Dynamics API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Platform Dynamics
+paths:
+  /v3/platform_dynamics/consumers:
+    get:
+      x-server-name: analytics-api
+      summary: List Consumers
+      description: This endpoint will return consumer analytics data for your property.
+      tags:
+      - Platform Dynamics
+      operationId: analytics-consumers-v3
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+          - week
+          - month
+          - year
+        description: 'Shortcut method to group records by time intervals. Accepted values: `day`, `week`, `month`, `year`.'
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - consumer_id_asc
+          - consumer_id_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - name_asc
+          - name_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: ConsumersResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: ConsumerAnalytics
+                      type: object
+                      properties:
+                        consumer_id:
+                          type: string
+                        consumer_email:
+                          type: string
+                        name:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/platform_dynamics/metrics:
+    get:
+      x-server-name: analytics-api
+      summary: List Metrics Data
+      description: This endpoint returns analytics data showing how your OTT business changes over time.
+      tags:
+      - Platform Dynamics
+      operationId: metrics-v3
+      parameters:
+      - name: interval
+        in: query
+        schema:
+          type: string
+          enum:
+          - day
+          - week
+          - month
+          - year
+          default: day
+        required: true
+        description: 'Group records by time intervals. Accepted values: `day`, `week`, `month`, `year`.'
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - subscriptions
+            - transactions
+            - playlists
+            - plans
+            - consumers
+            - apps
+            - uploads
+            - videos
+            - video_imports
+            - categories
+            - mrr_sum
+        description: 'Grouping by an array of Site Count properties will return the counts and deltas for each time interval. Accepted properties are: `subscriptions`, `transactions`, `playlists`, `plans`, `consumers`, `apps`, `uploads`, `videos`, `video_imports`, `categories`, `mrr_sum`'
+      - name: percentages
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - subscriptions
+            - transactions
+            - playlists
+            - plans
+            - consumers
+            - apps
+            - uploads
+            - videos
+            - video_imports
+            - categories
+            - mrr_sum
+        description: To be used with `group_by`. Returns delta percentages per time interval for each property listed. Properties must be in 'group_by' array as well as 'percentages' array. Same list of properties is accepted
+      - name: sort_by
+        in: query
+        schema:
+          type: string
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SiteCountsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: Site Count
+                      type: object
+                      properties:
+                        start_date:
+                          type: string
+                        consumers_count:
+                          type: number
+                        consumers_delta:
+                          type: number
+                        consumers_percentage_delta:
+                          type: number
+                        subscriptions_count:
+                          type: number
+                        subscriptions_delta:
+                          type: number
+                        subscriptions_percentage_delta:
+                          type: number
+                        uploads_count:
+                          type: number
+                        uploads_delta:
+                          type: number
+                        uploads_percentage_delta:
+                          type: number
+                        playlists_count:
+                          type: number
+                        playlists_delta:
+                          type: number
+                        playlists_percentage_delta:
+                          type: number
+                        plans_count:
+                          type: number
+                        plans_delta:
+                          type: number
+                        plans_percentage_delta:
+                          type: number
+                        transactions_count:
+                          type: number
+                        transactions_delta:
+                          type: number
+                        transactions_percentage_delta:
+                          type: number
+                        apps_count:
+                          type: number
+                        apps_delta:
+                          type: number
+                        apps_percentage_delta:
+                          type: number
+                        videos_count:
+                          type: number
+                        videos_delta:
+                          type: number
+                        videos_percentage_delta:
+                          type: number
+                        video_imports_count:
+                          type: number
+                        video_imports_delta:
+                          type: number
+                        video_imports_percentage_delta:
+                          type: number
+                        categories_count:
+                          type: number
+                        categories_delta:
+                          type: number
+                        categories_percentage_delta:
+                          type: number
+                        mrr_sum_count:
+                          type: number
+                        mrr_sum_delta:
+                          type: number
+                        mrr_sum_percentage_delta:
+                          type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/platform_dynamics/player_requests:
+    get:
+      x-server-name: analytics-api
+      summary: List Player Requests
+      description: This endpoint will return Player Request analytics data for your property.
+      tags:
+      - Platform Dynamics
+      operationId: player-requests-v3
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `id`
+      - name: filters[browser_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `browser`
+      - name: filters[browser_version_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `browser_version`
+      - name: filters[os_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `os`
+      - name: filters[os_version_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `os_version`
+      - name: filters[player_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `player_name`
+      - name: filters[video_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `video_id`
+      - name: filters[device_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `device_name`
+      - name: filters[revenue_model_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `revenue_model_name`
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `consumer_id`
+      - name: filters[name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified consumer `name`
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `consumer_email`
+      - name: filters[country_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AX
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BL
+          - BM
+          - BN
+          - BO
+          - BQ
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CU
+          - CV
+          - CW
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IR
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KP
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MF
+          - MG
+          - MH
+          - MK
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SD
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - SS
+          - ST
+          - SV
+          - SX
+          - SY
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - YE
+          - YT
+          - ZA
+          - ZM
+          - ZW
+        description: Filter records with specified `country`
+      - name: filters[domain_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `domain`
+      - name: filters[tracking_code_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `tracking_code`
+      - name: filters[tracking_partner_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `tracking_partner`
+      - name: filters[video_title_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records with specified `video_title`
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+        description: 'Shortcut method to group records by time intervals. Accepted values: `day`.'
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - browser
+            - browser_version
+            - os
+            - os_version
+            - player_name
+            - video_id
+            - device_name
+            - revenue_model_name
+            - consumer_id
+            - name
+            - consumer_email
+            - country
+            - domain
+            - tracking_code
+            - tracking_partner
+            - video_title
+            - start_date
+        description: 'Group records by one or more properties of the data returned -- accepted values are: `browser`, `browser_version`, `os`, `os_version`, `player_name`, `video_id`, `device_name`, `revenue_model_name`, `consumer_id`, `name`, `consumer_email`, `country`, `domain`, `tracking_code`, `tracking_partner`, `video_title`, `start_date`'
+      - name: counts
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        description: Return count of records per grouping. Using counts = ["*"] for generic count of all records in grouping, response will include `request_count`.
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        description: Limit the number of records returned
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - id_asc
+          - id_desc
+          - browser_asc
+          - browser_desc
+          - browser_version_asc
+          - browser_version_desc
+          - os_asc
+          - os_desc
+          - os_version_asc
+          - os_version_desc
+          - player_name_asc
+          - player_name_desc
+          - video_id_asc
+          - video_id_desc
+          - device_name_asc
+          - device_name_desc
+          - revenue_model_name_asc
+          - revenue_model_name_desc
+          - consumer_id_asc
+          - consumer_id_desc
+          - name_asc
+          - name_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - country_asc
+          - country_desc
+          - domain_asc
+          - domain_desc
+          - tracking_code_asc
+          - tracking_code_desc
+          - tracking_partner_asc
+          - tracking_partner_desc
+          - video_title_asc
+          - video_title_desc
+          - start_date_asc
+          - start_date_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: PlayerRequestsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: PlayerRequest
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        browser:
+                          type: string
+                        browser_version:
+                          type: string
+                        os:
+                          type: string
+                        os_version:
+                          type: string
+                        player_name:
+                          type: string
+                        video_id:
+                          type: string
+                        device_name:
+                          type: string
+                        revenue_model_name:
+                          type: string
+                        consumer_id:
+                          type: string
+                        name:
+                          type: string
+                        consumer_email:
+                          type: string
+                        country:
+                          type: string
+                        domain:
+                          type: string
+                        tracking_code:
+                          type: string
+                        tracking_partner:
+                          type: string
+                        video_title:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/platform_dynamics/stream_hours:
+    get:
+      x-server-name: analytics-api
+      summary: List Stream Hours
+      description: This endpoint will retrieve stream hour data for your property.
+      tags:
+      - Platform Dynamics
+      operationId: streamHoursV3
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+          example: '2020-10-04'
+        description: "Filter records created after the specified `start_date`. \nNeeds to be used in with `start_date_lt` (or `start_date_lte`).\nIf no start_date is specified, then data returned will date back two days ago."
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`. Needs to be used in with `start_date_lt` (or `start_date_lte`)
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`. Needs to be used in with `start_date_gt` (or `start_date_gte`)
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`. Needs to be used in with `start_date_gt` (or `start_date_gte`)
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[device_name_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - Roku
+          - Chromecast
+          - Desktop
+          - iOS (Native)
+          - iOS (HTML5)
+          - Apple TV
+          - Windows Phone (HTML5)
+          - Xbox (HTML5)
+          - Android (Native)
+          - FireTV
+          - Xbox
+          - BlackBerry (HTML5)
+          - Android (HTML5)
+          - Metrological
+          - OperaTV
+          - Xumo
+          - SmartTV
+        description: Filter by device name.  Device names are case sensitive - current options include `Roku`, `Chromecast`, `Desktop`, `iOS (Native)`, `iOS (HTML5)`, `Apple TV`, `Windows Phone (HTML5)`, `Xbox (HTML5)`, `Android (Native)`, `FireTV`, `Xbox`, `BlackBerry (HTML5)`, `Android (HTML5)`, `Metrological`, `OperaTV`, `Xumo`, `SmartTV`
+      - name: filters[video_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the video ID.
+      - name: filters[stream_type_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - vod
+          - live
+          - download
+        description: Filter by the type of stream. Options are `vod`, `live`, and `download`.
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer ID.
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: 'Filter by a specific consumer''s email. (Example: filters[consumer_email_eq]=consumer@zype.com)'
+      - name: filters[monetized_option_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the type of monetization of the videos. Options are `free`, `paid` and `avod`.
+      - name: filters[country_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AX
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BL
+          - BM
+          - BN
+          - BO
+          - BQ
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CU
+          - CV
+          - CW
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IR
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KP
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MF
+          - MG
+          - MH
+          - MK
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SD
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - SS
+          - ST
+          - SV
+          - SX
+          - SY
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - YE
+          - YT
+          - ZA
+          - ZM
+          - ZW
+        description: 'Filter by the the request origin country''s 2 letter ISO 3166-1 alpha-2 code (Example: `US`, `FR`, `GB`, `CA`).'
+      - name: filters[time_slice_bucket_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - 15 min
+          - 30 min
+          - 60 min
+        description: 'Filter by time slice bucket. Supported values are: `15 min`, `30 min`, and `60 min`. ** If filtering by time_slice_bucket, you also need to filter by time_slice_start_gt or time_slice_start_gte AND time_slice_end_lt or time_slice_end_lte.'
+      - name: filters[time_slice_start_gt]
+        in: query
+        schema:
+          type: string
+        description: 'Filter time slice results after the specified start date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`'
+      - name: filters[time_slice_start_gte]
+        in: query
+        schema:
+          type: string
+        description: 'Filter time slice results on or after the specified start date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`'
+      - name: filters[time_slice_end_lt]
+        in: query
+        schema:
+          type: string
+        description: 'Filter time slice results before the specified end date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`'
+      - name: filters[time_slice_end_lte]
+        in: query
+        schema:
+          type: string
+        description: 'Filter time slice reslts on or before the specified end date/time. The format is 24hour UTC: `YYYY-MM-DD HH:MM:SS`'
+      - name: email_address
+        in: query
+        schema:
+          type: string
+        description: Required when group_by is set to "all". Results will be delivered as a downloadable CSV link via email.
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - start_date
+            - device_name
+            - video_id
+            - stream_type
+            - consumer_email
+            - consumer_id
+            - monetized_option
+            - country
+            - all
+        description: 'Group records by one or more properties of the data returned. Accepted values are: `start_date`, `device_name`, `video_id`, `stream_type`, `consumer_email`, `consumer_id`, `monetized_option`, `country`, `all`'
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - start_date_asc
+          - start_date_desc
+          - device_name_asc
+          - device_name_desc
+          - video_id_asc
+          - video_id_desc
+          - stream_type_asc
+          - stream_type_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - consumer_id_asc
+          - consumer_id_desc
+          - monetized_option_asc
+          - monetized_option_desc
+          - country_asc
+          - country_desc
+          - impressions_asc
+          - impressions_desc
+          - bytes_streamed_asc
+          - bytes_streamed_desc
+          - stream_hours_asc
+          - stream_hours_desc
+        description: Sort results by a value of a specific property + '_' sort direction (Example - sort_by=start_date_asc, or sort_by=start_date_desc)
+      - name: view_mode
+        in: query
+        schema:
+          type: string
+          enum:
+          - detailed
+          - summary
+          default: summary
+        description: Set view mode to detailed to return all available properties for all records.
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: StreamHoursV3Response
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: StreamHour
+                      type: object
+                      properties:
+                        start_date:
+                          type: string
+                        device_name:
+                          type: string
+                        video_id:
+                          type: string
+                        video_title:
+                          type: string
+                        stream_type:
+                          type: string
+                        consumer_id:
+                          type: string
+                        consumer_email:
+                          type: string
+                        monetized_option:
+                          type: string
+                        country:
+                          type: string
+                        time_slice:
+                          type: string
+                        time_slice_start:
+                          type: string
+                        time_slice_end:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/platform_dynamics/playout_hours:
+    get:
+      x-server-name: analytics-api
+      summary: List Playout Hours
+      description: This endpoint to retrieve hours requested data for Playout Channels. This allows customers who are distributing Playout Channels where Zype supports the delivery to measure and track detailed information related to their Playout Channel hours requested.
+      tags:
+      - Platform Dynamics
+      operationId: playoutHours
+      parameters:
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date` (UTC).(filters[start_date_eq]=2020-07-01). A start date is required when making a data request.
+      - name: filters[video_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the Video ID.
+      - name: filters[channel_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the Playout Channel ID. Use the Zype platform channel ID to filter records for a specific Playout channel.
+      - name: filters[partner_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the Playout partner ID. Supported values are `pluto_tv`, `samsung_tv`
+      - name: filters[playlist_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the Zype Playlist ID.
+      - name: filters[country_code_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by 2 character country code. (filters[country_code_eq]=US)
+      - name: filters[device_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the device name.
+      - name: filters[dma_code_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the DMA code. (filters[dma_code_eq]=501)
+      - name: filters[city_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the City. (filters[city_eq]=New York)
+      - name: filters[state_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the State. (filters[state_eq]=New York)
+      - name: filters[zip_code_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by Zip Code.
+      - name: filters[client_ip_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the Client IP address.
+      - name: filters[user_agent_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by User Agent string.
+      - name: filters[session_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the Session ID.
+      - name: filters[region_eq]
+        in: query
+        schema:
+          type: string
+        description: 'Filter query by region. Using this overrides the region param and is more granular. -- Accepted regions are: `US`, `EU`, `AP`.'
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - all
+            - video_id
+            - channel_id
+            - partner_id
+            - country_code
+            - device_name
+            - region
+        description: 'Group records by one or more properties of the data returned -- accepted values are: `all`, `video_id`, `channel_id`, `partner_id`, `country_code`, `device_name`, `region`.'
+      - name: email_address
+        in: query
+        schema:
+          type: string
+        description: Required when group_by is set to "all". Results will be delivered as downloadable CSV links via email.
+      - name: region
+        in: query
+        schema:
+          type: string
+          enum:
+          - US
+          - EU
+          default: US
+        description: Select Playout Analytics Region to query -- default is US.
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: PlayoutHoursResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: PlayoutHour
+                      type: object
+                      properties:
+                        video_id:
+                          type: string
+                        channel_id:
+                          type: string
+                        partner_id:
+                          type: string
+                        playout_hours:
+                          type: number
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,124 @@
+openapi: 3.2.0
+info:
+  title: Monetization Revenue Models API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Revenue Models
+paths:
+  /revenue_models:
+    get:
+      summary: List Revenue Models
+      description: ''
+      tags:
+      - Revenue Models
+      operationId: listRevenueModels
+      parameters:
+      - name: id
+        $ref: '#/paths/~1plans/get/parameters/0'
+      - name: created_at
+        $ref: '#/paths/~1plans/get/parameters/1'
+      - name: q
+        $ref: '#/paths/~1plans/get/parameters/2'
+      - name: order
+        $ref: '#/paths/~1plans/get/parameters/3'
+      - name: sort
+        $ref: '#/paths/~1plans/get/parameters/4'
+      - name: page
+        $ref: '#/paths/~1plans/get/parameters/5'
+      - name: per_page
+        $ref: '#/paths/~1plans/get/parameters/6'
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter records by title
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: RevenueModelsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1revenue_models~1%7Bid%7D/get/responses/200/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1plans/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+  /revenue_models/{id}:
+    get:
+      summary: View Revenue Model
+      description: ''
+      tags:
+      - Revenue Models
+      operationId: getRevenueModel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the revenue model
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: RevenueModelResponse
+                type: object
+                properties:
+                  response:
+                    title: RevenueModel
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      image_content_type:
+                        type: string
+                      image_file_name:
+                        type: string
+                      image_file_size:
+                        type: string
+                      image_fingerprint:
+                        type: string
+                      image_updated_at:
+                        type: string
+                      name:
+                        type: string
+                      updated_at:
+                        type: string
+        '404':
+          description: Revenue Model not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,89 @@
+openapi: 3.2.0
+info:
+  title: Platform Apps API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Apps
+paths:
+  /app:
+    get:
+      summary: View App
+      tags:
+      - Apps
+      operationId: getApp
+      parameters:
+      - name: app_key
+        in: query
+        required: true
+        schema:
+          type: string
+        description: App key provided by Zype
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: AppResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: App
+                    properties:
+                      _id:
+                        type: string
+                      active:
+                        type: boolean
+                      app_type_id:
+                        type: string
+                      device_ids:
+                        type: array
+                        items:
+                          type: string
+                      site_id:
+                        type: string
+                      title:
+                        type: string
+                      version:
+                        type: string
+                      store_icon_url:
+                        type: string
+                    example:
+                      _id: 593b1ac8830ece0024000005
+                      active: false
+                      app_type_id: 1593030e94d740d00530000971
+                      device_ids:
+                      - 593030d64d740d0053000007
+                      site_id: 593031674d740d01cd000000
+                      title: Apple TV App
+                      version: 0.1.0
+                      store_icon_url: https:/url
+        '404':
+          description: App not found
+          content:
+            application/json:
+              schema:
+                title: NotFound
+                type: object
+                required:
+                - message
+                properties:
+                  message:
+                    type: string
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

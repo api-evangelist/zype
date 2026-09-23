@@ -1,0 +1,319 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Draft Versions API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Draft Versions
+paths:
+  /scheduler/v1/channels/{id}/draft:
+    get:
+      summary: View Channel's Draft
+      description: ''
+      tags:
+      - Draft Versions
+      operationId: getPlayoutSchedulerChannelDraft
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: startsAt
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Timestamp to filter timeline. It will return items after the given time
+      - name: endsAt
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Timestamp to filter timeline. It will return items up to the given time
+      - name: autoGraphics
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+        description: If true, the automated graphics track will be included in the response
+      responses:
+        '200':
+          description: Return a channel including it's draft information
+          content:
+            application/json:
+              schema:
+                title: ChannelWithDraftResponse
+                type: object
+                properties:
+                  channel:
+                    type: object
+                    title: ChannelWithDraft
+                    properties:
+                      id:
+                        type: string
+                      created_at:
+                        type: string
+                      startAt:
+                        type: string
+                      stopAt:
+                        type: string
+                      title:
+                        type: string
+                      live:
+                        type: boolean
+                      fallbackSlateId:
+                        type: string
+                      draftVersion:
+                        type: object
+                        properties:
+                          createdAt:
+                            type: string
+                          scheduleSet:
+                            $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1operations/post/responses/201/content/application~1json/schema/properties/operation/properties/newScheduleSet'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/draft/items/{itemId}/graphics:
+    get:
+      summary: View track item's automated graphics
+      description: Returns automated graphics associated with the given track item id
+      tags:
+      - Draft Versions
+      operationId: getPlayoutSchedulerTrackItemGraphics
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of channel
+      - name: itemId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of track item
+      responses:
+        '200':
+          description: Return the list of automated graphics overlaying the given track item
+          content:
+            application/json:
+              schema:
+                title: TrackItemGraphicsResponse
+                type: object
+                properties:
+                  graphics:
+                    type: array
+                    items:
+                      type: object
+                      title: TrackItem
+                      properties:
+                        id:
+                          type: string
+                        assetType:
+                          type: string
+                        assetId:
+                          type: string
+                        assetDuration:
+                          type: number
+                        startsAt:
+                          type: number
+                          description: Timestamp in milliseconds
+                        endsAt:
+                          type: number
+                          description: Timestamp in milliseconds
+                        durationInSeconds:
+                          type: number
+                        beginAtSecond:
+                          type: number
+                        truncateAtSecond:
+                          type: number
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        isInfinite:
+                          type: boolean
+                        isRecurring:
+                          type: boolean
+                        recurrenceSettings:
+                          type: object
+                          properties:
+                            gapMs:
+                              type: number
+                              description: Number of milliseconds between repetitions
+                            times:
+                              type: number
+                            infinitely:
+                              type: boolean
+                            until:
+                              type: number
+                              description: Timestamp in milliseconds
+                        graphic:
+                          $ref: '#/paths/~1scheduler~1v2~1assets~1graphics/post/responses/201/content/application~1json/schema/properties/destinationType'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/draft/rundown:
+    get:
+      summary: View Channel Draft's Schedule Rundown
+      description: ''
+      tags:
+      - Draft Versions
+      operationId: getPlayoutSchedulerChannelDraftsRundown
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Timestamp in milliseconds of beginning of interval (defaults to current timestamp)
+      - name: hours
+        in: query
+        required: false
+        description: Number of hours of the interval to calculate
+        schema:
+          type: number
+          default: 24
+          maximum: 24
+          minimum: 1
+      responses:
+        '200':
+          description: Return's a channel draft version's rundown
+          content:
+            application/json:
+              schema:
+                title: RundownResponse
+                type: object
+                properties:
+                  rundown:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: One of 'video', 'ad', 'slate', 'bumper'
+                        assetId:
+                          type: string
+                        parentType:
+                          type: string
+                        parentAssetId:
+                          type: string
+                        start:
+                          type: number
+                        end:
+                          type: number
+                        trackItemId:
+                          type: string
+                        truncateAtSecond:
+                          type: number
+                        beginAtSecond:
+                          type: number
+                        repetition:
+                          type: number
+                        graphics:
+                          type: array
+                          description: Graphics to be play during the item airtime
+                          items:
+                            type: object
+                            properties:
+                              preview:
+                                type: string
+                                description: Url to preview the graphic
+                              title:
+                                type: string
+                                description: Graphic asset title
+                              id:
+                                type: string
+                                description: Graphic asset id
+                              layer:
+                                type: number
+                                description: Graphic asset layer
+                              start:
+                                type: number
+                                description: Start time (epoch) of the graphic
+                              end:
+                                type: number
+                                description: End time (epoch) of the graphic
+                              opacity:
+                                type: number
+                                description: Graphic asset opacity
+                              fadeIn:
+                                type: number
+                                description: Duration of the fade in effect
+                              fadeOut:
+                                type: number
+                                description: Duration of the fade out effect
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/draft/publish:
+    post:
+      summary: Publish Channel's Draft
+      description: ''
+      tags:
+      - Draft Versions
+      operationId: publishPlayoutSchedulerChannelDraft
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: Return a channel including it's published information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      succeeded:
+                        type: boolean
+                      channel:
+                        $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1published/get/responses/200/content/application~1json/schema/properties/channel'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft/get/responses/200/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

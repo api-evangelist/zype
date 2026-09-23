@@ -1,0 +1,734 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Channels API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Channels
+paths:
+  /scheduler/v1/channels:
+    get:
+      summary: List Channels
+      description: ''
+      operationId: getPlayoutSchedulerChannels
+      tags:
+      - Channels
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      responses:
+        '200':
+          description: Channels response
+          content:
+            application/json:
+              schema:
+                title: ChannelsResponse
+                type: object
+                properties:
+                  siteId:
+                    type: string
+                  channels:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v1~1channels/post/responses/201/content/application~1json/schema'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Channel
+      description: ''
+      tags:
+      - Channels
+      operationId: createPlayoutSchedulerChannel
+      x-codegen-request-body-name: channel
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ChannelRequest
+              type: object
+              required:
+              - channel
+              properties:
+                channel:
+                  type: object
+                  title: ChannelProperties
+                  required:
+                  - title
+                  - startAt
+                  properties:
+                    title:
+                      type: string
+                    fallbackSlateId:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                      - elemental
+                      - no_infra
+                      - live_event
+                      default: elemental
+                      description: Channel type. `live_event` is the Zype Live channel type, which requires exactly one entry in liveInputSources. Defaults to `elemental` when not provided.
+                    liveInputSources:
+                      type: array
+                      description: Live input sources for the channel. Required, with exactly one entry, when type is live_event. Optional for other channel types.
+                      items:
+                        $ref: '#/paths/~1scheduler~1v1~1channels/post/responses/201/content/application~1json/schema/properties/liveInputSources'
+                    startAt:
+                      type: string
+                      description: Setting the Start At date & time will make the channel live at the selected date & time. You can select a date/time at least 30 minutes into the future.
+                    stopAt:
+                      type: string
+                      description: Setting the Stop At date & time will stop stop the channel at the selected date & time. You can select a date/time at least 30 minutes into the future.
+                    channelSetting:
+                      type: object
+                      title: ChannelSetting
+                      properties:
+                        staticOverlayEnabled:
+                          type: boolean
+                          default: false
+                          description: Enables static overlay feature
+                        hideOverlayDuringAds:
+                          type: boolean
+                          default: false
+                          description: Hides the static overlay during Ad slates
+                        priorityTrackGraphicsEnabled:
+                          type: boolean
+                          default: true
+                          description: If true, graphics will apply for videos on the priority track
+                        customDynamicReplacementsEnabled:
+                          type: boolean
+                          default: true
+                          description: Enables custom dynamic replacements feature
+                        customDynamicReplacements:
+                          type: array
+                          description: Custom attributes to fetch from video's metadata
+                          items:
+                            type: string
+                        scteMidrollIdMatchEnabled:
+                          type: boolean
+                          default: true
+                          description: When enabled, the Id inserted into the SCTE ad markers during a mid-roll will be the same Id of the video asset
+                        scteMessageFormat:
+                          type: string
+                          description: Applying to live inputs, the selected format will be the expected SCTE tags format sent from the input source to Playout live inputs
+                          enum:
+                          - SPLICE_INSERT
+                          - TIME_SIGNAL
+                        availabilityCountries:
+                          type: array
+                          items:
+                            type: string
+                          description: This setting is required by some destinations for determining where content should be available. This is a metadata-only field and does not restrict the playback of content by region.
+                        nielsenPcmToId3Tagging:
+                          type: boolean
+                          description: When enabled, the PCM audio will be converted to ID3 tags for Nielsen reporting
+                        nielsenDistributorId:
+                          type: string
+                          description: The Nielsen distributor ID. Will be used to report Nielsen metrics to the Nielsen distributor only when nielsenPcmToId3Tagging is true.
+                    channelCaptionSetting:
+                      type: object
+                      title: ChannelCaptionSetting
+                      properties:
+                        sourceType:
+                          type: string
+                          enum:
+                          - Teletext
+                          - Embedded
+                        languageCode:
+                          type: string
+                        pageNumber:
+                          type: string
+                        outputDescription:
+                          type: object
+                          title: ChannelCaptionSetting
+                          properties:
+                            name:
+                              type: string
+                            languageCode:
+                              type: string
+                            languageDescription:
+                              type: string
+                            captionSettings:
+                              type: string
+                              enum:
+                              - Embedded
+                              - WebVtt
+                    automatedGraphicInsertions:
+                      type: array
+                      items:
+                        required:
+                        - assetTypes
+                        - duration
+                        - graphicAssetId
+                        - type
+                        properties:
+                          assetTypes:
+                            type: array
+                            enum:
+                            - video
+                            - block
+                            - playlist
+                            description: Determines the asset type to which the graphic will play. At least one is required.
+                          duration:
+                            type: number
+                            description: Determines the duration that the graphic is visible.
+                          delay:
+                            type: number
+                            default: 0
+                            description: For Intro, determines the delay from when the asset starts to when the graphic starts. For Exit, determines the padding at the end of the video where there will be no graphics
+                          graphicAssetId:
+                            type: string
+                            description: The Id of the graphic to play on top of the selected asset.
+                    midRollAdsEnabled:
+                      type: boolean
+                      description: Automatically insert mid-roll ads
+                    adPodSlate:
+                      type: string
+                      description: Default ad slate. Ads will be inserted at video-level ad timings when dragging a video into the timeline.
+                    highAvailabilityEnabled:
+                      type: boolean
+                      default: false
+                      description: Enables high availability feature
+                    staticOverlay:
+                      $ref: '#/paths/~1scheduler~1v1~1channels/post/responses/201/content/application~1json/schema/properties/staticOverlay'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                title: Channel
+                properties:
+                  id:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date
+                  startAt:
+                    type: string
+                    format: date
+                  stopAt:
+                    type: string
+                    format: date
+                  title:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - live
+                    - error
+                    - off-air
+                  live:
+                    type: boolean
+                  midRollAdsEnabled:
+                    type: boolean
+                  adPodSlate:
+                    type: string
+                    description: The id of the ad slate
+                  syncedAt:
+                    type: string
+                    format: date
+                  publishedAt:
+                    type: string
+                    format: date
+                  fallbackSlateId:
+                    type: string
+                  region:
+                    type: string
+                  highAvailabilityEnabled:
+                    type: boolean
+                  liveInputSources:
+                    title: LiveInputSource
+                    type: object
+                    properties:
+                      id:
+                        description: Used if you are updating an existing Live Input Source.
+                        type: string
+                      name:
+                        description: Name of the live input source.
+                        type: string
+                      channelId:
+                        description: ID of the channel this live input source belongs to.
+                        type: string
+                      protocol:
+                        description: Protocol used for ingesting the live stream.
+                        type: string
+                        enum:
+                        - rtmp (PUSH)
+                        - rtp  (PUSH)
+                        - srt-listener (PUSH)
+                        - zixi-push (PUSH)
+                        - hls (PULL)
+                      ipWhitelist:
+                        description: Whitelisted IPv4 addresses. Subnet supported (0.0.0.0/0).
+                        type: array
+                        items:
+                          type: string
+                      serverUrl:
+                        description: Primary URL for the push live input source.
+                        type: string
+                      serverSecondaryUrl:
+                        description: Secondary URL for the push live input source. Only available when the channel is HA.
+                        type: string
+                      sourceUrl:
+                        description: Primary URL for the pull live input source. Only valid for HLS protocol.
+                        type: string
+                      sourceSecondaryUrl:
+                        description: Secondary URL for the pull live input source. Only valid for HLS protocol. Only available when the channel is HA.
+                        type: string
+                      bufferSegments:
+                        description: Number of segments to buffer for HLS live input sources. Only valid for HLS protocol.
+                        type: integer
+                        format: int32
+                        default: 4
+                      scte35Source:
+                        description: Source of SCTE-35 markers.
+                        type: string
+                        enum:
+                        - SEGMENTS
+                        - MANIFEST
+                      hostname:
+                        description: Hostname for the live input source.
+                        type: string
+                      secondaryHostname:
+                        description: Backup/failover hostname for the live input source, used to build the redundant ingest endpoint. Only available when the channel is HA. If not provided, it is auto-derived from hostname (`<hostname>-secondary`) the first time hostname is set, and is frozen after that (later hostname changes do not regenerate it). Not allowed for HLS protocol live input sources.
+                        type: string
+                      domain:
+                        description: Domain used to build the aliased server URLs for this live input source.
+                        type: string
+                        example: encode.zype.live
+                      serverUrlAlias:
+                        description: Full aliased URL for the push live input source, built from hostname and domain. Present when both hostname and serverUrl are set.
+                        type: string
+                        example: rtmp://api-docs.encode.zype.live/Playout
+                      serverSecondaryUrlAlias:
+                        description: Full aliased URL for the secondary push live input source, built from secondaryHostname and domain. Present when hostname and serverSecondaryUrl are set, and only available when the channel is HA.
+                        type: string
+                        example: rtmp://api-docs-secondary.encode.zype.live/Playout
+                    example:
+                      id: 1bf431fa-e285-4e38-9886-5686b30b20fc
+                      name: My RTMP Live Input
+                      channelId: 95efe944-205f-4790-9d99-b27cf3378fe3
+                      protocol: rtmp
+                      ipWhitelist:
+                      - 0.0.0.0/0
+                      serverUrl: rtmp://10.12.123.111:1935/ZypePlayout/7a20-va84-40d2-89c1-9f62
+                      serverSecondaryUrl: rtmp://54.198.191.169:1935/ZypePlayout/fb11-3325-ea5f-1f74-6636
+                      bufferSegments: 4
+                      scte35Source: SEGMENTS
+                      hostname: api-docs
+                      secondaryHostname: api-docs-secondary
+                      domain: encode.zype.live
+                      serverUrlAlias: rtmp://api-docs.encode.zype.live/Playout
+                      serverSecondaryUrlAlias: rtmp://api-docs-secondary.encode.zype.live/Playout
+                  channelSetting:
+                    type: object
+                    title: ChannelSetting
+                    properties:
+                      staticOverlayEnabled:
+                        type: boolean
+                        description: Enables static overlay feature
+                      hideOverlayDuringAds:
+                        type: boolean
+                        description: Hides the static overlay during Ad slates
+                      priorityTrackGraphicsEnabled:
+                        type: boolean
+                        description: If true, graphics will apply for videos on the priority track
+                      customDynamicReplacementsEnabled:
+                        type: boolean
+                        description: Enables custom dynamic replacements feature
+                      customDynamicReplacements:
+                        type: array
+                        description: Custom attributes to fetch from video's metadata
+                        items:
+                          type: string
+                      scteMidrollIdMatchEnabled:
+                        type: boolean
+                        description: When enabled, the Id inserted into the SCTE ad markers during a mid-roll will be the same Id of the video asset
+                      scteMessageFormat:
+                        type: string
+                        description: Applying to live inputs, the selected format will be the expected SCTE tags format sent from the input source to Playout live inputs
+                        enum:
+                        - SPLICE_INSERT
+                        - TIME_SIGNAL
+                      availabilityCountries:
+                        type: array
+                        items:
+                          type: string
+                        description: This setting is required by some destinations for determining where content should be available. This is a metadata-only field and does not restrict the playback of content by region.
+                      nielsenPcmToId3Tagging:
+                        type: boolean
+                        description: When enabled, the PCM audio will be converted to ID3 tags for Nielsen reporting
+                      nielsenDistributorId:
+                        type: string
+                        description: The Nielsen distributor ID. Will be used to report Nielsen metrics to the Nielsen distributor only when nielsenPcmToId3Tagging is true.
+                  automatedGraphicInsertions:
+                    type: array
+                    items:
+                      properties:
+                        assetTypes:
+                          type: array
+                          description: Determines the asset type to which the graphic will play. At least one is required.
+                        duration:
+                          type: number
+                          description: Determines the duration that the graphic is visible.
+                        delay:
+                          type: number
+                          description: For Intro, determines the delay from when the asset starts to when the graphic starts. For Exit, determines the padding at the end of the video where there will be no graphics
+                        graphicAssetId:
+                          type: string
+                          description: The Id of the graphic to play on top of the selected asset.
+                  staticOverlay:
+                    type: object
+                    description: Static overlay placement settings
+                    properties:
+                      uploadId:
+                        description: Upload id so use as the image overlay
+                        type: string
+                      anchorPosition:
+                        type: string
+                        enum:
+                        - bottom_left
+                        - bottom_right
+                        - top_left
+                        - top_right
+                        description: Anchor position of the upload in the stream
+                        default: bottom_right
+                      verticalMargin:
+                        description: Vertical margin of the upload in the stream. Between 0% and 100%, relative to the image size and screen resolution
+                        type: number
+                        default: 5
+                      horizontalMargin:
+                        description: Horizontal margin of the upload in the stream. Between 0% and 100%, relative to the image size and screen resolution
+                        type: number
+                        default: 5
+        '422':
+          description: Unprocessable entity. In particular, creating a live_event (Zype Live) channel without a liveInputSources entry returns a zype_live_channel_missing_live_input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v1/channels/{id}:
+    get:
+      summary: View Channel
+      description: ''
+      tags:
+      - Channels
+      operationId: getPlayoutSchedulerChannel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: Return a channel
+          content:
+            application/json:
+              schema:
+                title: ChannelResponse
+                type: object
+                properties:
+                  channel:
+                    $ref: '#/paths/~1scheduler~1v1~1channels/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    delete:
+      summary: Delete Channel
+      description: ''
+      tags:
+      - Channels
+      operationId: deleteChannel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: Channel deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Channel
+      description: ''
+      tags:
+      - Channels
+      operationId: updateChannel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      x-codegen-request-body-name: channel
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ChannelRequestWithLiveSources
+              type: object
+              required:
+              - channel
+              properties:
+                channel:
+                  type: object
+                  title: ChannelPropertiesWithLiveSources
+                  required:
+                  - title
+                  - startAt
+                  properties:
+                    title:
+                      type: string
+                    fallbackSlateId:
+                      type: string
+                    startAt:
+                      type: string
+                      description: Setting the Start At date & time will make the channel live at the selected date & time. You can select a date/time at least 30 minutes into the future.
+                    stopAt:
+                      type: string
+                      description: Setting the Stop At date & time will stop stop the channel at the selected date & time. You can select a date/time at least 30 minutes into the future.
+                    midRollAdsEnabled:
+                      type: boolean
+                      description: Automatically insert mid-roll ads
+                    adPodSlate:
+                      type: string
+                      description: Default ad slate. Ads will be inserted at video-level ad timings when dragging a video into the timeline.
+                    highAvailabilityEnabled:
+                      type: boolean
+                      default: false
+                      description: Enables high availability feature
+                    liveInputSources:
+                      type: array
+                      items:
+                        $ref: '#/paths/~1scheduler~1v1~1channels/post/responses/201/content/application~1json/schema/properties/liveInputSources'
+                    channelSetting:
+                      type: object
+                      title: ChannelSetting
+                      properties:
+                        staticOverlayEnabled:
+                          type: boolean
+                          default: false
+                          description: Enables static overlay feature
+                        hideOverlayDuringAds:
+                          type: boolean
+                          default: false
+                          description: Hides the static overlay during Ad slates
+                        priorityTrackGraphicsEnabled:
+                          type: boolean
+                          default: true
+                          description: If true, graphics will apply for videos on the priority track
+                        customDynamicReplacementsEnabled:
+                          type: boolean
+                          default: true
+                          description: Enables custom dynamic replacements feature
+                        customDynamicReplacements:
+                          type: array
+                          description: Custom attributes to fetch from video's metadata
+                          items:
+                            type: string
+                        scteMidrollIdMatchEnabled:
+                          type: boolean
+                          default: true
+                          description: When enabled, the Id inserted into the SCTE ad markers during a mid-roll will be the same Id of the video asset
+                        scteMessageFormat:
+                          type: string
+                          description: Applying to live inputs, the selected format will be the expected SCTE tags format sent from the input source to Playout live inputs
+                          enum:
+                          - SPLICE_INSERT
+                          - TIME_SIGNAL
+                        availabilityCountries:
+                          type: array
+                          items:
+                            type: string
+                          description: This setting is required by some destinations for determining where content should be available. This is a metadata-only field and does not restrict the playback of content by region.
+                        nielsenPcmToId3Tagging:
+                          type: boolean
+                          description: When enabled, the PCM audio will be converted to ID3 tags for Nielsen reporting
+                        nielsenDistributorId:
+                          type: string
+                          description: The Nielsen distributor ID. Will be used to report Nielsen metrics to the Nielsen distributor only when nielsenPcmToId3Tagging is true.
+                    channelCaptionSetting:
+                      type: object
+                      title: ChannelCaptionSetting
+                      properties:
+                        sourceType:
+                          type: string
+                          enum:
+                          - Teletext
+                          - Embedded
+                        languageCode:
+                          type: string
+                        pageNumber:
+                          type: string
+                        outputDescription:
+                          type: object
+                          title: ChannelCaptionSetting
+                          properties:
+                            name:
+                              type: string
+                            languageCode:
+                              type: string
+                            languageDescription:
+                              type: string
+                            captionSettings:
+                              type: string
+                              enum:
+                              - Embedded
+                              - WebVtt
+                    automatedGraphicInsertions:
+                      type: array
+                      items:
+                        required:
+                        - assetTypes
+                        - duration
+                        - graphicAssetId
+                        - type
+                        properties:
+                          assetTypes:
+                            type: array
+                            enum:
+                            - video
+                            - block
+                            - playlist
+                            description: Determines the asset type to which the graphic will play. At least one is required.
+                          duration:
+                            type: number
+                            description: Determines the duration that the graphic is visible.
+                          delay:
+                            type: number
+                            default: 0
+                            description: For Intro, determines the delay from when the asset starts to when the graphic starts. For Exit, determines the padding at the end of the video where there will be no graphics
+                          graphicAssetId:
+                            type: string
+                            description: The Id of the graphic to play on top of the selected asset.
+                    staticOverlay:
+                      $ref: '#/paths/~1scheduler~1v1~1channels/post/responses/201/content/application~1json/schema/properties/staticOverlay'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Channel id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/stop:
+    post:
+      summary: Stop On-Air Channel
+      description: ''
+      tags:
+      - Channels
+      operationId: stopLiveChannel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/graphics_sync:
+    post:
+      summary: Sync automated graphic insertions
+      description: Sync the automated graphic insertions configured for the channel on every future track item (performed asynchronously).
+      tags:
+      - Channels
+      operationId: graphicsSync
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Id of Channel
+      responses:
+        '200':
+          description: Graphics enqueued for synchronization
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

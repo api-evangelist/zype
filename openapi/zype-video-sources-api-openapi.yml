@@ -1,0 +1,288 @@
+openapi: 3.2.0
+info:
+  title: Platform Video Sources API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Video Sources
+paths:
+  /video_sources:
+    get:
+      summary: List Video Sources
+      description: ''
+      tags:
+      - Video Sources
+      operationId: listVideoSources
+      parameters:
+      - name: id
+        $ref: '#/paths/~1devices/get/parameters/1'
+      - name: created_at
+        $ref: '#/paths/~1devices/get/parameters/2'
+      - name: q
+        $ref: '#/paths/~1devices/get/parameters/3'
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - self_hosted
+          - zype
+          - hulu
+          - youtube
+          - crunchyroll
+        description: The type of video sources to query.
+      - name: response_fields
+        $ref: '#/paths/~1videos/get/parameters/28'
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: VideoSourcesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1video_sources/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+    post:
+      summary: Create Video Source
+      description: Only MRSS video sources may be created via the API at this time.
+      tags:
+      - Video Sources
+      operationId: createVideoSource
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: VideoSourceRequest
+              type: object
+              required:
+              - type
+              properties:
+                type:
+                  description: 'Specify the type of Video Source. At the moment only `mrss` can be created '
+                  type: string
+                  enum:
+                  - mrss
+                video_source:
+                  type: object
+                  title: VideoSourceProperties
+                  required:
+                  - url
+                  properties:
+                    name:
+                      type: string
+                    url:
+                      description: 'URL of the MRSS feed. You can update this field for the following video source types: - MRSS'
+                      type: string
+                    category_id:
+                      type: string
+                      description: Category ID assigned to the video source
+                    mrss_category_values:
+                      type: array
+                      description: List of MRSS category values
+                    sync_interval:
+                      type: string
+                      enum:
+                      - daily
+                      - hourly
+                      description: How often this video source should sync with the MRSS feed (daily / hourly)
+                    auto_add:
+                      type: boolean
+                      description: Automatically add new video sources to your video library as the feed is synced
+                    auto_activate:
+                      description: Automatically activate new videos added to your video library
+                      type: boolean
+                    auto_deactivate:
+                      type: boolean
+                      description: Automatically deactivate video data sources that are absent from this feed that have been previously imported
+                    sync_video_data_source:
+                      type: boolean
+                      description: Automatically update video source attributes such as thumbnails and video files
+                    import_from:
+                      type: string
+                      description: Exclude videos published before this date
+                    import_to:
+                      type: string
+                      description: Exclude videos published after this date
+                    to_zype_hosted:
+                      type: boolean
+                      description: Indicate if the content (media files) should imported and transcoded as Zype hosted
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: VideoSourceResponse
+                type: object
+                properties:
+                  response:
+                    title: VideoSource
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      status:
+                        description: Options are `created` and `ready`
+                        type: string
+                      name:
+                        type: string
+                      guid:
+                        description: Globally unique identifier given by the video source
+                        type: string
+                      category_id:
+                        type: string
+                      auto_activate:
+                        type: boolean
+                      auto_add:
+                        type: boolean
+                      auto_deactivate:
+                        type: boolean
+                      sync_interval:
+                        type: string
+                      sync_video_data_source:
+                        type: boolean
+                      url:
+                        type: string
+                      import_from:
+                        type: string
+                      import_to:
+                        type: string
+                      editable:
+                        type: boolean
+                      video_count:
+                        description: How many videos are part of this video source
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /video_sources/{id}:
+    get:
+      summary: View Video Source
+      description: ''
+      tags:
+      - Video Sources
+      operationId: getVideoSource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video source
+      responses:
+        '200':
+          description: Returns a single VideoSource
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1video_sources/post/responses/201/content/application~1json/schema'
+        '404':
+          description: VideoSource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Video Source
+      description: ''
+      tags:
+      - Video Sources
+      operationId: updateVideoSource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video source
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1video_sources/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1video_sources/post/responses/201/content/application~1json/schema'
+        '404':
+          description: VideoSource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete a Video Source
+      description: ''
+      tags:
+      - Video Sources
+      operationId: deleteVideoSource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video source
+      responses:
+        '204':
+          description: VideoSource deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1video_sources/post/responses/201/content/application~1json/schema'
+        '404':
+          description: VideoSource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

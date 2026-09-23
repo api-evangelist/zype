@@ -1,0 +1,125 @@
+openapi: 3.2.0
+info:
+  title: Platform Subtitle Playlists API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Subtitle Playlists
+paths:
+  /videos/{video_id}/subtitle_playlists:
+    post:
+      tags:
+      - Subtitle Playlists
+      summary: Create Subtitle Playlist
+      operationId: createSubtitlePlaylist
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: SubtitlePlaylistRequest
+              type: object
+              required:
+              - subtitle_playlist
+              properties:
+                subtitle_playlist:
+                  title: subtitlePlaylistProperties
+                  required:
+                  - source_url
+                  - language
+                  type: object
+                  properties:
+                    source_url:
+                      type: string
+                      description: The URL for the source subtitle
+                    language:
+                      type: string
+                      description: The language of the source subtitle provided
+                      example: Chinese
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: SubtitlePlaylistResponse
+                type: object
+                properties:
+                  response:
+                    title: SubtitlePlaylist
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      language:
+                        type: string
+                      language_code:
+                        type: string
+                      source_url:
+                        type: string
+                      updated_at:
+                        type: string
+                      video_id:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{video_id}/subtitle_playlists/{language}:
+    delete:
+      tags:
+      - Subtitle Playlists
+      summary: Delete Subtitle Playlist
+      operationId: deleteSubtitlePlaylist
+      parameters:
+      - name: language
+        in: path
+        description: The language of the source subtitle provided
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Subtitle playlist deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1subtitle_playlists/post/responses/201/content/application~1json/schema'
+      deprecated: false
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

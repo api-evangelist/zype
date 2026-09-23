@@ -1,0 +1,473 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V2) Stream Hours API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Stream Hours
+paths:
+  /v2/stream_hours:
+    get:
+      x-server-name: analytics-api
+      summary: List Stream Hours (V2)
+      description: This endpoint will retrieve stream hour data for your property.
+      tags:
+      - Stream Hours
+      operationId: streamHours
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date`.(filters[start_date_gte]=2018-11-01) If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[device_name_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - Roku
+          - Chromecast
+          - Desktop
+          - iOS (Native)
+          - iOS (HTML5)
+          - Apple TV
+          - Windows Phone (HTML5)
+          - Xbox (HTML5)
+          - Android (Native)
+          - FireTV
+          - Xbox
+          - BlackBerry (HTML5)
+          - Android (HTML5)
+          - Metrological
+          - OperaTV
+          - Xumo
+          - SmartTV
+        description: Filter by device name.  Device names are case sensitive - current options include `Roku`, `Chromecast`, `Desktop`, `iOS (Native)`, `iOS (HTML5)`, `Apple TV`, `Windows Phone (HTML5)`, `Xbox (HTML5)`, `Android (Native)`, `FireTV`, `Xbox`, `BlackBerry (HTML5)`, `Android (HTML5)`, `Metrological`, `OperaTV`, `Xumo`, `SmartTV`
+      - name: filters[video_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the video ID.
+      - name: filters[stream_type_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - vod
+          - live
+          - download
+        description: Filter by the type of stream. Options are `vod`, `live`, and `download`.
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the consumer ID.
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: 'Filter by a specific consumer''s email. (Example: filters[consumer_email_eq]=consumer@zype.com)'
+      - name: filters[monetized_option_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter by the type of monetization of the videos. Options are `free`, `paid` and `avod`.
+      - name: filters[country_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AX
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BL
+          - BM
+          - BN
+          - BO
+          - BQ
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CU
+          - CV
+          - CW
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IR
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KP
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MF
+          - MG
+          - MH
+          - MK
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SD
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - SS
+          - ST
+          - SV
+          - SX
+          - SY
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - YE
+          - YT
+          - ZA
+          - ZM
+          - ZW
+        description: 'Filter by the the request origin country''s 2 letter ISO 3166-1 alpha-2 code (Example: `US`, `FR`, `GB`, `CA`).'
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - start_date
+            - device_name
+            - video_title
+            - video_id
+            - stream_type
+            - consumer_email
+            - consumer_id
+            - monetized_option
+            - country
+        description: 'Group records by one or more properties of the data returned -- accepted values are: `start_date`, `device_name`, `video_title`, `video_id`, `stream_type`, `consumer_email`, `consumer_id`, `monetized_option`, `country`'
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - start_date_asc
+          - start_date_desc
+          - device_name_asc
+          - device_name_desc
+          - video_title_asc
+          - video_title_desc
+          - video_id_asc
+          - video_id_desc
+          - stream_type_asc
+          - stream_type_desc
+          - consumer_id_asc
+          - consumer_id_desc
+          - monetized_option_asc
+          - monetized_option_desc
+          - country_asc
+          - country_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=device_name_desc)
+      - name: view_mode
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - detailed
+          - summary
+          default: summary
+        description: Set view mode to detailed to return all available properties for all records.
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: StreamHoursResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: Stream Hour
+                      type: object
+                      properties:
+                        player_request_id:
+                          type: string
+                        consumer_id:
+                          type: string
+                        country:
+                          type: string
+                        consumer_email:
+                          type: string
+                        device_name:
+                          type: string
+                        monetized_option:
+                          type: string
+                        video_id:
+                          type: string
+                        stream_type:
+                          type: string
+                        stream_hours:
+                          type: number
+                        bytes_streamed:
+                          type: number
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v2~1consumers/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

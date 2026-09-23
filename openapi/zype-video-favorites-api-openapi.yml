@@ -1,0 +1,229 @@
+openapi: 3.2.0
+info:
+  title: Monetization Video Favorites API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Video Favorites
+paths:
+  /consumers/{consumer_id}/video_favorites:
+    get:
+      summary: List Video Favorites
+      description: ''
+      tags:
+      - Video Favorites
+      operationId: listVideoFavorites
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of consumer
+      - name: details
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: Include detailed information about each video favorite
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Filter by ascending or descending order
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort on the specified field
+      responses:
+        '200':
+          description: Basic or detailed response, depending on `details` query parameter
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - title: VideoFavoritesResponse
+                  type: object
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1video_favorites/post/responses/201/content/application~1json/schema/properties/response'
+                - title: VideoFavoritesDetailsResponse
+                  type: object
+                  properties:
+                    response:
+                      type: array
+                      items:
+                        title: VideoFavoriteDetails
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                          consumer_id:
+                            type: string
+                          created_at:
+                            type: string
+                          deleted_at:
+                            type: string
+                          updated_at:
+                            type: string
+                          video_details:
+                            type: object
+                            properties:
+                              thumbnails:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    alt_text:
+                                      type: string
+                                    aspect_ratio:
+                                      type: number
+                                    height:
+                                      type: integer
+                                    name:
+                                      type: string
+                                    url:
+                                      type: string
+                                    width:
+                                      type: integer
+                              title:
+                                type: string
+                              internal_title:
+                                type: string
+                              description:
+                                type: string
+                              short_description:
+                                type: string
+                              friendly_title:
+                                type: string
+                              published_at:
+                                type: string
+                              enable_at:
+                                type: string
+                              disable_at:
+                                type: string
+                              duration:
+                                type: integer
+                              precise_duration:
+                                type: number
+                              categories:
+                                type: array
+                              series:
+                                type: string
+                              season:
+                                type: integer
+                              episode:
+                                type: integer
+                              on_air:
+                                type: boolean
+                              live_event:
+                                type: boolean
+                          video_id:
+                            type: string
+    post:
+      summary: Create Video Favorite
+      description: ''
+      tags:
+      - Video Favorites
+      operationId: createVideoFavorite
+      parameters:
+      - name: video_id
+        in: query
+        schema:
+          type: string
+        description: ID of the video to add to the consumer's favorites
+        required: true
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: VideoFavoriteResponse
+                type: object
+                properties:
+                  response:
+                    title: VideoFavorite
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      consumer_id:
+                        type: string
+                      created_at:
+                        type: string
+                      deleted_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      video_id:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+  /consumers/{consumer_id}/video_favorites/{favorite_id}:
+    delete:
+      summary: Delete Video Favorite
+      description: ''
+      tags:
+      - Video Favorites
+      operationId: deleteVideoFavorite
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of consumer
+      - name: favorite_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of favorite to delete, obtainable using `List Video Favorites`.
+      responses:
+        '204':
+          description: Video favorite successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1video_favorites/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Video Favorite not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

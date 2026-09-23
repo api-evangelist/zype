@@ -1,0 +1,273 @@
+openapi: 3.2.0
+info:
+  title: Platform Encoders API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Encoders
+paths:
+  /live/encoders:
+    get:
+      summary: List Encoders
+      description: Retrieve a list of encoders from your account
+      operationId: listV1Encoders
+      tags:
+      - Encoders
+      responses:
+        '200':
+          description: Response will be an array of encoders
+          content:
+            application/json:
+              schema:
+                title: EncodersResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1live~1encoders~1%7Bencoder_name%7D/get/responses/200/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /live/encoders/{encoder_name}:
+    get:
+      summary: View Encoder
+      description: ''
+      tags:
+      - Encoders
+      operationId: getV1Encoder
+      parameters:
+      - name: encoder_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: EncoderResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: Encoder
+                    properties:
+                      encoder_name:
+                        type: string
+                      fqdn:
+                        type: string
+                      publish_password:
+                        type: string
+                      publish_user:
+                        type: string
+                      site_id:
+                        type: string
+                      status:
+                        type: string
+        '404':
+          description: Encoder not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+  /live/encoders/{encoder_name}/start:
+    post:
+      summary: Start an Encoder
+      tags:
+      - Encoders
+      operationId: startV1Encoder
+      parameters:
+      - name: encoder_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Name of the Encoder
+      - name: api_key
+        in: query
+        required: true
+        schema:
+          type: string
+        description: API key provided by Zype
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live~1encoders~1%7Bencoder_name%7D~1stop/post/responses/200/content/application~1json/schema'
+        '400':
+          description: Error while starting encoder
+          content:
+            application/json:
+              schema:
+                title: EncoderStartErrorResponse
+                type: object
+                properties:
+                  response:
+                    title: EncoderStartError
+                    type: object
+                    required:
+                    - error
+                    properties:
+                      error:
+                        type: string
+                        example: Failed to start encoder your-encoder-1234
+        '404':
+          description: Encoder not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+  /live/encoders/{encoder_name}/stop:
+    post:
+      summary: Stop an Encoder
+      tags:
+      - Encoders
+      operationId: stopV1Encoder
+      parameters:
+      - name: encoder_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Name of the Encoder
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: EncoderStateChangeResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: EncoderStateChange
+                    properties:
+                      success:
+                        type: string
+        '400':
+          description: Error while stopping encoder
+          content:
+            application/json:
+              schema:
+                title: EncoderStopErrorResponse
+                type: object
+                properties:
+                  response:
+                    title: EncoderStopError
+                    type: object
+                    required:
+                    - error
+                    properties:
+                      error:
+                        type: string
+                        example: Failed to stop encoder your-encoder-1234
+        '404':
+          description: Encoder not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+  /live/encoders/{encoder_name}/target_rtmp:
+    get:
+      summary: List Targets RTMP entries
+      description: Retrieve a list of target rtmp entries from your encoder
+      operationId: listTargetRtmp
+      tags:
+      - Encoders
+      parameters:
+      - name: encoder_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ''
+      responses:
+        '200':
+          description: Response will be an array of target rtmp entries
+          content:
+            application/json:
+              schema:
+                title: EncoderTargetRtmpsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      title: EncoderTargetRtmp
+                      type: object
+                      required:
+                      - error
+                      properties:
+                        enabled:
+                          type: boolean
+                        host:
+                          type: string
+                        port:
+                          type: integer
+                        stream_name:
+                          type: string
+                        application:
+                          type: string
+                        entry_name:
+                          type: string
+                        source_stream_name:
+                          type: string
+                        username:
+                          type: string
+                        password:
+                          type: string
+  /live/encoders/{encoder_name}/target_rtmp/{target_rtmp_name}:
+    get:
+      summary: View Target RTMP entry
+      description: ''
+      tags:
+      - Encoders
+      operationId: getTargetRTMP
+      parameters:
+      - name: encoder_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ''
+      - name: target_rtmp_name
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Target RTMP entry name'
+      responses:
+        '200':
+          description: Response will be single target rtmp entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live~1encoders~1%7Bencoder_name%7D~1target_rtmp/get/responses/200/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

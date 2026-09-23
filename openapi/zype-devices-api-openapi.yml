@@ -1,0 +1,124 @@
+openapi: 3.2.0
+info:
+  title: Platform Devices API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Devices
+paths:
+  /devices:
+    get:
+      summary: List Devices
+      tags:
+      - Devices
+      operationId: listDevices
+      parameters:
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by title
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by ID
+
+          Example: `id=5992f328ce593000ef000008`'
+      - name: created_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `created_at.gte`)'
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by keyword
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: DevicesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1devices~1%7Bid%7D/get/responses/200/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /devices/{id}:
+    get:
+      summary: View Device
+      description: ''
+      tags:
+      - Devices
+      operationId: getDevice
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of device
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: DeviceResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: Device
+                    properties:
+                      _id:
+                        type: string
+                      description:
+                        type: string
+                      name:
+                        type: string
+        '404':
+          description: Device not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

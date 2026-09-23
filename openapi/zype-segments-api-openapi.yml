@@ -1,0 +1,223 @@
+openapi: 3.2.0
+info:
+  title: Platform Segments API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Segments
+paths:
+  /videos/{video_id}/segments:
+    get:
+      tags:
+      - Segments
+      summary: List Segments
+      operationId: listSegments
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response will be an array of objects each representing a segment for selected video.
+          content:
+            application/json:
+              schema:
+                title: SegmentsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1segments/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+      deprecated: false
+    post:
+      tags:
+      - Segments
+      summary: Create Segment
+      operationId: createSegment
+      parameters:
+      - name: video_id
+        in: path
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: SegmentRequest
+              type: object
+              required:
+              - segment
+              properties:
+                segment:
+                  title: SegmentProperties
+                  type: object
+                  properties:
+                    description:
+                      type: string
+                      description: Description of the segment, required on creation
+                    start:
+                      type: integer
+                      description: When the segment starts in milliseconds, required on creation
+                      format: int32
+                    end:
+                      type: integer
+                      description: When the segment ends in milliseconds
+                      format: int32
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: SegmentResponse
+                type: object
+                properties:
+                  response:
+                    title: Segment
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      video_id:
+                        type: string
+                      start:
+                        type: integer
+                        format: int32
+                      end:
+                        type: integer
+                        format: int32
+                      description:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{video_id}/segments/{id}:
+    get:
+      tags:
+      - Segments
+      summary: View Segment
+      operationId: getSegment
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: ID of segment
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1segments/post/responses/201/content/application~1json/schema'
+      deprecated: false
+    put:
+      tags:
+      - Segments
+      summary: Update Segment
+      operationId: updateSegment
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: ID of segment
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1segments/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1segments/post/responses/201/content/application~1json/schema'
+      deprecated: false
+    delete:
+      tags:
+      - Segments
+      summary: Delete Segment
+      operationId: deleteSegment
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: ID of segment
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Segment deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1segments/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Segment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

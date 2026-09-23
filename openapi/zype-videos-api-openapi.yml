@@ -1,0 +1,1870 @@
+openapi: 3.2.0
+info:
+  title: Platform Videos API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Videos
+paths:
+  /videos:
+    get:
+      tags:
+      - Videos
+      summary: List Videos
+      description: Retrieve a list of videos from your library
+      operationId: listVideos
+      parameters:
+      - name: id
+        in: query
+        description: 'Filter records by ID
+
+          Example: `id=5992f328ce593000ef000008`'
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Filters by keyword, title, source id, id, zobject title
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: active
+        in: query
+        required: false
+        description: Filter by active, inactive, or all.  If excluded, query will default to 'true'
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - 'true'
+          - 'false'
+          - all
+      - name: friendly_title
+        in: query
+        description: Filter records by friendly title
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: source_id
+        in: query
+        description: Filter records by source identifier
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: on_air
+        in: query
+        description: Filter records that are either on or off air
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: live_event
+        in: query
+        description: Filter records that are live events
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: video_source_type
+        in: query
+        description: 'Filter records by video source type. Multiple types can be provided by passing a comma-separated list. Examples: `zype`, `hulu`, `youtube`, `crunchyroll`'
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: crunchyroll_id
+        in: query
+        description: Filter records by Crunchyroll ID
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: vimeo_id
+        in: query
+        description: Filter records by Vimeo ID
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: youtube_id
+        in: query
+        description: Filter records by YouTube ID
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: hulu_id
+        in: query
+        description: Filter records by Hulu ID
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: mature_content
+        in: query
+        description: Filter records flagged as mature
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: parental_guidelines_rating
+        in: query
+        description: Parental guidance rating of the video
+        style: form
+        explode: true
+        schema:
+          title: ParentalGuidelinesRatingProperties
+          enum:
+          - tv-y
+          - tv-y7
+          - tv-y7_fv
+          - tv-g
+          - tv-pg
+          - tv-14
+          - tv-ma
+          - g
+          - pg
+          - pg-13
+          - r
+          - nc-17
+          - '10'
+          - '12'
+          - '13'
+          - '14'
+          - '16'
+          - '18'
+          - l
+          - a
+          - aa
+          - b
+          - b15
+          - c
+          - d
+          - not_rated
+          - tv-15-17
+          - tv-ao
+          - atp
+          type:
+          - string
+          - 'null'
+          description: Parental guidance rating of the video
+      - name: dpt
+        in: query
+        description: Filter records by Dynamic Player Technology conditions (Geo-location and device restrictions). If set to `true` this will return videos that are playable from your location/device.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: created_at
+        in: query
+        description: 'Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `created_at.gte`)'
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: published_at
+        in: query
+        description: 'Filter records by published date using times in ISO8601 format Example: `2017-01-01T00:00:00-00:00` or Unix timestamps `1483228800`.
+
+          Note: Range filters can be applied by adding a suffix: `.gt`, `.gte`, `.lt`, `.lte` Example: `published_at.gte=2017-01-01T00:00:00-00:00`'
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+      - name: category
+        in: query
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        description: 'Filter records that match all category values listed.
+
+          Example: `category[genre][]=comedy&category[language][]=english` Matches all playlists having ALL of the category name/value pairs listed.'
+      - name: category_or
+        in: query
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        description: 'Filter records that match any category values listed.
+
+          Example: `category_or[genre][]=comedy&category_or[language][]=english` Matches all playlists that have ANY of the category name/value pairs listed.'
+      - name: category_and
+        in: query
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          type: object
+          additionalProperties:
+            type: string
+        description: 'Filter records that match all category values listed.
+
+          Example: `category[genre][]=comedy&category[language][]=english` Matches all playlists having ALL of the category name/value pairs listed.'
+      - name: zobject_id
+        in: query
+        description: Filter records that match any of the Zobject IDs listed
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: zobject_id_or
+        in: query
+        description: Filter records that match any of the Zobject IDs listed
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: zobject_id_and
+        in: query
+        description: Filter records that match all of the Zobject IDs listed
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: zobject_details
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/5'
+      - name: zobject_types
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/6'
+      - name: zobject_fields
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/7'
+      - name: include_related_videos
+        in: query
+        description: When it's set to true, it will include the related videos in the API response
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: expand_related_videos
+        in: query
+        description: When it's set to true along with the include_related_videos flag, the API response will also include the data of linked videos appart from the target one.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: response_fields
+        in: query
+        description: 'Filter returned fields. Example: response_fields=id,title,description'
+        required: false
+        schema:
+          type: string
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Filter by ascending or descending order
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: Response will contain an array of videos
+          content:
+            application/json:
+              schema:
+                title: VideosResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    title: Pagination
+                    type: object
+                    properties:
+                      current:
+                        type: number
+                        format: int32
+                        description: The current page of results
+                      previous:
+                        type:
+                        - number
+                        - 'null'
+                        format: int32
+                        description: the previous page of results
+                      next:
+                        type:
+                        - number
+                        - 'null'
+                        format: int32
+                        description: the next page of results
+                      per_page:
+                        type: number
+                        format: int32
+                        description: the number of results returned per page
+                      pages:
+                        type: number
+                        format: int32
+                        description: the total number of pages available, using per_page
+                    example:
+                      current: 1
+                      previous: null
+                      next: 2
+                      per_page: 10
+                      pages: 20
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                title: Unprocessable Entity
+                type: object
+                properties:
+                  message:
+                    type: string
+      deprecated: false
+    post:
+      tags:
+      - Videos
+      summary: Create Video
+      description: Add a video to your library
+      operationId: createVideo
+      parameters: []
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: VideoRequest
+              type: object
+              required:
+              - video
+              properties:
+                video:
+                  title: VideoProperties
+                  required:
+                  - title
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    active:
+                      type: boolean
+                      description: Indicate if the video is ready to be watched
+                    country:
+                      type: string
+                      description: The country the video was created in
+                    description:
+                      type: string
+                      description: Full length description of the video
+                    short_description:
+                      type: string
+                      description: Brief description of the video
+                    enable_at:
+                      type: string
+                      description: Timestamp of when your video will become active
+                    disable_at:
+                      type: string
+                      description: Timestamp of when your video will become inactive
+                    live_event:
+                      type: boolean
+                      description: Indicates if the video is a live event
+                    on_air:
+                      type: boolean
+                      description: Indicates if the video is on air
+                    on_air_at:
+                      type: string
+                      description: Timestamp of when your video will go on air
+                    off_air_at:
+                      type: string
+                      description: Timestamp of when your video will go off air
+                    episode:
+                      type: number
+                      description: Episode number
+                    season:
+                      type: number
+                      description: Season number
+                    series_id:
+                      type: string
+                      description: A string indicating the unique Series ID of the video series.
+                    source_id:
+                      type: string
+                      description: Optional identifier to relate this video to other platforms.
+                    featured:
+                      type: boolean
+                    friendly_title:
+                      type: string
+                      description: The URL friendly title of the video
+                    keywords:
+                      type: array
+                      items:
+                        type: string
+                      description: Keywords for the video
+                    language:
+                      type: string
+                      description: The language of the video's audio, as ISO 2 Letter Language Codes for example 'en' for english or 'es' for spanish
+                    mature_content:
+                      type: boolean
+                      description: Indicates if the video requires the viewer to be 18+ to view
+                    parental_guidelines_rating:
+                      $ref: '#/paths/~1videos/get/parameters/13/schema'
+                    preview_ids:
+                      type: array
+                      items:
+                        type: string
+                      description: Id's of the video to be the preview for your video. Please note that at this time a preview can only be a Zype type video and cannot be a paid video.
+                    purchase_required:
+                      type: boolean
+                      description: Whether or not the video must be purchased
+                    purchase_price:
+                      type: number
+                      description: Amount to purchase the video
+                    marketplace_ids:
+                      title: MarketplaceIdsProperties
+                      type: object
+                      properties:
+                        itunes:
+                          type: string
+                          description: Apple iTunes
+                        googleplay:
+                          type: string
+                          description: Google Play Store
+                        roku:
+                          type: string
+                          description: Roku Channel Store
+                        amazon_fire_tv:
+                          type: string
+                          description: Amazon Fire Marketplace
+                        apple_tv:
+                          type: string
+                          description: Apple iTunes for AppleTV-only not sharing assets with iOS.
+                        samsung:
+                          type: string
+                          description: Samsung Marketplace
+                        samsung_tizen:
+                          type: string
+                          description: Samsung Tizen Marketplace
+                      description: Override default Marketplace IDs for this video. Marketplace IDs map Zype purchaseable products to 3rd party marketplaces such as Apple iTunes and Google Play Store.
+                    rental_duration:
+                      type: number
+                      description: Number of days a video can be rented
+                    rental_price:
+                      type: number
+                      description: Price to rent the video
+                    rental_required:
+                      type: boolean
+                      description: Whether or not the video must be rented
+                    pass_required:
+                      type: boolean
+                    published_at:
+                      type: string
+                    subscription_required:
+                      type: boolean
+                    registration_required:
+                      type: boolean
+                    discovery_url:
+                      type: string
+                      description: URL where your video can be discovered
+                    custom_thumbnail_url:
+                      type: string
+                      description: URL where your custom thumbnail is stored. Thumbnail will be processed asynchronously, and available in API response upon completion.
+                    subscription_ads_enabled:
+                      type: boolean
+                      description: Whether or not ads are shown to consumers with an active subscription
+                    genre:
+                      type: string
+                    redemption_code_required:
+                      type: boolean
+                    playout_ad:
+                      type: boolean
+                      description: Setting a video as a playout ad allows it to be used as an ad slate for playout channels.
+                    playout_bumper:
+                      type: boolean
+                      description: Setting a video as a playout bumper allows it to be used as a bumper for playout scheduler channels.
+                    playout_slate:
+                      type: boolean
+                      description: Setting a video as a playout slate allows it to be used as a slate for playout scheduler channels.
+                    custom_attributes:
+                      type: object
+                      description: Custom meta Name and Value keywords to be used for key value pairing with external services like ad servers.
+                    transcriptions_enabled:
+                      type: boolean
+                      description: If enabled, an AI transcription with SRT and VTT subtitles will be created
+                    translations_enabled:
+                      type: boolean
+                      description: If enabled, the video will be translated using the site's translation languages
+                    zobject_id:
+                      type: array
+                      items:
+                        type: string
+                        description: IDs of Zobjects
+                    categories_attributes:
+                      type: array
+                      items:
+                        type: object
+                        title: Category Attributes
+                        properties:
+                          id:
+                            type: string
+                            description: ID of the category playlist to update, **only required when updating values**.
+                            example: 5b0c20ec3830f80034000020
+                          category_id:
+                            type: string
+                            description: ID of the main Category you wish to add to the video
+                            example: 5955293d805cd90024000000
+                          value:
+                            type: array
+                            items:
+                              type: string
+                            description: List of values you wish to add to the category. Values must exist in the main Category first. Send an empty array if you wish to remove all values from the category.
+                      description: ''
+                    content_rule_profile_id:
+                      type: string
+                      description: ID of the content rule profile assigned to the video.
+                    segments:
+                      type: array
+                      items:
+                        $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1segments/post/requestBody/content/application~1json/schema/properties/segment'
+                      description: ''
+                    images_attributes:
+                      type: array
+                      items:
+                        type: object
+                        title: Image Attribute
+                        properties:
+                          id:
+                            type: string
+                            description: Used to update an existing image. When it's not specified, a new image will be created.
+                          title:
+                            type: string
+                          caption:
+                            type: string
+                          layout:
+                            type: string
+                          height:
+                            type: number
+                          width:
+                            type: number
+                          aspect_ratio:
+                            type: number
+                          _destroy:
+                            type: boolean
+                            description: True if you want to remove the image
+                      description: ''
+                    related_videos_attributes:
+                      description: List of videos that are linked(aka related) to the target video
+                      type: array
+                      items:
+                        type: object
+                        title: Related Video
+                        properties:
+                          id:
+                            type: string
+                            description: Used to update an existing related video relation. When it's not specified, a new related video will be created.
+                          linked_video_id:
+                            type: string
+                            description: The id of the video that is being related to the target one.
+                          source:
+                            type: string
+                            description: Represents the Source of the related video
+                          source_id:
+                            type: string
+                            description: Represents the Source ID of the related video
+                          group:
+                            type: string
+                            description: Represents the Group of the related video
+                          _destroy:
+                            type: boolean
+                            description: True if you want to remove the related video
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: VideoResponse
+                type: object
+                properties:
+                  response:
+                    title: Video
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      deleted_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      on_air:
+                        type: boolean
+                      purchase_price:
+                        type: number
+                        description: Amount to purchase the video
+                      purchase_required:
+                        type: boolean
+                        description: Indicates if the video must be purchased before viewing
+                      rating:
+                        type: number
+                        description: Overall rating of the video
+                      related_playlist_ids:
+                        type: array
+                        items:
+                          type: number
+                        description: IDs of related playlists
+                      rental_duration:
+                        type: number
+                        description: Number of days video can be rented
+                      rental_price:
+                        type: number
+                        description: Price to rent video
+                      rental_required:
+                        type: boolean
+                        description: Indicates if video must be rented before viewing
+                      request_count:
+                        type: number
+                        description: Number of times a video has been requested
+                      site_id:
+                        type: string
+                      status:
+                        type: string
+                      crunchyroll_id:
+                        type: string
+                        description: ID of Crunchyroll source
+                      hulu_id:
+                        type: string
+                        description: ID of Hulu source
+                      mrss_id:
+                        type: string
+                        description: ID of MRSS source
+                      kaltura_id:
+                        type: string
+                        description: ID of Kaltura source
+                      vimeo_id:
+                        type: string
+                        description: ID of the Vimeo source
+                      youtube_id:
+                        type: string
+                        description: ID of the YouTube source
+                      thumbnails:
+                        type: array
+                        items:
+                          type: object
+                        description: Thumbnails attached to the video
+                      transcoded:
+                        type: boolean
+                        description: Indicates if video has been transcoded
+                      video_zobjects:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      active:
+                        type: boolean
+                      discovery_url:
+                        type: string
+                      subscription_ads_enabled:
+                        type: boolean
+                      title:
+                        type: string
+                      zobject_ids:
+                        type: array
+                        items:
+                          type: string
+                        description: ''
+                      country:
+                        type: string
+                      description:
+                        type: string
+                      short_description:
+                        type: string
+                      disable_at:
+                        type: string
+                      enable_at:
+                        type: string
+                      episode:
+                        type: number
+                      season:
+                        type: number
+                      featured:
+                        type: boolean
+                      friendly_title:
+                        type: string
+                      keywords:
+                        type: array
+                        items:
+                          type: string
+                        description: ''
+                      live_event:
+                        type: boolean
+                        description: Indicates if the video is a live event
+                      marketplace_ids:
+                        type: object
+                        description: Override default Marketplace IDs for this video. Marketplace IDs map Zype purchaseable products to 3rd party marketplaces such as Apple iTunes and Google Play Store.
+                      preview_ids:
+                        type: array
+                        items:
+                          type: string
+                        description: An array of Zype hosted video ids that are previews for the current video.
+                      mature_content:
+                        type: boolean
+                      parental_guidelines_rating:
+                        type: string
+                        description: Parental guidance rating of the video
+                      pass_required:
+                        type: boolean
+                      published_at:
+                        type: string
+                      subscription_required:
+                        type: boolean
+                      registration_required:
+                        type: boolean
+                        description: Requires a consumer to be registered and authenticated to a valid account in order to view the video.
+                      custom_attributes:
+                        type: object
+                      categories_attributes:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      content_rule_profile_id:
+                        type: string
+                        description: ID of the content rule profile assigned to the video.
+                      segments:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      images_attributes:
+                        type: array
+                        items:
+                          type: object
+                        description: ''
+                      manifest:
+                        type: string
+                        description: URL to HLS manifest for video. Only included in response if params[:manifest] = true
+                      video_source_types:
+                        type: array
+                        items:
+                          type: object
+                        description: The types of video sources that are associated with the video.
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}:
+    get:
+      tags:
+      - Videos
+      summary: View Video
+      description: Retrieve a single video from your library
+      operationId: getVideo
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: zobject_details
+        in: query
+        description: Setting to `true` will display the full Zobject details, including any custom attributes, for each video record returned in your query.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: manifest
+        in: query
+        description: Setting to `true` will result in inclusion of the video's HLS manifest URL in the response.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: include_related_videos
+        $ref: '#/paths/~1videos/get/parameters/26'
+      - name: expand_related_videos
+        $ref: '#/paths/~1videos/get/parameters/27'
+      responses:
+        '200':
+          description: Return video
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+    put:
+      tags:
+      - Videos
+      summary: Update Video
+      description: Update a single video from your library
+      operationId: updateVideo
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1videos/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Update video
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+    delete:
+      tags:
+      - Videos
+      summary: Delete Video
+      operationId: deleteVideo
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Video deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+  /videos/ai_metadata/suggestions:
+    post:
+      tags:
+      - Videos
+      summary: Bulk Create AI Metadata
+      description: Generate AI metadata for multiple videos in bulk
+      operationId: bulkCreateAIMetadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - video_ids
+              properties:
+                video_ids:
+                  type: array
+                  description: List of video IDs to generate AI metadata for
+                  items:
+                    type: string
+                  example:
+                  - 507f1f77bcf86cd799439011
+                  - 60d5ec49ebdc3c1e9f1b5aaa
+                attributes:
+                  type: array
+                  description: 'List of AI metadata attributes to generate. Valid values: title, friendly_title, description, short_description, keywords, genre'
+                  items:
+                    type: string
+                    enum:
+                    - title
+                    - friendly_title
+                    - description
+                    - short_description
+                    - keywords
+                    - genre
+                  example:
+                  - title
+                  - keywords
+                prompt_context_id:
+                  type: string
+                  description: ID of the prompt context to use when generating AI metadata
+                  example: 507f1f77bcf86cd799439011
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: AIMetadataBulkCreateResponse
+                type: object
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/ai_metadata/suggestions:
+    post:
+      tags:
+      - Videos
+      summary: Create AI Metadata
+      description: Generate AI metadata for a video
+      operationId: createAIMetadata
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attributes:
+                  type: array
+                  description: 'List of AI metadata attributes to generate. Valid values: title, friendly_title, description, short_description, keywords, genre'
+                  items:
+                    type: string
+                    enum:
+                    - title
+                    - friendly_title
+                    - description
+                    - short_description
+                    - keywords
+                    - genre
+                  example:
+                  - title
+                  - keywords
+                prompt_context_id:
+                  type: string
+                  description: ID of the prompt context to use when generating AI metadata
+                  example: 507f1f77bcf86cd799439011
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: AIMetadataCreateResponse
+                type: object
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/ai_metadata/suggestions/{session_id}:
+    get:
+      tags:
+      - Videos
+      summary: Get AI Metadata
+      description: Retrieve a specific AI metadata session for a video
+      operationId: getAIMetadata
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: session_id
+        in: path
+        description: ID of the AI metadata session
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: AIMetadataGetResponse
+                type: object
+        '404':
+          description: Video or AI metadata session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/ai_metadata/suggestions/{session_id}/apply:
+    post:
+      tags:
+      - Videos
+      summary: Apply AI Metadata
+      description: Apply the AI-generated metadata from a session to a video
+      operationId: applyAIMetadata
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: session_id
+        in: path
+        description: ID of the AI metadata session
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: AIMetadataApplyResponse
+                type: object
+        '404':
+          description: Video or AI metadata session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/add_zobjects:
+    put:
+      summary: Add Zobject(s)
+      description: Add one or multiple Zobjects to your video
+      tags:
+      - Videos
+      operationId: addZobject
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of video
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ZobjectsRequest
+              required:
+              - zobject_id
+              type: object
+              properties:
+                zobject_id:
+                  type: array
+                  description: Array of Zobject IDs
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Add Zobjects to video
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /videos/{id}/remove_zobjects:
+    put:
+      tags:
+      - Videos
+      summary: Remove Zobject
+      description: Remove one or multiple Zobjects from your video
+      operationId: removeZobject
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1videos~1%7Bid%7D~1add_zobjects/put/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Video
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/download:
+    get:
+      tags:
+      - Videos
+      summary: Download Video
+      description: Download the original source file for your video
+      operationId: downloadVideo
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns URL and Filesize of Video
+          content:
+            application/json:
+              schema:
+                title: DownloadResponse
+                type: object
+                properties:
+                  response:
+                    title: VideoDownloadData
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        description: URL to use to download your video
+                      filesize:
+                        type: number
+                        format: int32
+                        description: size of the video file
+                    example:
+                      url: https://zype-upload-prod.s3.amazonaws.com/uploads/57ae371e72289b0d7d00100e/upload.mp4?AWSAccessKeyId=REDACTED_AWS_ACCESS_KEY_ID&Expires=1472064425&Signature=K8rgZ7X8A5ayqW1miUx%2FC4oxytM%3D
+                      filesize: 63851164
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/ad_timings:
+    get:
+      tags:
+      - Videos
+      summary: List Ad Timings
+      description: List Ad Timings for each Ad-Timeable Data Source
+      operationId: listAdTimings
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response will be an array of objects representing Ad Timings for each Data Source.
+          content:
+            application/json:
+              schema:
+                title: AdTimingsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      title: AdTimingPerDataSource
+                      type: object
+                      properties:
+                        data_source_id:
+                          type: string
+                        ad_timings:
+                          type: array
+                          items:
+                            $ref: '#/paths/~1videos~1%7Bid%7D~1data_sources~1%7Bdata_source_id%7D~1ad_timings/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/data_sources/{data_source_id}/ad_timings:
+    get:
+      tags:
+      - Videos
+      summary: List Ad Timings for Single Data Source
+      description: List Ad Timings for single Ad-Timeable Data Source
+      operationId: listAdTimingsSingleDataSource
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: data_source_id
+        in: path
+        description: ID of data source
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response will be an array containing Ad Timings for the selected data source.
+          content:
+            application/json:
+              schema:
+                title: AdTimingsSingleDataSourceResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1videos~1%7Bid%7D~1data_sources~1%7Bdata_source_id%7D~1ad_timings/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+        '404':
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+    post:
+      tags:
+      - Videos
+      summary: Create Ad Timing
+      description: Create new Ad Timing on Data Source
+      operationId: createAdTiming
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: data_source_id
+        in: path
+        description: ID of data source
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: AdTimingRequest
+              type: object
+              required:
+              - ad_timing
+              properties:
+                ad_timing:
+                  title: AdTimingProperties
+                  type: object
+                  properties:
+                    time:
+                      type: number
+                      description: Start time (in seconds).
+                    milliseconds:
+                      type: number
+                      description: Start time (in milliseconds).
+                    duration:
+                      type: number
+                      description: Duration (in seconds).
+                    duration_milliseconds:
+                      type: number
+                      description: Duration (in milliseconds).
+                    ad_placement_id:
+                      type: string
+                      description: Unique identifier for the ad placement location.
+      responses:
+        '201':
+          description: Response will be an single object representing New Ad Timing.
+          content:
+            application/json:
+              schema:
+                title: AdTimingResponse
+                type: object
+                properties:
+                  response:
+                    title: AdTiming
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      type:
+                        type: string
+                      time:
+                        type: number
+                        description: Time in seconds when ad will be played.
+                      mode:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/data_sources/{data_source_id}/ad_timings/{ad_timing_id}:
+    get:
+      tags:
+      - Videos
+      summary: View Ad Timing
+      description: Retrieve a single Ad Timing from your Video/Data Source
+      operationId: getAdTiming
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: data_source_id
+        in: path
+        description: ID of Data Source
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: ad_timing_id
+        in: path
+        description: ID of Ad Timing
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response will be an single object representing the selected Ad Timing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bid%7D~1data_sources~1%7Bdata_source_id%7D~1ad_timings/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Ad Timing not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+    put:
+      tags:
+      - Videos
+      summary: Update Ad Timing
+      description: Update a single Ad Timing
+      operationId: updateAdTiming
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: data_source_id
+        in: path
+        description: ID of Data Source
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: ad_timing_id
+        in: path
+        description: ID of Ad Timing
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1videos~1%7Bid%7D~1data_sources~1%7Bdata_source_id%7D~1ad_timings/post/requestBody/content/application~1json/schema'
+      responses:
+        '204':
+          description: Response will be an single object representing the updated Ad Timing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bid%7D~1data_sources~1%7Bdata_source_id%7D~1ad_timings/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Ad Timing not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+    delete:
+      tags:
+      - Videos
+      summary: Destroy Ad Timing
+      description: Destroy a single Ad Timing
+      operationId: destroyAdTiming
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: data_source_id
+        in: path
+        description: ID of Data Source
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: ad_timing_id
+        in: path
+        description: ID of Ad Timing
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response will be an single object representing the updated Ad Timing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bid%7D~1data_sources~1%7Bdata_source_id%7D~1ad_timings/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Ad Timing not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+  /videos/{id}/video_sources:
+    get:
+      summary: List Video Sources for a Video
+      description: ''
+      tags:
+      - Videos
+      operationId: listVideoSourcesForVideo
+      parameters:
+      - name: id
+        in: path
+        description: ID of video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1video_sources/get/responses/200/content/application~1json/schema'
+  /videos/self_hosted:
+    post:
+      tags:
+      - Videos
+      summary: Create Self Hosted Video
+      description: Create and add a Self Hosted Video to your library
+      operationId: createSelfHostedVideo
+      parameters: []
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: SelfHostedVideoRequest
+              type: object
+              required:
+              - video
+              properties:
+                video:
+                  title: SelfHostedVideoProperties
+                  required:
+                  - title
+                  - url
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                      description: URL to self hosted video file.
+                    title:
+                      type: string
+                      description: Title of the video
+                    description:
+                      type: string
+                      description: Full length description of the video
+                    auto_add:
+                      type: boolean
+                      description: Indicates if the video should be automatically added to the library
+                    auto_active:
+                      type: boolean
+                      description: Indicates if the video should be automatically set to active
+                    live_event:
+                      type: boolean
+                      description: Indicates if the video is a live event
+                    enable_at:
+                      type: string
+                      description: Timestamp of when your video will become active
+                    disable_at:
+                      type: string
+                      description: Timestamp of when your video will become inactive
+                    on_air_at:
+                      type: string
+                      description: Timestamp of when your video will go on air
+                    off_air_at:
+                      type: string
+                      description: Timestamp of when your video will go off air
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/post/responses/201/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{video_id}/self_hosted:
+    get:
+      tags:
+      - Videos
+      summary: List Self Hosted Video Data Sources
+      description: Retrieve a list of self-hosted video data sources
+      operationId: listSelfHostedVideoDataSources
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response will contain an array of data sources
+          content:
+            application/json:
+              schema:
+                title: SelfHostedVideoDataSourceResponse
+                type: object
+                properties:
+                  response:
+                    title: SelfHostedVideoDataSource
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      active:
+                        type: boolean
+                      duration:
+                        type: number
+                        description: Video duration
+                      files:
+                        type: array
+                        items:
+                          type: object
+                          title: files
+                          properties:
+                            aspect_ratio:
+                              type: number
+                            height:
+                              type: number
+                            width:
+                              type: number
+                            type:
+                              type: string
+                            url:
+                              type: string
+                        description: ''
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+    post:
+      tags:
+      - Videos
+      summary: Create a Self Hosted Video Data Source
+      description: Add a data source to a self-hosted video
+      operationId: createSelfHostedVideoDataSource
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: SelfHostedVideoDataSourceRequest
+              type: object
+              required:
+              - video
+              properties:
+                video:
+                  title: SelfHostedVideoDataSourceProperties
+                  type: object
+                  properties:
+                    active:
+                      type: boolean
+                    files:
+                      type: array
+                      items:
+                        type: object
+                        title: files
+                        properties:
+                          url:
+                            type: string
+                      description: ''
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1self_hosted/get/responses/200/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /videos/{video_id}/self_hosted/{data_source_id}:
+    get:
+      tags:
+      - Videos
+      summary: View Self Hosted Video Data Source
+      operationId: getSelfHostedVideoDataSource
+      parameters:
+      - name: data_source_id
+        in: path
+        description: ID of the data source
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1self_hosted/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Video Data Source Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+    put:
+      tags:
+      - Videos
+      summary: Update Self Hosted Video Data Source
+      operationId: updateSelfHostedVideoDataSource
+      parameters:
+      - name: data_source_id
+        in: path
+        description: ID of the data source
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1self_hosted/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1self_hosted/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Video Data Source Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+      deprecated: false
+    delete:
+      tags:
+      - Videos
+      summary: Delete Self Hosted Video Data Source
+      operationId: deleteSelfHostedVideoDataSource
+      parameters:
+      - name: data_source_id
+        in: path
+        description: ID of the data source
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: video_id
+        in: path
+        description: ID of the video
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Self Hosted Video Data Source deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos~1%7Bvideo_id%7D~1self_hosted/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Self Hosted Video Data Source Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+      deprecated: false
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

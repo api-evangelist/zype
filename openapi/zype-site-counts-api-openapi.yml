@@ -1,0 +1,207 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V2) Site Counts API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Site Counts
+paths:
+  /v2/site_counts:
+    get:
+      x-server-name: analytics-api
+      summary: List Site Counts Data
+      description: This endpoint returns analytics data showing how your OTT business changes over time.
+      tags:
+      - Site Counts
+      operationId: site-counts
+      parameters:
+      - name: interval
+        in: query
+        schema:
+          type: string
+          enum:
+          - day
+          - week
+          - month
+          - year
+          default: day
+        required: true
+        description: 'Group records by time intervals. Accepted values: `day`, `week`, `month`, `year`.'
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - subscriptions
+            - transactions
+            - playlists
+            - plans
+            - consumers
+            - apps
+            - uploads
+            - videos
+            - video_imports
+            - categories
+            - mrr_sum
+        description: 'Grouping by an array of Site Count properties will return the counts and deltas for each time interval. Accepted properties are: `subscriptions`, `transactions`, `playlists`, `plans`, `consumers`, `apps`, `uploads`, `videos`, `video_imports`, `categories`, `mrr_sum`'
+      - name: percentages
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - subscriptions
+            - transactions
+            - playlists
+            - plans
+            - consumers
+            - apps
+            - uploads
+            - videos
+            - video_imports
+            - categories
+            - mrr_sum
+        description: To be used with `group_by`. Returns delta percentages per time interval for each property listed. Properties must be in 'group_by' array as well as 'percentages' array. Same list of properties is accepted
+      - name: sort_by
+        in: query
+        schema:
+          type: string
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SiteCountsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: Site Count
+                      type: object
+                      properties:
+                        start_date:
+                          type: string
+                        consumers_count:
+                          type: number
+                        consumers_delta:
+                          type: number
+                        consumers_percentage_delta:
+                          type: number
+                        subscriptions_count:
+                          type: number
+                        subscriptions_delta:
+                          type: number
+                        subscriptions_percentage_delta:
+                          type: number
+                        uploads_count:
+                          type: number
+                        uploads_delta:
+                          type: number
+                        uploads_percentage_delta:
+                          type: number
+                        playlists_count:
+                          type: number
+                        playlists_delta:
+                          type: number
+                        playlists_percentage_delta:
+                          type: number
+                        plans_count:
+                          type: number
+                        plans_delta:
+                          type: number
+                        plans_percentage_delta:
+                          type: number
+                        transactions_count:
+                          type: number
+                        transactions_delta:
+                          type: number
+                        transactions_percentage_delta:
+                          type: number
+                        apps_count:
+                          type: number
+                        apps_delta:
+                          type: number
+                        apps_percentage_delta:
+                          type: number
+                        videos_count:
+                          type: number
+                        videos_delta:
+                          type: number
+                        videos_percentage_delta:
+                          type: number
+                        video_imports_count:
+                          type: number
+                        video_imports_delta:
+                          type: number
+                        video_imports_percentage_delta:
+                          type: number
+                        categories_count:
+                          type: number
+                        categories_delta:
+                          type: number
+                        categories_percentage_delta:
+                          type: number
+                        mrr_sum_count:
+                          type: number
+                        mrr_sum_delta:
+                          type: number
+                        mrr_sum_percentage_delta:
+                          type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v2~1consumers/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

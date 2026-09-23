@@ -1,0 +1,408 @@
+openapi: 3.2.0
+info:
+  title: Live (V3) Live Events API
+  version: 1.0.0
+  description: Live (V3) API for managing live streaming encoders
+servers:
+- url: https://api.zype.com
+security:
+- api_key: []
+tags:
+- name: Live Events
+paths:
+  /live_events:
+    get:
+      summary: List Live Events
+      description: ''
+      tags:
+      - Live Events
+      operationId: listLiveEvents
+      parameters:
+      - name: title
+        in: query
+        schema:
+          type: string
+        description: Filter by title
+      - name: encoder_id
+        in: query
+        schema:
+          type: string
+        description: 'Filter by the ID of the encoder. Example: `encoder_id=5992f328ce593000ef000008`'
+      - name: event_type
+        in: query
+        schema:
+          type: string
+        description: Filter by the type of event (`linear`, `on-demand`)
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 'Filter by ID
+
+          Example: `id=5992f328ce593000ef000008`'
+      - name: created_at
+        in: query
+        schema:
+          type: string
+        description: 'Filter records by created date using times in ISO8601 format (Example: `2017-01-01T00:00:00-00:00`) or Unix timestamps (Example: `1483228800`) **Note**: Range filters can be applied by adding a suffix: ‘.gt’, ‘.gte’, ‘.lt’, ‘lte’ (Example: `created_at.gte`)'
+      - name: active
+        in: query
+        required: false
+        description: Filter by active, inactive, or all.  If excluded, query will default to 'true'
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - 'true'
+          - 'false'
+          - all
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Filter by ascending or descending order
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sort on the specified field
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: LiveEventsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema/properties/response'
+    post:
+      summary: Create Live Event
+      tags:
+      - Live Events
+      operationId: createLiveEvent
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: LiveEventRequest
+              type: object
+              required:
+              - live_event
+              properties:
+                live_event:
+                  type: object
+                  title: LiveEventProperties
+                  required:
+                  - title
+                  properties:
+                    title:
+                      type: string
+                      description: Give your event a descriptive title
+                    description:
+                      type: string
+                    event_type:
+                      type: string
+                      description: Must be one of `linear` or `on-demand`. `linear` events have a sliding DVR window and are recommended for 24/7 events. `on-demand` events have a fixed DVR window and are recommended for scheduled events.
+                    on_air_at:
+                      type: string
+                      description: The date and time the event will begin broadcasting. If you do not include a time, then you will need to start the event yourself.
+                    off_air_at:
+                      type: string
+                      description: The date and time the event will end. If you do not include a time, then you will need to end the event yourself.
+                    subscription_required:
+                      type: boolean
+                      description: Determines if your event requires a subscription to view.
+                    pass_required:
+                      type: boolean
+                      description: Determines if your event requires a pass to view.
+                    purchase_required:
+                      type: boolean
+                      description: Determines if your event must be purchased to view.
+                    rental_required:
+                      type: boolean
+                      description: Determines if your event must be rented to view.
+                    rental_duration:
+                      type: boolean
+                      description: Number of days your event can be rented.
+                    encoder_id:
+                      type: string
+                      description: The id of the encoder that should be used to broadcast your event.
+                    auto_archive:
+                      type: boolean
+                      description: Determines if your event should automatically be archived once the event ends. You can archive your event as well using the `archive` endpoint.
+                    auto_manage_encoder:
+                      type: boolean
+                      description: Determines if you will manage your encoder (turn it on/off) and or if Zype will manage your encoders.
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: LiveEventResponse
+                type: object
+                properties:
+                  response:
+                    title: Live Event
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      event_type:
+                        type: string
+                      on_air_at:
+                        type: string
+                      off_air_at:
+                        type: string
+                      subscription_required:
+                        type: boolean
+                      pass_required:
+                        type: boolean
+                      purchase_required:
+                        type: boolean
+                      rental_required:
+                        type: boolean
+                      rental_duration:
+                        type: boolean
+                      encoder_id:
+                        type: string
+                      auto_archive:
+                        type: boolean
+                      auto_manage_encoder:
+                        type: boolean
+                      encoder_url:
+                        type: string
+                      backup_encoder_url:
+                        type: string
+                      encoder_username:
+                        type: string
+                      encoder_password:
+                        type: string
+                      player_embed:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                title: Unprocessable Entity
+                type: object
+                properties:
+                  message:
+                    type: string
+  /live_events/{id}:
+    get:
+      summary: View Live Event
+      tags:
+      - Live Events
+      operationId: getLiveEvent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of live event
+      responses:
+        '200':
+          description: Return a live event
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live event not found
+          content:
+            application/json:
+              schema:
+                title: NotFound
+                type: object
+                required:
+                - message
+                properties:
+                  message:
+                    type: string
+    put:
+      summary: Update live event
+      tags:
+      - Live Events
+      operationId: updateLiveEvent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of live event
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1live_events/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete live event
+      tags:
+      - Live Events
+      operationId: deleteLiveEvent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of live event
+      responses:
+        '204':
+          description: Live event deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+  /live_events/{id}/start:
+    put:
+      summary: Start broadcasting a live event
+      description: Use this endpoint to start broadcasting your live event.
+      tags:
+      - Live Events
+      operationId: startLiveEvent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of live event
+      responses:
+        '200':
+          description: Live event was successfully started
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+  /live_events/{id}/stop:
+    put:
+      summary: Stop broadcasting a live event
+      description: Use this endpoint to end broadcasting your live event.
+      tags:
+      - Live Events
+      operationId: stopLiveEvent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of live event
+      responses:
+        '200':
+          description: Live event was successfully ended
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+  /live_events/{id}/archive:
+    put:
+      summary: Archive a live event
+      description: Use this endpoint to archive your live event. Only perform this action once your event has ended.
+      tags:
+      - Live Events
+      operationId: archiveLiveEvent
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of live event
+      responses:
+        '200':
+          description: Live event was successfully archived
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Live event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1live_events~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

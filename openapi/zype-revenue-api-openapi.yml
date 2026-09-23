@@ -1,0 +1,646 @@
+openapi: 3.2.0
+info:
+  title: Analytics (V3) Revenue API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://analytics.zype.com
+security:
+- api_key: []
+tags:
+- name: Revenue
+paths:
+  /v3/revenue/subscriptions:
+    get:
+      x-server-name: analytics-api
+      summary: List New Subscriptions
+      description: This endpoint will return new subscription analytics data for your property.
+      tags:
+      - Revenue
+      operationId: new-subscriptions-v3
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[discount_percent_gt]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `discount_percent` is greater than the specified value.
+      - name: filters[discount_percent_gte]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `discount_percent` is greater than or equal to the specified value.
+      - name: filters[discount_percent_lt]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `discount_percent` is less than the specified value`.
+      - name: filters[discount_percent_lte]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `discount_percent` is less than or equal to the specified value.
+      - name: filters[discount_percent_eq]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `discount_percent` is equal to the specified value`.
+      - name: filters[discount_amount_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `discount_amount` is greater than the specified value.
+      - name: filters[discount_amount_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `discount_amount` is greater than or equal to the specified value.
+      - name: filters[discount_amount_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `discount_amount` is less than the specified value.
+      - name: filters[discount_amount_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `discount_amount` is less than or equal to the specified value.
+      - name: filters[discount_amount_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `discount_amount` is equal to the specified value.
+      - name: filters[discount_duration_months_gt]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `discount_duration_months` is greater than the specified value.
+      - name: filters[discount_duration_months_gte]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `discount_duration_months` is greater than or equal to the specified value.
+      - name: filters[discount_duration_months_lt]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `discount_duration_months` is less than the specified value.
+      - name: filters[discount_duration_months_lte]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `discount_duration_months` is less than or equal to the specified value.
+      - name: filters[discount_duration_months_eq]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `discount_duration_months` is equal to the specified value.
+      - name: filters[trial_period_days_gt]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `trial_period_days` is greater than the specified value.
+      - name: filters[trial_period_days_gte]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `trial_period_days` is greater than or equalt to the specified value.
+      - name: filters[trial_period_days_lt]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `trial_period_days` is less than the specified value.
+      - name: filters[trial_period_days_lte]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `trial_period_days` is less than or equal to the specified value.
+      - name: filters[trial_period_days_eq]
+        in: query
+        schema:
+          type: integer
+        description: Filter records where `trial_period_days` is equal to the specified value.
+      - name: filters[amount_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is greater than the specified value.
+      - name: filters[amount_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is greater than or equal to the specified value.
+      - name: filters[amount_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is less than the specified value.
+      - name: filters[amount_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is less than or equal to the specified value.
+      - name: filters[amount_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is equal to the specified value.
+      - name: filters[interval_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - month
+          - year
+          - lifetime
+        description: Filter records by subscription interval. Accepted values are `month`, `year`, and `lifetime`.
+      - name: filters[currency_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `currency`.
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `consumer_email`.
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `consumer_id`.
+      - name: filters[plan_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `plan_id`.
+      - name: filters[name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by consumer `name`.
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+          - week
+          - month
+          - year
+        description: 'Group records by time intervals. Accepted values: `day`, `week`, `month`, `year`.'
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - interval
+            - coupon_code
+            - discount_percent
+            - discount_duration_months
+            - discount_duration
+            - discount_amount
+            - currency
+            - amount
+            - trial_period_days
+            - name
+            - consumer_email
+            - consumer_id
+            - plan_id
+            - start_date
+        description: 'Group by an array of properties. Accepted properties are: `interval`, `coupon_code`, `discount_percent`, `discount_duration_months`, `discount_duration`, `discount_amount`, `currency`, `amount`, `trial_period_days`, `name`, `consumer_email`, `consumer_id`, `plan_id`, `start_date`'
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - interval_asc
+          - interval_desc
+          - coupon_code_asc
+          - coupon_code_desc
+          - discount_percent_asc
+          - discount_percent_desc
+          - discount_duration_months_asc
+          - discount_duration_months_desc
+          - discount_duration_asc
+          - discount_duration_desc
+          - discount_amount_asc
+          - discount_amount_desc
+          - currency_asc
+          - currency_desc
+          - trial_period_days_asc
+          - trial_period_days_desc
+          - name_asc
+          - name_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - consumer_id_asc
+          - consumer_id_desc
+          - plan_id_asc
+          - plan_id_desc
+          - start_date_asc
+          - start_date_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SubscriptionsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: SubscriptionAnalytics
+                      type: object
+                      properties:
+                        interval:
+                          type: string
+                        coupon_code:
+                          type: string
+                        discount_percent:
+                          type: number
+                        discount_duration_months:
+                          type: integer
+                        discount_duration:
+                          type: number
+                        discount_amount:
+                          type: number
+                        currency:
+                          type: string
+                        amount:
+                          type: string
+                        trial_period_days:
+                          type: integer
+                        name:
+                          type: string
+                        consumer_email:
+                          type: string
+                        consumer_id:
+                          type: string
+                        plan_id:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/revenue/subscription_events:
+    get:
+      x-server-name: analytics-api
+      summary: List Subscription Events
+      description: This endpoint will counts of subscription creations, trials started, pauses, and cancellations for your property
+      tags:
+      - Revenue
+      operationId: subscriptionevents-v3
+      parameters:
+      - name: filters[start_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date]=2021-03-09)
+        required: true
+      - name: filters[end_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `end_date`.
+        required: true
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+        description: Group records by day
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SubscriptionEventsResponse
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties: true
+                    properties:
+                      date:
+                        title: SubscriptionEventsByDate
+                        type: object
+                        properties:
+                          active_created_count:
+                            type: number
+                          trial_created_count:
+                            type: number
+                          cancelled_count:
+                            type: number
+                          paused_count:
+                            type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/revenue/subscription_revenue:
+    get:
+      x-server-name: analytics-api
+      summary: List Subscription Revenue
+      description: 'This endpoint will return subscription revenue data for your property, optionally grouped by day, for the date range supplied in filters[start_date] and filters[end_date]. The aggregate or daily data will be rendered as:
+
+        "2021-03-01": { currency_code1: amount1, currency_code2: amount2 }
+
+        where currency_code is a standard ISO 4217 code (USD, CAD, etc), and amount is a number representing the quantity of the given currency.'
+      tags:
+      - Revenue
+      operationId: subscriptionrevenue-v3
+      parameters:
+      - name: filters[start_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date]=2021-03-09)
+        required: true
+      - name: filters[end_date]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `end_date`.
+        required: true
+      - name: interval
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - day
+        description: Group records by day
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: SubscriptionRevenueResponse
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      currencies:
+                        type: array
+                        items:
+                          type: string
+                          description: Currency Codes represented in Subscription Revenue
+                      revenue:
+                        type: object
+                        additionalProperties: true
+                        properties:
+                          date:
+                            title: SubscriptionRevenueByDate
+                            type: object
+                            additionalProperties: true
+                            properties:
+                              currency_code:
+                                type: number
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+  /v3/revenue/transactions:
+    get:
+      x-server-name: analytics-api
+      summary: List New Transactions
+      description: This endpoint will return new transaction analytics data for your property.
+      tags:
+      - Revenue
+      operationId: new-transactions-v3
+      parameters:
+      - name: filters[start_date_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created after the specified `start_date` (filters[start_date_gte]=2018-11-01). If no `start_date` is specified, then data returned will date back two weeks ago.
+      - name: filters[start_date_gte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or after the specified `start_date`.
+      - name: filters[start_date_lt]
+        in: query
+        schema:
+          type: string
+        description: Filter records created before the specified `start_date`.
+      - name: filters[start_date_lte]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on or before the specified `start_date`.
+      - name: filters[start_date_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records created on the specified `start_date`. Comparison is date and time specific. If no time values are submitted, 00:00:00 UTC is assumed.
+      - name: filters[amount_percent_gt]
+        in: query
+        schema:
+          type: string
+        description: Filter records where `amount` is greater than the specified value.
+      - name: filters[amount_gte]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is greater than or equal to the specified value.
+      - name: filters[amount_lt]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is less than the specified value`.
+      - name: filters[amount_lte]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is less than or equal to the specified value.
+      - name: filters[amount_eq]
+        in: query
+        schema:
+          type: number
+        description: Filter records where `amount` is equal to the specified value`.
+      - name: filters[purchase_type_eq]
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - purchase
+          - rental
+          - pass
+        description: Filter records by transaction type. Accepted values are `purchase`, `rental`, and `pass`.
+      - name: filters[currency_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `currency`.
+      - name: filters[consumer_email_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `consumer_email`.
+      - name: filters[consumer_id_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by `consumer_id`.
+      - name: filters[consumer_name_eq]
+        in: query
+        schema:
+          type: string
+        description: Filter records by consumer `name`.
+      - name: group_by
+        in: query
+        schema:
+          type: array
+          items:
+            type:
+            - string
+            - 'null'
+            enum:
+            - null
+            - åconsumer_id
+            - name
+            - amount
+            - start_date
+            - consumer_email
+            - transaction_type
+            - transaction_id
+        description: 'Group by an array of properties. Accepted properties are: `consumer_id`, `name`, `amount`, `start_date`, `consumer_email`, `transaction_type`, `transaction_id`'
+      - name: counts
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        description: Return count of records per grouping. Using counts = ["*"] for generic count of all records in grouping, response will include `request_count`.
+      - name: sort_by
+        in: query
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - null
+          - start_date_asc
+          - start_date_desc
+          - amount_asc
+          - amount_desc
+          - consumer_email_asc
+          - consumer_email_desc
+          - currency_asc
+          - currency_desc
+          - name_asc
+          - name_desc
+          - transaction_type_asc
+          - transaction_type_desc
+        description: Sort results by value of a specific property + '_' + sort direction (Example - sort_by=start_date_asc, or sort_by=consumer_email_desc)
+      responses:
+        '200':
+          description: See below for example responses
+          content:
+            application/json:
+              schema:
+                title: TransactionsResponse
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      title: TransactionAnalytics
+                      type: object
+                      properties:
+                        transaction_id:
+                          type: string
+                        transaction_type:
+                          type: string
+                        consumer_id:
+                          type: string
+                        currency:
+                          type: string
+                        consumer_email:
+                          type: string
+                        name:
+                          type: string
+                        amount:
+                          type: string
+                        start_date:
+                          type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1engagement~1plays/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

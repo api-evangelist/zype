@@ -1,0 +1,83 @@
+openapi: 3.2.0
+info:
+  title: Global content rule groups API
+  version: 1.0.0
+  description: 'Site-scoped **content rule groups** and the read-only **global content rule groups** catalog.
+
+
+    ReadMe maps `info.title` to the API **category** and each operation''s **first** `tags` entry to a **page** under that category, then `summary` lines as endpoint subpages. After upload you should see this OpenAPI file powering the Content rule groups section.'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Global content rule groups
+  description: Read-only platform catalog shared across all sites.
+paths:
+  /v3/global_content_rule_groups:
+    get:
+      tags:
+      - Global content rule groups
+      summary: List global content rule groups
+      description: Retrieve the platform global content rule group catalog.
+      operationId: listGlobalContentRuleGroups
+      parameters: []
+      responses:
+        '200':
+          description: Response will contain an array of global content rule groups, ordered by name (case-insensitive).
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1content_rule_groups/get/responses/200/content/application~1json/schema'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema'
+  /v3/global_content_rule_groups/{id}:
+    get:
+      tags:
+      - Global content rule groups
+      summary: View global content rule group
+      description: 'Retrieve a single global content rule group by id from the platform catalog.
+
+        Read-only. Same response shape as custom content rule groups.'
+      operationId: getGlobalContentRuleGroup
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the global content rule group (from the catalog).
+      responses:
+        '200':
+          description: Return global content rule group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1content_rule_groups/post/responses/201/content/application~1json/schema'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema'
+        '404':
+          description: Global content rule group not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1v3~1content_rule_groups/get/responses/403/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

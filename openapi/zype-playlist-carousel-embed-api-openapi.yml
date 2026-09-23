@@ -1,0 +1,40 @@
+openapi: 3.2.0
+info:
+  title: Player Playlist Carousel Embed API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://player.zype.com
+security:
+- api_key: []
+tags:
+- name: Playlist Carousel Embed
+paths:
+  /playlists/{playlist_id}/carousel.format:
+    get:
+      summary: View Playlist Carousel Embed
+      description: 'The full URL will look like https://player.zype.com/playlists/[playlist_id]/carousel.[format]. The format for the player response must be one of Iframes, JavaScript (Example: html, js). Use a consumer''s access token or your site''s API/App/Player keys to authenticate this call.'
+      tags:
+      - Playlist Carousel Embed
+      operationId: getPlaylistCarouselEmbed
+      parameters:
+      - name: playlist_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of playlist
+      responses:
+        '200':
+          description: The HTML or JS carousel embed script will be returned
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

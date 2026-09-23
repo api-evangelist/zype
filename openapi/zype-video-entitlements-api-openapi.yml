@@ -1,0 +1,324 @@
+openapi: 3.2.0
+info:
+  title: Consumers Video Entitlements API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Video Entitlements
+paths:
+  /videos/{video_id}/entitled:
+    get:
+      tags:
+      - Video Entitlements
+      summary: Check Video Entitlement
+      operationId: checkVideoEntitlement
+      parameters:
+      - name: video_id
+        in: path
+        description: ID of the video entitlement
+        required: true
+        style: simple
+        schema:
+          type: string
+      - name: access_token
+        in: query
+        description: OAuth token of a consumer
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: CheckVideoEntitlementResponse
+                type: object
+                properties:
+                  message:
+                    type: string
+        '422':
+          description: Consumer does not have access
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+      deprecated: false
+  /consumers/{consumer_id}/videos:
+    get:
+      summary: List Video Entitlements
+      description: ''
+      tags:
+      - Video Entitlements
+      operationId: listVideoEntitlements
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      responses:
+        '200':
+          description: Response will contain an array of video entitlements
+          content:
+            application/json:
+              schema:
+                title: VideoEntitlementsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    title: Pagination
+                    type: object
+                    properties:
+                      current:
+                        type: number
+                        format: int32
+                        description: The current page of results
+                      previous:
+                        type:
+                        - number
+                        - 'null'
+                        format: int32
+                        description: the previous page of results
+                      next:
+                        type:
+                        - number
+                        - 'null'
+                        format: int32
+                        description: the next page of results
+                      per_page:
+                        type: number
+                        format: int32
+                        description: the number of results returned per page
+                      pages:
+                        type: number
+                        format: int32
+                        description: the total number of pages available, using per_page
+                    example:
+                      current: 1
+                      previous: null
+                      next: 2
+                      per_page: 10
+                      pages: 20
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+    post:
+      summary: Create video entitlement
+      description: ''
+      tags:
+      - Video Entitlements
+      operationId: createVideoEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ''
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: VideoEntitlementRequest
+              type: object
+              properties:
+                entitlement:
+                  required:
+                  - video_id
+                  type: object
+                  title: VideoEntitlementProperties
+                  properties:
+                    video_id:
+                      type: string
+                      description: ID of the video you wish the consumer to have access to
+                    transaction_id:
+                      type: string
+                      description: ID of the transaction that happened to allow the consumer to have access to the video
+                    transaction_type:
+                      type: string
+                      description: 'Type of transaction (Example: purchase)'
+                    expires_at:
+                      type: string
+                      description: When the entitlement expires
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: VideoEntitlementResponse
+                type: object
+                properties:
+                  response:
+                    title: VideoEntitlement
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      consumer_id:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      expires_at:
+                        type: string
+                      transaction_id:
+                        type: string
+                      transaction_type:
+                        type: string
+                      video_title:
+                        type: string
+                      video_id:
+                        type: string
+        '404':
+          description: Consumer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+  /consumers/{consumer_id}/videos/{id}:
+    get:
+      summary: View Video Entitlement
+      description: ''
+      tags:
+      - Video Entitlements
+      operationId: viewVideoEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the video entitlement
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Entitlement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Video Entitlement
+      description: ''
+      tags:
+      - Video Entitlements
+      operationId: updateVideoEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the video entitlement
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Entitlement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Video Entitlement
+      description: ''
+      tags:
+      - Video Entitlements
+      operationId: deleteVideoEntitlement
+      parameters:
+      - name: consumer_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the consumer whose video entitlements will be retrieved
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the video entitlement
+      responses:
+        '204':
+          description: Video Entitlement successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers~1%7Bconsumer_id%7D~1videos/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Entitlement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

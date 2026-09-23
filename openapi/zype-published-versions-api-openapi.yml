@@ -1,0 +1,80 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Published Versions API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Published Versions
+paths:
+  /scheduler/v1/channels/{id}/published:
+    get:
+      summary: View Channel's Published
+      description: ''
+      tags:
+      - Published Versions
+      operationId: getPlayoutSchedulerChannelPublished
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: startsAt
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Timestamp to filter timeline. It will return items after the given time
+      responses:
+        '200':
+          description: Return a channel including it's published information
+          content:
+            application/json:
+              schema:
+                title: ChannelWithPublishedResponse
+                type: object
+                properties:
+                  channel:
+                    type: object
+                    title: ChannelWithPublished
+                    properties:
+                      id:
+                        type: string
+                      created_at:
+                        type: string
+                      startAt:
+                        type: string
+                      stopAt:
+                        type: string
+                      title:
+                        type: string
+                      live:
+                        type: boolean
+                      publishedAt:
+                        type: string
+                      fallbackSlateId:
+                        type: string
+                      publishedVersion:
+                        type: object
+                        properties:
+                          createdAt:
+                            type: string
+                          scheduleSet:
+                            $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1operations/post/responses/201/content/application~1json/schema/properties/operation/properties/newScheduleSet'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

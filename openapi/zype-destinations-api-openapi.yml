@@ -1,0 +1,555 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Destinations API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Destinations
+paths:
+  /scheduler/v1/types:
+    get:
+      summary: List Destination Types
+      description: ''
+      operationId: getDestinationTypes
+      tags:
+      - Destinations
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      responses:
+        '200':
+          description: Destination Types response
+          content:
+            application/json:
+              schema:
+                title: DestinationTypesResponse
+                type: object
+                properties:
+                  destinationTypes:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v1~1types~1%7Bid%7D/get/responses/200/content/application~1json/schema/properties/destinationType'
+                    description: ''
+                  pagination:
+                    title: PlayoutSchedulerPagination
+                    type: object
+                    properties:
+                      perPage:
+                        type: number
+                        format: int32
+                        description: the number of results returned per page
+                      page:
+                        type: number
+                        format: int32
+                        description: The current page of results
+                      totalPages:
+                        type: number
+                        format: int32
+                        description: the total number of pages available, using per_page
+                      count:
+                        type: number
+                        format: int32
+                        description: the quantity of results on the current page
+                    example:
+                      perPage: 100
+                      page: 1
+                      totalPages: 3
+                      count: 100
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                title: Unprocessable Entity
+                type: object
+                properties:
+                  message:
+                    type: string
+  /scheduler/v1/types/{id}:
+    get:
+      summary: View Destination Type
+      description: ''
+      tags:
+      - Destinations
+      operationId: getDestinationType
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Destination Type
+      responses:
+        '200':
+          description: Return a destination type
+          content:
+            application/json:
+              schema:
+                title: DestinationTypeResponse
+                type: object
+                properties:
+                  destinationType:
+                    type: object
+                    title: Destination Type
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      type:
+                        type: string
+        '404':
+          description: Destination type not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/destinations:
+    get:
+      summary: List Destinations
+      description: ''
+      operationId: getChannelsDestinations
+      tags:
+      - Destinations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      responses:
+        '200':
+          description: Destinations response
+          content:
+            application/json:
+              schema:
+                title: DestinationsResponse
+                type: object
+                properties:
+                  destinations:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1destinations/post/responses/201/content/application~1json/schema/properties/destination'
+                  pagination:
+                    $ref: '#/paths/~1scheduler~1v1~1types/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Destination
+      description: ''
+      tags:
+      - Destinations
+      operationId: createChannelDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the Channel
+      x-codegen-request-body-name: destination
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: DestinationRequest
+              type: object
+              required:
+              - name
+              - channelId
+              - enabled
+              - destinationTypeId
+              - staticUrlDelivery
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                channelId:
+                  type: string
+                enabled:
+                  type: boolean
+                  default: true
+                ssaiEnabled:
+                  type: boolean
+                  default: false
+                adInsertionServers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      slateId:
+                        type: string
+                      queryParams:
+                        type: string
+                        description: Depending on your ADS, you can specify custom ad parameters to send in the request to your ad provider. These parameters help to identify the playback session and viewer so that ads can be more targeted.
+                      url:
+                        type: string
+                        description: Also known as ADS. This is typically a VAST-compliant tag URL generated by your ad provider. This is the tag URL used by this channel when inserting ad breaks into the manifest.
+                      prefetch:
+                        type: object
+                        properties:
+                          enabled:
+                            type: boolean
+                            description: Enables ad prefetch in ssai enabled destinations.  Allows for consistent playback of ads.
+                          retrieval:
+                            type: number
+                            description: Prefetch Retrieval Time (seconds)
+                      customCdnUrl:
+                        type: string
+                        description: Custom CDN url
+                      deviceCategory:
+                        type: string
+                        enum:
+                        - default
+                        - web
+                        - mobile
+                        - tv
+                      availSuppressionConfig:
+                        type: object
+                        title: AvailSuppressionConfig
+                        description: 'Controls ad break (avail) suppression relative to the live edge. When mode is OFF, other fields are ignored. For BEHIND_LIVE_EDGE or AFTER_LIVE_EDGE, `value` is required (HH:MM:SS, e.g. `00:45:00`). For BEHIND_LIVE_EDGE, `fillPolicy` is always normalized to FULL_AVAIL_ONLY. For AFTER_LIVE_EDGE, `fillPolicy` must be FULL_AVAIL_ONLY or PARTIAL_AVAIL.
+
+                          '
+                        properties:
+                          mode:
+                            type: string
+                            enum:
+                            - 'OFF'
+                            - BEHIND_LIVE_EDGE
+                            - AFTER_LIVE_EDGE
+                          value:
+                            type: string
+                            description: Offset from the live edge in HH:MM:SS format (required when mode is BEHIND_LIVE_EDGE or AFTER_LIVE_EDGE).
+                            example: 00:45:00
+                          fillPolicy:
+                            type: string
+                            enum:
+                            - FULL_AVAIL_ONLY
+                            - PARTIAL_AVAIL
+                            description: Required when mode is AFTER_LIVE_EDGE. Ignored for BEHIND_LIVE_EDGE (API uses FULL_AVAIL_ONLY).
+                distributionTarget:
+                  type: string
+                  description: Human-readable name of the distribution target (e.g., YouTube, Pluto TV, Samsung TV Plus)
+                destinationTypeId:
+                  type: number
+                  format: int32
+                staticUrlDelivery:
+                  type: boolean
+                  default: false
+                  description: Enable static URL delivery for destinations that require syndication URLs with dynamic query parameters removed from master and child manifests.
+                queryParams:
+                  type: string
+                  description: You can specify custom query parameters and static values that will be appended to to all traffic for an HLS destination. These custom query params can also propagated downstream to SSAI providers on ad requests.
+                streamOutputSettings:
+                  type: object
+                  description: Only for Hulu (UDP) destinations
+                  properties:
+                    streamId:
+                      type: string
+                      description: The stream ID that is set in the Zixi receiver.
+                    destinationIp:
+                      type: string
+                      description: 'Destination IP address. Sample format: 192.0.2.0'
+                    maxLatency:
+                      type: number
+                      description: 'Maximum latency - optional. The size of the buffer (in ms) that you want. Valid range: 0-60,000. Valid characters: 0-9'
+                    port:
+                      type: number
+                rtmpSettings:
+                  type: object
+                  description: Only for RTMP destinations
+                  properties:
+                    outputResolution:
+                      type: string
+                      enum:
+                      - 1080p
+                      - 720p
+                    primaryUrl:
+                      type: string
+                      description: Primary Destination URL
+                    backupUrl:
+                      type: string
+                      description: Backup Destination URL
+                    streamKey:
+                      type: string
+                      description: Stream Key or Stream Name
+                    authEnabled:
+                      type: boolean
+                      description: User Authentication
+                    username:
+                      type: string
+                    password:
+                      type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: DestinationResponse
+                type: object
+                properties:
+                  destination:
+                    type: object
+                    title: Destination
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      channelId:
+                        type: string
+                      ssaiEnabled:
+                        type: boolean
+                      enabled:
+                        type: boolean
+                      type:
+                        type: string
+                      settings:
+                        type: object
+                        properties:
+                          version:
+                            type: number
+                          adMarkers:
+                            type: string
+                          queryParams:
+                            type: string
+                          settingsVersion:
+                            type: number
+                          hlsSegmentDuration:
+                            type: number
+                          manifestBitrateOrder:
+                            type: string
+                          audioNormalizationRequired:
+                            type: boolean
+                          hlsLivePlaylistWindowDuration:
+                            type: number
+                      distributionTarget:
+                        type: string
+                        description: Human-readable name of the distribution target (e.g., YouTube, Pluto TV, Samsung TV Plus)
+                      destinationTypeName:
+                        type: string
+                      queryParams:
+                        type: string
+                      description:
+                        type: string
+                      url:
+                        type: string
+                        description: Destination playback URL (only for HLS destinations)
+                      adInsertionServers:
+                        type: array
+                        items:
+                          type: object
+                          title: AdInsertionServer
+                          properties:
+                            id:
+                              type: string
+                            deviceCategory:
+                              type: string
+                              enum:
+                              - default
+                              - ott
+                              - tablet
+                              - mobile
+                              - tv
+                            slateId:
+                              type: string
+                            queryParams:
+                              type: string
+                            url:
+                              type: string
+                            prefetch:
+                              type: object
+                              properties:
+                                enabled:
+                                  type: boolean
+                                retrieval:
+                                  type: number
+                            logging:
+                              type: object
+                              properties:
+                                percentage:
+                                  type: number
+                                expiration:
+                                  type: number
+                            availSuppressionConfig:
+                              $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1destinations/post/requestBody/content/application~1json/schema/properties/adInsertionServers/items/properties/availSuppressionConfig'
+                      streamOutputSettings:
+                        type: object
+                        description: Only for Hulu (UDP) destinations
+                        properties:
+                          streamId:
+                            type: string
+                          destinationIp:
+                            type: string
+                          maxLatency:
+                            type: number
+                          port:
+                            type: number
+                      rtmpSettings:
+                        type: object
+                        description: Only for RTMP destinations
+                        properties:
+                          outputResolution:
+                            type: string
+                            enum:
+                            - 1080p
+                            - 720p
+                          primaryUrl:
+                            type: string
+                          backupUrl:
+                            type: string
+                          streamKey:
+                            type: string
+                          authEnabled:
+                            type: boolean
+                          username:
+                            type: string
+                          password:
+                            type: string
+                      staticUrlDelivery:
+                        type: boolean
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/destinations/{destinationId}:
+    get:
+      summary: View Destination
+      description: ''
+      tags:
+      - Destinations
+      operationId: getChannelDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: destinationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel Destination
+      responses:
+        '200':
+          description: Return a channel destination
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1destinations/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Channel destination not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    delete:
+      summary: Delete Destination
+      description: ''
+      tags:
+      - Destinations
+      operationId: deleteChannelDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: destinationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel Destination
+      responses:
+        '200':
+          description: Channel destination deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Channel destination not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Destination
+      description: ''
+      tags:
+      - Destinations
+      operationId: updateChannelDestination
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: destinationId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel Destination
+      x-codegen-request-body-name: destination
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1destinations/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: Channel destination updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1destinations/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Channel destination not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

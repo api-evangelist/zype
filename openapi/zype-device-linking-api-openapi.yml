@@ -1,0 +1,184 @@
+openapi: 3.2.0
+info:
+  title: Consumers Device Linking API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Device Linking
+paths:
+  /pin/status:
+    get:
+      summary: Retrieve Device Pin
+      description: ''
+      tags:
+      - Device Linking
+      operationId: getPinStatus
+      parameters:
+      - name: linked_device_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Unique ID of the user's device
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/200/content/application~1json/schema'
+        '404':
+          description: Device Pin not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+  /pin/acquire:
+    post:
+      summary: Acquire Device Pin
+      description: ''
+      tags:
+      - Device Linking
+      operationId: acquireDevicePin
+      parameters:
+      - name: linked_device_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Unique ID of the user's device
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/200/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1consumers/get/responses/422/content/application~1json/schema'
+  /pin/link:
+    put:
+      summary: Link Device Pin
+      description: ''
+      tags:
+      - Device Linking
+      operationId: linkDevicePin
+      parameters:
+      - name: consumer_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: ID of consumer to link device to
+      - name: pin
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The value for the acquired device pin
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: DevicePinResponse
+                type: object
+                properties:
+                  response:
+                    title: DevicePin
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      consumer_id:
+                        description: ''
+                        type: string
+                      created_at:
+                        description: ''
+                        type: string
+                      deleted_at:
+                        description: ''
+                        type: string
+                      linked_device_id:
+                        description: ''
+                        type: string
+                      pin:
+                        description: ''
+                        type: string
+                      pin_expiration:
+                        description: ''
+                        type: string
+                      updated_at:
+                        description: ''
+                        type: string
+                      linked true:
+                        description: ''
+                        type: boolean
+                      subscription_count:
+                        description: ''
+                        type: number
+        '404':
+          description: Device Pin not found
+          content:
+            application/json:
+              schema:
+                title: NotFound
+                type: object
+                required:
+                - message
+                properties:
+                  message:
+                    type: string
+  /pin/unlink:
+    put:
+      summary: Unlink Device Pin
+      description: ''
+      tags:
+      - Device Linking
+      operationId: unlinkDevicePin
+      parameters:
+      - name: consumer_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: ID of consumer to link device to
+      - name: pin
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The value for the acquired device pin
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/200/content/application~1json/schema'
+        '404':
+          description: Device Pin not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1pin~1link/put/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

@@ -1,0 +1,318 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler Recurrence Rules API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Recurrence Rules
+paths:
+  /scheduler/v2/recurrence_rules:
+    get:
+      summary: List Recurrence Rules
+      description: ''
+      tags:
+      - Recurrence Rules
+      operationId: getRecurrenceRules
+      parameters:
+      - name: channelId
+        in: query
+        schema:
+          type: string
+        description: channel id
+      - name: loadAsset
+        in: query
+        schema:
+          type: boolean
+        description: specify if to include asset title in response or not
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Page number to return, with per_page dictating page size
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Number of records to return per page
+      responses:
+        '200':
+          description: Return Recurrence Rules
+          content:
+            application/json:
+              schema:
+                title: RecurrenceRuleResponse
+                type: object
+                properties:
+                  recurrenceRules:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v2~1recurrence_rules/post/responses/201/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Recurrence Rule
+      description: ''
+      tags:
+      - Recurrence Rules
+      operationId: createRecurrenceRule
+      x-codegen-request-body-name: recurrenceRule
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: RecurrenceRuleRequest
+              required:
+              - recurrenceRule
+              properties:
+                recurrenceRule:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Determine the title of the rule
+                    channelId:
+                      type: string
+                      description: Specify the channel id
+                    active:
+                      type: boolean
+                      description: Specify if rule will be active or not.
+                    assetId:
+                      type: string
+                      description: Specify the asset, that needs to be used for the rule
+                    assetType:
+                      type: string
+                      description: Specify the type of asset, for which rule is being applied
+                    startDate:
+                      type: string
+                      description: Specify the start date from when recurrence rule will be applied
+                    endDate:
+                      type: string
+                      description: Specify the end date when recurrence rule will end
+                    trackName:
+                      type: string
+                      default: baseTrack
+                      enum:
+                      - baseTrack
+                      - priorityTrack
+                      description: Track name on which assets should be dropped for the rule.
+                    repetition:
+                      type: object
+                      properties:
+                        time:
+                          type: string
+                          description: Specify the time in 24-hour format, at which the content will be scheduled
+                        interval:
+                          type: array
+                          description: Specify the interval days on which rule will be applied
+                          items:
+                            type: number
+                        frequency:
+                          type: string
+                          enum:
+                          - monthly
+                          - weekly
+                          description: Specify the type of frequency monthly/weekly
+                        zone:
+                          type: string
+                          description: Specify the timezone, based on which rule timing will be applied
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                title: RecurrenceRule
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  channelId:
+                    type: string
+                  active:
+                    type: boolean
+                  assetType:
+                    type: string
+                  startDate:
+                    type: string
+                  endDate:
+                    type: string
+                  repetition:
+                    type: object
+                    properties:
+                      time:
+                        type: string
+                      interval:
+                        type: array
+                        items:
+                          type: number
+                      frequency:
+                        type: string
+                        enum:
+                        - monthly
+                        - weekly
+                      zone:
+                        type: string
+                  trackName:
+                    type: string
+                    enum:
+                    - baseTrack
+                    - priorityTrack
+                  assetTitle:
+                    type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v2/recurrence_rules/{id}:
+    get:
+      summary: View Recurrence Rule
+      description: ''
+      tags:
+      - Recurrence Rules
+      operationId: getRecurrenceRule
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Recurrence Rule
+      responses:
+        '200':
+          description: Return an Recurrence Rule
+          content:
+            application/json:
+              schema:
+                title: RecurrenceRuleResponse
+                type: object
+                properties:
+                  recurrenceRule:
+                    $ref: '#/paths/~1scheduler~1v2~1recurrence_rules/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Recurrence Rule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    delete:
+      summary: Delete Recurrence Rule
+      description: ''
+      tags:
+      - Recurrence Rules
+      operationId: deleteRecurrenceRule
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Recurrence Rule
+      responses:
+        '200':
+          description: Recurrence Rule deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Recurrence Rule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    put:
+      summary: Update Recurrence Rule
+      description: ''
+      tags:
+      - Recurrence Rules
+      operationId: updateRecurrenceRule
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Recurrence Rule
+      x-codegen-request-body-name: recurrenceRule
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: RecurrenceRuleUpdateRequest
+              properties:
+                recurrenceRule:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Determine the title of the rule
+                    active:
+                      type: boolean
+                      description: Specify if rule will be active or not.
+                    startDate:
+                      type: string
+                      description: Specify the start date from when recurrence rule will be applied
+                    endDate:
+                      type: string
+                      description: Specify the end time when recurrence rule will end
+                    repetition:
+                      type: object
+                      properties:
+                        time:
+                          type: string
+                          description: Specify the template time to know the hour/minute/second you want to schedule the content on each ocurrence
+                        interval:
+                          type: array
+                          description: Specify the interval days on which rule will be applied
+                          items:
+                            type: number
+                scope:
+                  type: string
+                  description: Which items do you want to apply the new update on all future items or un-modified items
+                  enum:
+                  - future_items
+                  - unmodified_items
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1recurrence_rules~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Recurrence Rule id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

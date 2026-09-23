@@ -1,0 +1,886 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler EPG API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: EPG
+paths:
+  /scheduler/v1/channels/{id}/published/rundown:
+    get:
+      summary: JSON Rundown EPG
+      description: Use this endpoint to get the published JSON EPG
+      tags:
+      - EPG
+      operationId: getPlayoutSchedulerChannelPublishedJsonRundownEPG
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Timestamp in milliseconds of beginning of interval (defaults to current timestamp)
+      - name: hours
+        in: query
+        required: false
+        description: Number of hours of the interval to calculate
+        schema:
+          type: number
+          default: 24
+          maximum: 24
+          minimum: 1
+      - name: mode
+        in: query
+        schema:
+          type: string
+          default: full
+          enum:
+          - full
+          - hybrid
+          - slim
+        required: false
+        description: 'full return every item without grouping them in collections.
+
+          hybrid return items grouped into collections and single assets.
+
+          slim return only collections.'
+      responses:
+        '200':
+          description: Return's a channel published version's rundown
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1channels~1%7Bid%7D~1draft~1rundown/get/responses/200/content/application~1json/schema'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v1/channels/{id}/published/rundown/xmltv.xml:
+    get:
+      summary: View Channel's Published Rundown XMLTV format
+      description: This endpoint provides access to EPG data in XMLTV format. XMLTV is a standardized XML-based format for exchanging TV listings and EPG data. This endpoint allows you to retrieve comprehensive and structured information about scheduled TV programs, including program names, descriptions, start times, end times, channels, and more. The response will contain the EPG data in XMLTV format, which you can parse and use to display TV program listings in your application.
+      tags:
+      - EPG
+      operationId: channelXMLTVEPG
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: date_format
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - unix
+          - iso8601
+          - yyyymmddhhmm
+          - yyyymmddHHmmss
+          - yyyymmddHHmm
+          - yyyymmdd
+        description: Different representation of programme's tag start and stop
+      - name: with_time_zone
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: If true, adds UTC timezone in programme's tag start and stop
+      - name: mode
+        in: query
+        schema:
+          type: string
+          default: full
+          enum:
+          - full
+          - hybrid
+          - slim
+        required: false
+        description: 'full return every item without grouping them in collections.
+
+          hybrid return items grouped into collections and single assets.
+
+          slim return only collections.'
+      - name: custom_thumbnail
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses the custom thumbnail from the Assets when they have one.
+      responses:
+        '200':
+          description: Return a channel including it's published information
+          content:
+            application/xml:
+              schema:
+                title: NotFound
+                type: object
+                properties:
+                  xml:
+                    type: string
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/channels/{id}/epg/vizio:
+    get:
+      summary: Vizio EPG
+      description: ''
+      operationId: getVizioEPG
+      tags:
+      - EPG
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: custom_thumbnail
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses the custom thumbnail from the Assets when they have one.
+      responses:
+        '200':
+          description: Return vizio epg for next 7 days
+          content:
+            application/json:
+              schema:
+                title: Vizio EPG
+                type: object
+                properties:
+                  availabilityFeed:
+                    type: object
+                    properties:
+                      sourceId:
+                        type: string
+                        description: Vizio provided source id
+                      lineups:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Playout channel id
+                            channels:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  channelNumber:
+                                    type: string
+                                    description: Playout channel id
+                                  stationId:
+                                    type: string
+                                    description: Playout channel id
+                      schedules:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            lineupId:
+                              type: string
+                              description: Playout channel id
+                            scheduledContent:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  stationId:
+                                    type: string
+                                    description: Playout channel id
+                                  schedule:
+                                    type: object
+                                    properties:
+                                      start:
+                                        type: string
+                                        format: date-time
+                                        description: Start time of the asset
+                                      end:
+                                        type: string
+                                        format: date-time
+                                        description: End time of the asset
+                                  production:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: string
+                                        description: Asset id
+                                      scope:
+                                        type: string
+                                        description: Scope of the asset
+                                  offering:
+                                    type: object
+                                    properties:
+                                      id:
+                                        type: integer
+                                      payStructure:
+                                        type: string
+                                        description: Type of pay structure for the following asset
+                  configurationFeed:
+                    type: object
+                    properties:
+                      source:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: Vizio provided source id
+                          name:
+                            type: string
+                            description: Site title and Channel name
+                  contentFeed:
+                    type: object
+                    properties:
+                      sourceId:
+                        type: string
+                        description: Vizio provided source id
+                      productions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            songTitle:
+                              type: string
+                              description: The title of the asset.
+                            id:
+                              type: integer
+                              description: Asset id.
+                            productionType:
+                              type: string
+                              description: The type of the production, e.g. "MusicVideo".
+                            primaryTitle:
+                              type: object
+                              properties:
+                                localizedStrings:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      rawLocale:
+                                        type: string
+                                        description: The raw locale of the string, e.g. "en-US".
+                                      text:
+                                        type: string
+                                        description: Asset title.
+                              description: The primary title of the asset.
+                            primaryDescription:
+                              type: object
+                              properties:
+                                localizedStrings:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      rawLocale:
+                                        type: string
+                                        description: The raw locale of the string, e.g. "en-US".
+                                      text:
+                                        type: string
+                                        description: Asset description.
+                              description: The primary description of the asset.
+                            contentRatings:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    description: Contains asset parental rating type and value.
+                                  ratingBody:
+                                    type: string
+                                    description: The rating body that issued the rating, e.g. "MPAA".
+                                  otherRatingBody:
+                                    type: string
+                                    description: If asset parental rating is not MPAA, then this field is used
+                                  rating:
+                                    type: string
+                                    description: Asset parental rating
+                                  isExplicit:
+                                    type: boolean
+                                    description: Is asset a mature content
+                      stations:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Playout channel id
+                            stationType:
+                              type: string
+                              description: Returns station type e.g. "VideoStation"
+                            primaryTitle:
+                              type: object
+                              properties:
+                                localizedStrings:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      rawLocale:
+                                        type: string
+                                        description: The raw locale of the string, e.g. "en-US".
+                                      text:
+                                        type: string
+                                        description: Channel title.
+                              description: The primary title of the channel.
+                            primaryDescription:
+                              type: object
+                              properties:
+                                localizedStrings:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      rawLocale:
+                                        type: string
+                                        description: The raw locale of the string, e.g. "en-US".
+                                      text:
+                                        type: string
+                                        description: Channel description.
+                              description: The primary description of the channel.
+                            contentRatings:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    description: Contains channel parental rating type and value.
+                                  ratingBody:
+                                    type: string
+                                    description: The rating body that issued the rating, e.g. "MPAA".
+                                  rating:
+                                    type: string
+                                    description: Channel parental rating
+                                  isExplicit:
+                                    type: boolean
+                                    description: Does channel contains mature content
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/channels/{id}/epg/tcl:
+    get:
+      summary: Tcl EPG
+      description: ''
+      operationId: getTclEPG
+      tags:
+      - EPG
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: custom_thumbnail
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses the custom thumbnail from the Assets when they have one.
+      responses:
+        '200':
+          description: Return tcl epg for next 7 days
+          content:
+            application/json:
+              schema:
+                title: Tcl EPG
+                type: object
+                properties:
+                  channelId:
+                    type: string
+                    description: Playout channel id
+                  streamUrl:
+                    type: string
+                    description: Playout channel stream url
+                  title:
+                    type: string
+                    description: Playout channel title
+                  description:
+                    type: string
+                    description: Playout channel description
+                  category:
+                    type: string
+                    description: Playout channel category, which is LIVE
+                  language:
+                    type: string
+                    description: Playout channel language
+                  avaAreas:
+                    type: array
+                    description: Playout channel availability countries
+                  isPay:
+                    type: string
+                  onLine:
+                    type: string
+                  poster_vertical:
+                    type: string
+                    description: Playout channel thumbnail url
+                  videos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Asset id
+                        streamUrl:
+                          type: string
+                          description: Asset streaming url
+                        title:
+                          type: string
+                          description: Asset title
+                        category:
+                          type: string
+                          description: Asset category values
+                        language:
+                          type: string
+                          description: Asset language
+                        avaAreas:
+                          type: array
+                          description: Playout channel availability countries
+                        description:
+                          type: string
+                          description: Asset description
+                        duration:
+                          type: string
+                          description: Asset duration
+                        isPay:
+                          type: string
+                        onLine:
+                          type: string
+                        poster_vertical:
+                          type: string
+                          description: asset thumbnail url
+                  programList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        programId:
+                          type: string
+                          description: Rundown item ariring id
+                        startTime:
+                          type: string
+                          description: Asset start time
+                        endTime:
+                          type: string
+                          description: Asset end time
+                        title:
+                          type: string
+                          description: Asset title
+                        type:
+                          type: string
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/channels/{id}/epg/wurl:
+    get:
+      summary: Wurl EPG
+      description: ''
+      operationId: getWurlEPG
+      tags:
+      - EPG
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: custom_thumbnail
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses the custom thumbnail from the Assets when they have one.
+      responses:
+        '200':
+          description: Return Wurl epg for next 7 days
+          content:
+            application/json:
+              schema:
+                title: Wurl EPG
+                type: object
+                properties:
+                  channel:
+                    type: object
+                    description: The Wurl channel EPG.
+                    properties:
+                      title:
+                        type: string
+                        description: Wurl channel title.
+                      wurl_channel_slug:
+                        type: string
+                        description: Channel slug used to identify the channel in Wurl.
+                      broadcast_url:
+                        type: string
+                        description: Channel Streaming URL.
+                      language:
+                        type: string
+                        description: Channel Language.
+                      programs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                              description: Program key. It will match with Playout video id.
+                            external_id:
+                              type: string
+                              description: Program external id. It will match with Wurl program key.
+                            title:
+                              type: string
+                              description: Program title.
+                            content_type:
+                              type: string
+                              description: It will be "episode" when the channel is a series episode. Otherwise it will be "shortFormVideo".
+                            release_date:
+                              type: string
+                              format: date
+                              description: Program release date.
+                            short_description:
+                              type: string
+                              description: Video description.
+                            description:
+                              type: string
+                              description: Video description.
+                            thumbnails:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                    description: Thumbnail image URL
+                                  width:
+                                    type: number
+                                    description: Thumbnail image width
+                                  height:
+                                    type: number
+                                    description: Thumbnail image height
+                            series:
+                              type: object
+                              description: Program series information (only available when the program is a series episode).
+                              properties:
+                                title:
+                                  type: string
+                                  description: Series title.
+                                description:
+                                  type: string
+                                  description: Series description.
+                                season:
+                                  type: object
+                                  properties:
+                                    number:
+                                      type: number
+                                      description: Series Season number.
+                                    episode_number:
+                                      type: number
+                                      description: Program Episode number.
+                      events:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            program_key:
+                              type: string
+                              description: Program key. It will match with one of listed programs.
+                            time_slot:
+                              type: string
+                              format: date-time
+                              description: The timestamp when the event will air
+                            duration:
+                              type: number
+                              description: Event duration in seconds.
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+  /scheduler/v2/channels/{id}/epg/roku:
+    get:
+      summary: Roku EPG
+      description: ''
+      operationId: getRokuEPG
+      tags:
+      - EPG
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of Channel
+      - name: custom_thumbnail
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: If true, uses the custom thumbnail from the Assets when they have one.
+      responses:
+        '200':
+          description: Return roku epg for next 7 days
+          content:
+            application/json:
+              schema:
+                title: Roku EPG
+                type: object
+                properties:
+                  providerName:
+                    type: string
+                  lastUpdated:
+                    type: string
+                  language:
+                    type: string
+                  liveFeeds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        brandedThumbnail:
+                          type: string
+                        shortDescription:
+                          type: string
+                        longDescription:
+                          type: string
+                        validityPeriodStart:
+                          type: string
+                        validityPeriodEnd:
+                          type: string
+                        advisoryRatings:
+                          type: object
+                          properties:
+                            source:
+                              type: string
+                            value:
+                              type: string
+                        genres:
+                          type: array
+                        tags:
+                          type: string
+                        content:
+                          type: object
+                          properties:
+                            dateAdded:
+                              type: string
+                              description: The date the liveFeed was added to the library in the ISO 8601 format {YYYY}-{MM}-{DD}T{hh}:{mm}:{ss}+{TZ}. E.g. 2015-11-11T22:21:37+00:00 This information is used to generate the “Recently Added” category.
+                            language:
+                              type: string
+                            validityPeriodStart:
+                              type: string
+                              description: The date when the content should become available in the ISO 8601 format {YYYY}-{MM}-{DD}T{hh}:{mm}:{ss}+{TZ}. E.g. 2018-11-11T22:21:37+00:00
+                            validityPeriodEnd:
+                              type: string
+                              description: same as validityPeriodStart
+                            schedule:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                durationInSeconds:
+                                  type: number
+                                isLive:
+                                  type: boolean
+                                date:
+                                  type: string
+                                  description: Scheduled date for program to play. All times are UTC. Format {YYYY}-{MM}-{DD}
+                                times:
+                                  type: array
+                                  description: An array of start times in the particular day the program will start [ "HH:MM:SS" ]
+                                attributes:
+                                  type: array
+                  movies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        externalIds:
+                          type: array
+                          items:
+                            allOf:
+                            - $ref: '#/paths/~1scheduler~1v2~1channels~1%7Bid%7D~1epg~1roku/get/responses/200/content/application~1json/schema/properties/tvSpecials/items/allOf/0'
+                            - type: object
+                              properties:
+                                genres:
+                                  type: string
+                                externalIds:
+                                  type: array
+                                  items:
+                                    $ref: '#/paths/~1scheduler~1v2~1channels~1%7Bid%7D~1epg~1roku/get/responses/200/content/application~1json/schema/properties/series/items/properties/externalIds/items'
+                  series:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        seasons:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              seasonNumber:
+                                type: number
+                              episodes:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    episodeNumber:
+                                      type: number
+                                    episodes:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          episodeNumber:
+                                            type: number
+                                          externalIds:
+                                            type: array
+                                            items:
+                                              $ref: '#/paths/~1scheduler~1v2~1channels~1%7Bid%7D~1epg~1roku/get/responses/200/content/application~1json/schema/properties/series/items/properties/externalIds/items'
+                        episodes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              episodeNumber:
+                                type: number
+                              episodes:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    episodeNumber:
+                                      type: number
+                                    externalIds:
+                                      type: array
+                                      items:
+                                        $ref: '#/paths/~1scheduler~1v2~1channels~1%7Bid%7D~1epg~1roku/get/responses/200/content/application~1json/schema/properties/series/items/properties/externalIds/items'
+                        externalIds:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              idType:
+                                type: string
+                                enum:
+                                - TMS
+                                - ROVI
+                                - IMDB
+                                - EIDR
+                  shortFormVideos:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/paths/~1scheduler~1v2~1channels~1%7Bid%7D~1epg~1roku/get/responses/200/content/application~1json/schema/properties/tvSpecials/items/allOf/0'
+                      - type: object
+                        properties:
+                          genres:
+                            type: string
+                  tvSpecials:
+                    type: array
+                    items:
+                      allOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                          title:
+                            type: string
+                          thumbnail:
+                            type: string
+                          releaseDate:
+                            type: string
+                          shortDescription:
+                            type: string
+                          credits:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                role:
+                                  type: string
+                                  enum:
+                                  - actor
+                                  - anchor
+                                  - host
+                                  - narrator
+                                  - voice
+                                  - director
+                                  - producer
+                                  - screenwriter
+                                birthrate:
+                                  type: string
+                                  description: birthdate in format yyyy-mm-dd
+                          advisoryRatings:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                source:
+                                  type: string
+                                  enum:
+                                  - BBFC
+                                  - CHVRS
+                                  - CPR
+                                  - MPAA
+                                  - USA_PR
+                                  - RTC
+                                value:
+                                  type: string
+                      - type: object
+                        properties:
+                          genres:
+                            type: string
+                          externalIds:
+                            type: array
+                            items:
+                              $ref: '#/paths/~1scheduler~1v2~1channels~1%7Bid%7D~1epg~1roku/get/responses/200/content/application~1json/schema/properties/series/items/properties/externalIds/items'
+        '404':
+          description: Channel not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

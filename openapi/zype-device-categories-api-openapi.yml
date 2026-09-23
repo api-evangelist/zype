@@ -1,0 +1,137 @@
+openapi: 3.2.0
+info:
+  title: Platform Device Categories API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Device Categories
+paths:
+  /device_categories:
+    get:
+      summary: List Devices Categories
+      description: ''
+      tags:
+      - Device Categories
+      operationId: listDeviceCategories
+      parameters:
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by title
+      - name: id
+        $ref: '#/paths/~1devices/get/parameters/1'
+      - name: created_at
+        $ref: '#/paths/~1devices/get/parameters/2'
+      - name: q
+        $ref: '#/paths/~1devices/get/parameters/3'
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: DeviceCategoriesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1device_categories~1%7Bid%7D/get/responses/200/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /device_categories/{id}:
+    get:
+      summary: View Device Category
+      description: ''
+      tags:
+      - Device Categories
+      operationId: getDeviceCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of device category
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: DeviceCategoryResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: DeviceCategory
+                    properties:
+                      _id:
+                        type: string
+                        description: 593030d54d740d0053000004
+                      _keywords:
+                        type: array
+                        items:
+                          type: string
+                      created_at:
+                        type: string
+                        description: '2014-09-29T15:23:47.302-04:00'
+                      image_content_type:
+                        type: string
+                        description: image/png
+                      image_file_name:
+                        type: string
+                        description: desktop.png
+                      image_file_size:
+                        type: string
+                        description: '19347'
+                      image_fingerprint:
+                        type: string
+                        description: a661d27f5003bcf1523f75e3686f6b24
+                      image_updated_at:
+                        type: string
+                        description: '2014-09-29T15:23:47.099-04:00'
+                      name:
+                        type: string
+                        description: Web
+                      updated_at:
+                        type: string
+                        description: '2014-09-29T15:23:47.302-04:00'
+        '404':
+          description: Device Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

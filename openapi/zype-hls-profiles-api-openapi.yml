@@ -1,0 +1,528 @@
+openapi: 3.2.0
+info:
+  title: Playout Scheduler HLS Profiles API
+  description: ''
+  version: '1.0'
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: HLS Profiles
+paths:
+  /scheduler/v1/profiles/hls:
+    get:
+      summary: List HLS Profiles
+      description: ''
+      tags:
+      - HLS Profiles
+      responses:
+        '200':
+          description: HLS Profiles response
+          content:
+            application/json:
+              schema:
+                title: HlsProfilesResponse
+                type: object
+                properties:
+                  profiles:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1scheduler~1v1~1profiles~1hls/post/responses/201/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+      operationId: getSchedulerV1ProfilesHls
+      x-operation-id-source: derived
+    post:
+      summary: Create HLS Profile
+      description: ''
+      tags:
+      - HLS Profiles
+      operationId: createHlsProfile
+      x-codegen-request-body-name: profile
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: HlsProfileRequest
+              properties:
+                code:
+                  type: string
+                  description: Determines the profile title that will be display in the UI.
+                programDateTimeClock:
+                  type: string
+                  enum:
+                  - INITIALIZE_FROM_OUTPUT_TIMECODE
+                  - SYSTEM_CLOCK
+                  description: Specifies the algorithm used to drive the HLS EXT-X-PROGRAM-DATE-TIME clock.
+                captionLanguageSetting:
+                  type: string
+                  enum:
+                  - INSERT
+                  - NONE
+                  description: When it's set to 'insert' it will include CLOSED-CAPTIONS lines in the manifest.
+                captionMappings:
+                  type: object
+                  title: HlsCaptionMapping
+                  properties:
+                    eiaChannelNumber:
+                      type: number
+                      description: Specifies the 608/708 channel number within the video track from which to extract captions. Must be a number between 1 and 4
+                    languageCode:
+                      type: string
+                    languageDescription:
+                      type: string
+                renditionGroups:
+                  type: object
+                  title: HlsRenditionGroup
+                  properties:
+                    name:
+                      type: string
+                    renditionType:
+                      type: string
+                      enum:
+                      - STANDARD_HLS
+                      - AUDIO_ONLY
+                      description: When it's set to 'AUDIO_ONLY' the rendition can only have audio tracks.
+                    captionDescriptionName:
+                      type: string
+                    audio:
+                      type: object
+                      title: AudioRenditionGroup
+                      properties:
+                        bitrate:
+                          type: number
+                          description: Average bitrate in bits/second.
+                        sampleRate:
+                          type: number
+                          description: Sample rate in Hz.
+                        audioNormalization:
+                          type: boolean
+                          description: Enable advanced audio normalization settings.
+                    video:
+                      type: object
+                      title: VideoRenditionGroup
+                      properties:
+                        codecProfile:
+                          type: string
+                        codecLevel:
+                          type: string
+                        width:
+                          type: number
+                        height:
+                          type: number
+                        framerate:
+                          type: number
+                          enum:
+                          - 10
+                          - 11.988
+                          - 12
+                          - 12.5
+                          - 14.985
+                          - 15
+                          - 23.976
+                          - 24
+                          - 25
+                          - 29.997
+                          - 30
+                          - 50
+                          - 59.94
+                          - 60
+                        bitrate:
+                          type: number
+                          description: Average bitrate in bits/second.
+                        gopSize:
+                          type: number
+                          description: GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits.
+                        gopUnits:
+                          type: string
+                          enum:
+                          - FRAMES
+                          - SECONDS
+                          description: Indicates if the gopSize is specified in frames or seconds.
+                        scalingBehavior:
+                          type: string
+                          enum:
+                          - DEFAULT
+                          - STRETCH_TO_OUTPUT
+                          description: STRETCH_TO_OUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
+                        bFrames:
+                          type: number
+                          description: Number of B-frames between reference frames. Must be a number between 0 and 7. Must be 0 when codecProfile is BASELINE.
+                        bFrameReference:
+                          type: string
+                          enum:
+                          - ENABLED
+                          - DISABLED
+                          description: If enabled, use reference B frames for GOP structures that have B frames > 1.
+                        entropyEncoding:
+                          type: string
+                          enum:
+                          - CABAC
+                          - CAVLC
+                          default: CABAC
+                          description: Entropy encoding mode for the H.264 stream. CABAC is only valid with MAIN or HIGH codec profiles; BASELINE requires CAVLC.
+                        adaptiveQuantization:
+                          type: string
+                          enum:
+                          - HIGH
+                          - AUTO
+                        lookAheadRateControl:
+                          type: string
+                          enum:
+                          - HIGH
+                          - MEDIUM
+                          description: Amount of lookahead.
+                        parControl:
+                          type: string
+                          enum:
+                          - SPECIFIED
+                          - INITIALIZE_FROM_SOURCE
+                          description: This field indicates how the output pixel aspect ratio is specified. If 'specified' is selected then the output video pixel aspect ratio is determined by parNumerator and parDenominator, else if 'initializeFromSource' is selected then the output pixsel aspect ratio will be set equal to the input video pixel aspect ratio of the first input.
+                        slices:
+                          type: number
+                          description: Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures. This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution. When it's present it must be a number between 1 and 32.
+                        refFrames:
+                          type: number
+                          description: Number of reference frames to use. Must be a number between 1 and 6.
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                title: HlsProfile
+                properties:
+                  id:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date
+                  siteId:
+                    type: string
+                  code:
+                    type: string
+                    description: Determines the profile title that will be display in the UI.
+                  programDateTimeClock:
+                    type: string
+                    enum:
+                    - INITIALIZE_FROM_OUTPUT_TIMECODE
+                    - SYSTEM_CLOCK
+                    description: Specifies the algorithm used to drive the HLS EXT-X-PROGRAM-DATE-TIME clock.
+                  captionLanguageSetting:
+                    type: string
+                    enum:
+                    - INSERT
+                    - NONE
+                    description: When it's set to 'insert' it will include CLOSED-CAPTIONS lines in the manifest.
+                  global:
+                    type: boolean
+                    description: Specifies whether the profile is global or scoped by site.
+                  captionMappings:
+                    type: object
+                    title: HlsCaptionMapping
+                    properties:
+                      id:
+                        type: string
+                      eiaChannelNumber:
+                        type: number
+                        description: Specifies the 608/708 channel number within the video track from which to extract captions. Must be a number between 1 and 4
+                      languageCode:
+                        type: string
+                      languageDescription:
+                        type: string
+                  renditionGroups:
+                    type: object
+                    title: HlsRenditionGroup
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      renditionType:
+                        type: string
+                        enum:
+                        - STANDARD_HLS
+                        - AUDIO_ONLY
+                        description: When it's set to 'AUDIO_ONLY' the rendition can only have audio tracks.
+                      captionDescriptionName:
+                        type: string
+                      AudioRenditionGroup:
+                        type: object
+                        title: AudioRenditionGroup
+                        properties:
+                          id:
+                            type: string
+                          bitrate:
+                            type: number
+                            description: Average bitrate in bits/second.
+                          sampleRate:
+                            type: number
+                            description: Sample rate in Hz.
+                          audioNormalization:
+                            type: boolean
+                            description: Enable advanced audio normalization settings.
+                      VideoRenditionGroup:
+                        type: object
+                        title: VideoRenditionGroup
+                        properties:
+                          id:
+                            type: string
+                          codecProfile:
+                            type: string
+                          codecLevel:
+                            type: string
+                          width:
+                            type: number
+                          height:
+                            type: number
+                          framerate:
+                            type: number
+                            enum:
+                            - 10
+                            - 11.988
+                            - 12
+                            - 12.5
+                            - 14.985
+                            - 15
+                            - 23.976
+                            - 24
+                            - 25
+                            - 29.997
+                            - 30
+                            - 50
+                            - 59.94
+                            - 60
+                          bitrate:
+                            type: number
+                            description: Average bitrate in bits/second.
+                          gopSize:
+                            type: number
+                            description: GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits.
+                          gopUnits:
+                            type: string
+                            enum:
+                            - FRAMES
+                            - SECONDS
+                            description: Indicates if the gopSize is specified in frames or seconds.
+                          scalingBehavior:
+                            type: string
+                            enum:
+                            - DEFAULT
+                            - STRETCH_TO_OUTPUT
+                            description: STRETCH_TO_OUTPUT configures the output position to stretch the video to the specified output resolution (height and width). This option will override any position value. DEFAULT may insert black boxes (pillar boxes or letter boxes) around the video to provide the specified output resolution.
+                          bFrames:
+                            type: number
+                            description: Number of B-frames between reference frames. Must be a number between 0 and 7. Must be 0 when codecProfile is BASELINE.
+                          bFrameReference:
+                            type: string
+                            enum:
+                            - ENABLED
+                            - DISABLED
+                            description: If enabled, use reference B frames for GOP structures that have B frames > 1.
+                          entropyEncoding:
+                            type: string
+                            enum:
+                            - CABAC
+                            - CAVLC
+                            default: CABAC
+                            description: Entropy encoding mode for the H.264 stream. CABAC is only valid with MAIN or HIGH codec profiles; BASELINE requires CAVLC.
+                          adaptiveQuantization:
+                            type: string
+                            enum:
+                            - HIGH
+                            - AUTO
+                          lookAheadRateControl:
+                            type: string
+                            enum:
+                            - HIGH
+                            - MEDIUM
+                            description: Amount of lookahead.
+                          parControl:
+                            type: string
+                            enum:
+                            - SPECIFIED
+                            - INITIALIZE_FROM_SOURCE
+                            description: This field indicates how the output pixel aspect ratio is specified. If 'specified' is selected then the output video pixel aspect ratio is determined by parNumerator and parDenominator, else if 'initializeFromSource' is selected then the output pixsel aspect ratio will be set equal to the input video pixel aspect ratio of the first input.
+                          slices:
+                            type: number
+                            description: Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures. This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution. When it's present it must be a number between 1 and 32.
+                          refFrames:
+                            type: number
+                            description: Number of reference frames to use. Must be a number between 1 and 6.
+                  channels:
+                    type: object
+                    title: HlsChannel
+                    properties:
+                      id:
+                        type: string
+                      title:
+                        type: string
+                      status:
+                        type: string
+                      channelSetting:
+                        type: object
+                        title: ChannelSetting
+                        properties:
+                          hlsProfileId:
+                            type: string
+                          customProfileSettingsVisible:
+                            type: boolean
+                          customProfileSettingsAllowed:
+                            type: boolean
+                          scteMessageFormat:
+                            type: string
+                            enum:
+                            - TIME_SIGNAL
+                            - SPLICE_INSERT
+                          scteProgramIdSource:
+                            type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v1/profiles/hls/{id}:
+    get:
+      summary: View HLS Profile
+      description: ''
+      tags:
+      - HLS Profiles
+      operationId: getHlsProfile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of HLS Profile
+      responses:
+        '200':
+          description: Return an HLS profile
+          content:
+            application/json:
+              schema:
+                title: HlsProfileResponse
+                type: object
+                properties:
+                  profile:
+                    $ref: '#/paths/~1scheduler~1v1~1profiles~1hls/post/responses/201/content/application~1json/schema'
+        '404':
+          description: HLS Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    delete:
+      summary: Delete HLS Profile
+      description: ''
+      tags:
+      - HLS Profiles
+      operationId: deleteHlsProfile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of HLS Profile
+      responses:
+        '200':
+          description: HLS Profile deleted successfully
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: HLS Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+    put:
+      summary: Update HLS Profile
+      description: ''
+      tags:
+      - HLS Profiles
+      operationId: updateHlsProfile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of HLS Profile
+      x-codegen-request-body-name: profile
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1scheduler~1v1~1profiles~1hls/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1profiles~1hls~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: HLS Profile id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+  /scheduler/v1/profiles/hls/{id}/duplicate:
+    post:
+      summary: Duplicate HLS Profile
+      description: ''
+      tags:
+      - HLS Profiles
+      operationId: duplicateHlsProfile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of HLS Profile to duplicate
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1profiles~1hls~1%7Bid%7D/get/responses/200/content/application~1json/schema'
+        '404':
+          description: HLS Profile id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v2~1uploads/post/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1scheduler~1v1~1types/get/responses/422/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-API-Key
+      in: header

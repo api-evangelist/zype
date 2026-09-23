@@ -1,0 +1,292 @@
+openapi: 3.2.0
+info:
+  title: Monetization Transactions API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Transactions
+paths:
+  /transactions:
+    get:
+      summary: List Transactions
+      description: ''
+      tags:
+      - Transactions
+      operationId: listTransactions
+      parameters:
+      - name: id
+        $ref: '#/paths/~1plans/get/parameters/0'
+      - name: created_at
+        $ref: '#/paths/~1plans/get/parameters/1'
+      - name: q
+        $ref: '#/paths/~1plans/get/parameters/2'
+      - name: order
+        $ref: '#/paths/~1plans/get/parameters/3'
+      - name: sort
+        $ref: '#/paths/~1plans/get/parameters/4'
+      - name: page
+        $ref: '#/paths/~1plans/get/parameters/5'
+      - name: per_page
+        $ref: '#/paths/~1plans/get/parameters/6'
+      - name: consumer_id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ID of consumer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: TransactionsResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1transactions/post/responses/201/content/application~1json/schema/properties/response'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Transactions
+      description: ''
+      tags:
+      - Transactions
+      operationId: createTransaction
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: TransactionRequest
+              type: object
+              required:
+              - provider
+              - transaction
+              properties:
+                provider:
+                  type: string
+                  description: The type of transaction to create. Valid values include ‘stripe’, ‘braintree’, ‘recurly’, ‘roku’, ‘apple_tv’ and ‘third_party’
+                transaction:
+                  title: TransactionProperties
+                  type: object
+                  properties:
+                    amount:
+                      description: 'Must be formatted as a string included cent value (Example: 1.99)'
+                      type: string
+                    apple_id:
+                      description: The ID of a native Apple TV payment, use only for storing Apple TV transactions
+                      type: string
+                    braintree_id:
+                      description: Used to create transactions from payments already processed by Braintree, use only for creating Braintree transactions, and if not supplying a payment nonce
+                      type: string
+                    consumer_id:
+                      type: string
+                      description: The ID of the consumer making the transaction
+                    currency:
+                      type: string
+                      description: Set currency type. This is optional. Default value is `USD`
+                    description:
+                      type: string
+                    pass_plan_id:
+                      description: The ID of the pass plan the user is purchasing if purchasing a pass plan. Required if the transaction is for a pass plan
+                      type: string
+                    payment_nonce:
+                      description: The payment nonce provided by Stripe, Braintree or Recurly if using one of those platforms
+                      type: string
+                    playlist_id:
+                      description: The ID of the playlist the user is purchasing if purchasing a playlist. Required if the transaction is for a playlist
+                      type: string
+                    recurly_invoice_number:
+                      description: Used to create transactions from invoices already processed by Recurly, use only for creating Recurly transactions, and if not supplying a payment nonce
+                      type: string
+                    roku_id:
+                      description: The ID of a native Roku payment, use only for storing Roku transactions
+                      type: string
+                    stripe_id:
+                      description: Used to create transactions from payments already processed by Stripe, use only for creating Stripe transactions, and if not supplying a payment nonce
+                      type: string
+                    third_party_id:
+                      description: The ID of a payment processsed by a ‘third party’ payment processor, use only for creating ‘third party’ custom transactions
+                      type: string
+                    transaction_type:
+                      description: "Must be one of:\n  + purchase\n  + rental\n  + pass"
+                      type: string
+                    video_id:
+                      description: The ID of the video the user is purchasing if purchasing a video. Required if the transaction is for a video
+                      type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                title: TransactionResponse
+                type: object
+                properties:
+                  response:
+                    title: Transaction
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      expires_at:
+                        type: string
+                      site_id:
+                        type: string
+                      status:
+                        type: string
+                      stripe_id:
+                        type: string
+                      updated_at:
+                        type: string
+                      amount:
+                        type: string
+                      consumer_id:
+                        type: string
+                      video_id:
+                        type: string
+                      playlist_id:
+                        type: string
+                      pass_plan_id:
+                        type: string
+                      currency:
+                        type: string
+                      description:
+                        type: string
+                      transaction_type:
+                        type: string
+                      payment_nonce:
+                        type: string
+                      roku_id:
+                        type: string
+                      apple_id:
+                        type: string
+                      braintree_id:
+                        type: string
+                      recurly_invoice_number:
+                        type: string
+                      third_party_id:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+  /transactions/{id}:
+    get:
+      summary: View Transaction
+      description: ''
+      tags:
+      - Transactions
+      operationId: getTransaction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the transaction
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1transactions/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+    put:
+      summary: Update a Transaction
+      description: ''
+      tags:
+      - Transactions
+      operationId: updateTransaction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the transaction
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1transactions/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1transactions/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans/post/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Transaction
+      description: ''
+      tags:
+      - Transactions
+      operationId: deleteTransaction
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the transaction
+      responses:
+        '204':
+          description: Transaction successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1transactions/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1plans~1%7Bid%7D/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer

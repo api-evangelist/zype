@@ -1,0 +1,226 @@
+openapi: 3.2.0
+info:
+  title: Platform Categories API
+  version: 1.0.0
+  description: ''
+servers:
+- url: https://api.zype.com/
+security:
+- api_key: []
+tags:
+- name: Categories
+paths:
+  /categories:
+    get:
+      summary: List Categories
+      description: ''
+      tags:
+      - Categories
+      operationId: listCategories
+      parameters:
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by title
+      - name: id
+        $ref: '#/paths/~1devices/get/parameters/1'
+      - name: created_at
+        $ref: '#/paths/~1devices/get/parameters/2'
+      - name: q
+        $ref: '#/paths/~1devices/get/parameters/3'
+      - name: response_fields
+        $ref: '#/paths/~1videos/get/parameters/28'
+      - name: order
+        $ref: '#/paths/~1videos/get/parameters/29'
+      - name: sort
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/3'
+      - name: page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/1'
+      - name: per_page
+        $ref: '#/paths/~1playlists~1%7Bid%7D~1videos/get/parameters/2'
+      responses:
+        '200':
+          description: Response will contain an array of categories
+          content:
+            application/json:
+              schema:
+                title: CategoriesResponse
+                type: object
+                properties:
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1categories/post/responses/201/content/application~1json/schema/properties/response'
+                    description: ''
+                  pagination:
+                    $ref: '#/paths/~1videos/get/responses/200/content/application~1json/schema/properties/pagination'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+    post:
+      summary: Create Category
+      tags:
+      - Categories
+      operationId: createCategory
+      parameters: []
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              title: CategoryRequest
+              type: object
+              required:
+              - category
+              properties:
+                category:
+                  type: object
+                  title: CategoryProperties
+                  properties:
+                    title:
+                      type: string
+                    friendly_title:
+                      description: URL friendly title
+                      type: string
+                    values:
+                      description: List of values you wish to add to the category. Must exist in the main Category first
+                      type: array
+                      items:
+                        type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: CategoryResponse
+                type: object
+                properties:
+                  response:
+                    type: object
+                    title: Category
+                    properties:
+                      _id:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      values:
+                        type: array
+                      title:
+                        type: string
+                      friendly_title:
+                        type: string
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+  /categories/{id}:
+    get:
+      summary: View Category
+      tags:
+      - Categories
+      operationId: getCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of category
+      responses:
+        '200':
+          description: Return a category
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1categories/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+    put:
+      summary: Update category
+      tags:
+      - Categories
+      operationId: updateCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of category
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/paths/~1categories/post/requestBody/content/application~1json/schema'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1categories/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1videos/get/responses/422/content/application~1json/schema'
+    delete:
+      summary: Delete Category
+      tags:
+      - Categories
+      operationId: deleteCategory
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of category
+      responses:
+        '204':
+          description: Category deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1categories/post/responses/201/content/application~1json/schema'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1app/get/responses/404/content/application~1json/schema'
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: OAuth access token
+      description: OAuth access token of the consumer
