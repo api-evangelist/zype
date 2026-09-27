@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Consumer Authentication OAUTH API
+  title: Consumer Authentication OAuth API
   version: 1.0.0
   description: ''
 servers:

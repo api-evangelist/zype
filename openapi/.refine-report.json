@@ -82,9 +82,7 @@
     "zype-zobject-types-api-openapi.yml",
     "zype-zobjects-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [
     "zype-consumers.json: dangling $ref: #/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/get/responses/200/content/application~1json/schema",
     "zype-consumers.json: dangling $ref: #/paths/~1consumers~1%7Bconsumer_id%7D~1playlists/post/requestBody/content/application~1json/schema",
@@ -238,8 +236,7 @@
     "tag 'Engagement' spans 2 source specs (zype-analytics-v3.json, zype-analytics.json): per-path servers applied",
     "tag 'Consumers' spans 2 source specs (zype-analytics.json, zype-consumers.json): per-path servers applied",
     "tag 'Uploads' spans 2 source specs (zype-playout-scheduler.json, zype-uploads.json): per-path servers applied",
-    "superseded outputs removed: zype-o-auth-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 63 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "zype-ad-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -268,7 +265,7 @@
     "zype-live-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "zype-new-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "zype-new-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "zype-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "zype-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "zype-plans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "zype-platform-dynamics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "zype-player-requests-api-openapi.yml: previously refined output, superseded by openapi/_original/",
