@@ -1,0 +1,64 @@
+slug: zype
+provider: Zype
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Revenue
+  spec_file: zype-revenue-api-openapi.yml
+  capability_id: BC-4250.70
+  capability_id_l1: BC-4250
+  capability_name: Subscription Revenue Analytics
+  confidence: 0.85
+  evidence: GET /v3/revenue/subscription_revenue  List Subscription Revenue; GET /v3/revenue/subscriptions  List
+    New Subscriptions
+  reason: Analytics endpoints reporting new subscriptions, subscription events, subscription revenue and
+    transactions — recurring-revenue health analytics for a subscription business.
+- tag: Subscriptions
+  spec_file: zype-subscriptions-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.85
+  evidence: PUT /subscriptions/{id}/cancel Cancel Subscription; PUT /subscriptions/{id}/reactivate Reactivate
+    Cancelled Subscription
+  reason: Full CRUD plus cancel/reactivate on consumer subscriptions under 'Monetization' — the subscription
+    commercial lifecycle. Spans creation, modification and cancellation, so the L1 is the honest level.
+- tag: Plans
+  spec_file: zype-plans-api-openapi.yml
+  capability_id: BC-4240.10
+  capability_id_l1: BC-4240
+  capability_name: Plan & Entitlement Design
+  confidence: 0.8
+  evidence: '"Monetization Plans API"; "Create Plan"; "Add Playlists to a Tiered Subscription Plan"'
+  reason: CRUD over monetization/subscription plans and the content entitled to each tier is plan and
+    entitlement design. Slight ambiguity only over whether content-to-plan mapping belongs under plan
+    design or entitlement enforcement.
+- tag: Video Entitlements
+  spec_file: zype-video-entitlements-api-openapi.yml
+  capability_id: BC-4240.70
+  capability_id_l1: BC-4240
+  capability_name: Entitlement Enforcement
+  confidence: 0.72
+  evidence: GET /videos/{video_id}/entitled  checkVideoEntitlement  Check Video Entitlement
+  reason: Runtime resolution of whether a consumer is entitled to a given video, plus management of per-consumer
+    entitlement grants — entitlement enforcement rather than plan design.
+- tag: Subscription Entitlements
+  spec_file: zype-subscription-entitlements-api-openapi.yml
+  capability_id: BC-4240.70
+  capability_id_l1: BC-4240
+  capability_name: Entitlement Enforcement
+  confidence: 0.7
+  evidence: GET /consumers/{consumer_id}/subscription_entitlements  listSubscriptionEntitlements
+  reason: Resolves which entitlements a given consumer holds via their subscription — entitlement resolution
+    for access decisions. Single read operation, so sub-capability choice has some ambiguity with plan/entitlement
+    design.

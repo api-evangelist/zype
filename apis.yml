@@ -80,6 +80,9 @@ parent:
     ftrack and Wildmoka. Zype keeps its own domain, docs, status page and API surface, which is why it is profiled
     here rather than under backlight.
 common:
+- type: CapabilityMap
+  url: capabilities/zype-capability-edges.yml
+  name: Zype Business Capability Map
 - type: Overlay
   url: overlays/zype-platform-overlay.yaml
 - type: Overlay
