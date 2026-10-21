@@ -14,7 +14,7 @@ edges:
     registered_name: com.zype.mcp/server
     register_id: com.zype.mcp/server
     detected_by: sweep-agent-tools.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   mcp_registry:
     servers:
     - com.zype.mcp/server
@@ -31,7 +31,54 @@ edges:
   - namespace-domain
   detected_by: sweep-agent-tools.py
   first_seen: '2026-10-14'
+- partner_name: DPP (Digital Production Partnership)
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.thedpp.com/members-directory
+  category: media supply-chain industry body
+  contract_reference:
+    register: DPP members directory (thedpp.com/members-directory)
+    standard: DPP
+    spec_file: null
+    role: dpp-member
+    registered_name: Zype
+    register_id: https://www.thedpp.com/members-directory
+    matched_domain: zype.com
+    matched_by: domain
+    signal_note: 'participation only: a listing on the register, never counted'
+    detected_by: sweep-film-media-identifiers-eidr.py
+    detected: '2026-10-21'
+    dpp_category: technology
+  detected_by: sweep-film-media-identifiers-eidr.py
+  first_seen: '2026-10-21'
 generated: '2026-10-14'
 method: searched
 checked:
 - https://registry.modelcontextprotocol.io/v0/servers
+- https://members.eidr.org/
+- https://movielabs.com/2030showcase/
+- https://movielabs.com/about-industry-forum/
+- https://movielabs.com/about/
+- https://plus.ttpn.org/
+- https://web.isan.org/public/en/sign-up
+- https://www.eidr.org/eidr-participants
+- https://www.eidr.org/members/
+- https://www.thedpp.com/members-directory
+- https://www.thedpp.com/security
+- https://www.ttpn.org/
+source:
+- https://www.eidr.org/eidr-participants
+- https://movielabs.com/about/
+- https://www.thedpp.com/members-directory
+- https://www.thedpp.com/security
+- https://web.isan.org/public/en/sign-up
+- https://www.eidr.org/members/
+- https://members.eidr.org/
+- https://www.ttpn.org/
+- https://plus.ttpn.org/
+- https://movielabs.com/about-industry-forum/
+- https://movielabs.com/2030showcase/
