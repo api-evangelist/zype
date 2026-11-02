@@ -1,0 +1,123 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.zype.com/pricing
+sources:
+- https://www.zype.com/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Zype X
+published: true
+note: Each plan lists a monthly price based on annual terms with a 'Contact Sales' CTA; add-on connector
+  prices are described but not priced.
+plan_count: 7
+currency: USD
+plans:
+- name: Zype X
+  price_text: $500/mo based on annual terms
+  price: 500
+  currency: USD
+  period: month
+  included_quota: VideoMeta CMS, CRM, Video API, MRSS, CDN, Live and VOD Encoding, Availability and Uptime
+    SLA, Preferred Usage Rates, Standard Support Tier Included
+- name: Zype Premium
+  price_text: $3500/mo based on annual terms
+  price: 3500
+  currency: USD
+  period: month
+  included_quota: Everything in Zype X plus Premium Support Tier Included
+- name: Playout Standard
+  price_text: $1999/mo based on annual terms
+  price: 1999
+  currency: USD
+  period: month
+  included_quota: Channel Scheduler UI, Channel API Access, SSAI, 1 Standard HLS Destination, 1080p, 30
+    fps, 5 ABR renditions, 10 mbps max bitrate
+- name: Playout Advanced
+  price_text: $3499/mo based on annual terms
+  price: 3499
+  currency: USD
+  period: month
+  included_quota: Everything in Standard, 60 fps, 20 mbps
+- name: Apps Creator Mobile
+  price_text: $2000/mo based on annual terms
+  price: 2000
+  currency: USD
+  period: month
+  included_quota: iOS, Android, mobile web apps
+- name: Apps Creator CTV
+  price_text: $2500/mo based on annual terms
+  price: 2500
+  currency: USD
+  period: month
+  included_quota: Connected TV apps
+- name: Apps Creator Universal
+  price_text: $3500/mo based on annual terms
+  price: 3500
+  currency: USD
+  period: month
+  included_quota: Mobile, web, and CTV apps
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Zype X
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Zype Premium
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Playout Standard
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Playout Advanced
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Apps Creator Mobile
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Apps Creator CTV
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Apps Creator Universal
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
